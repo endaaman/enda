@@ -1,0 +1,26 @@
+.sidebar-toggler.shown-xs
+    button.unstyled(v-on="click: sidebarToggle()" )
+        i.fa.fa-bars(v-el="togglerIcon")
+            
+.sidebar-icon
+    a.icon-overlay(href="/about") @endaaman
+    img(src=require("../../assets/endaaman.png"))
+
+hr
+
+.sidebar-items
+    
+    .sidebar-item
+        a.sidebar-link(href="/") home
+    .sidebar-item
+        a.sidebar-link(href="/memo") memo
+    .sidebar-item
+        a.sidebar-link(href="/about") about
+    .sidebar-item
+        a.sidebar-link(href="/login") login
+
+.sidebar-footer
+    | Source of this site is on 
+    a.sidebar-link(href="https://github.com/endaaman" target="_blank") client
+    | , 
+    a.sidebar-link(href="https://github.com/endaaman" target="_blank") api

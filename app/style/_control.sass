@@ -1,0 +1,149 @@
+
+.control-group
+    margin-bottom: $line-height-computed / 2
+
+input,
+button,
+select,
+textarea
+    font-family: inherit
+    font-size: inherit
+    line-height: inherit
+
+input,
+select,
+textarea,
+.editor
+    &.control
+        appearance: none
+        -webkit-appearance: none
+        -moz-appearance: none
+        outline: none
+        border: 0
+        display: block
+        width: 100%
+        color: inherit
+
+        font-size: inherit
+        padding: 8px 8px
+        border: solid 1px $color-lightgray
+        border-radius: 2px
+
+//
+// input.control
+//     &::-webkit-input-placeholder
+//         color: red
+//     &:-ms-input-placeholder
+//         color: red
+//     &::-moz-placeholder
+//         color: red
+
+input.control
+    &::-webkit-input-placeholder
+        color: $color-lightgray
+    &:-ms-input-placeholder
+        color: $color-lightgray
+    &::-moz-placeholder
+        color: $color-lightgray
+.editor.control
+    &:before
+        color: $color-lightgray
+
+
+textarea.control
+    padding: 10px
+    border: solid 1px $color-lightgray
+    min-height: 200px
+
+
+.editor.control
+    color: $color-darkgray
+    outline: none
+    min-height: 200px
+    padding: 10px
+    border: solid 1px $color-lightgray
+
+    // &:before
+    //     content: attr(placeholder)
+
+
+
+.btn
+    display: inline-block
+    margin-bottom: 0
+    font-weight: normal
+    text-align: center
+    v-align: middle
+    touch-action: manipulation
+    cursor: pointer
+    background-image: none
+    border: 1px solid transparent
+    user-select: none
+
+    padding: 6px 12px
+    font-size: 16px
+    line-height: $line-height-base
+    border-radius: 2px
+
+    &:hover,
+    &:focus,
+    &.focus
+        text-decoration: none
+
+
+.btn-block
+    display: block
+    width: 100%
+
+
+.btn[disabled], .btn--disabled
+    cursor: not-allowed
+    pointer-events: none
+    opacity: .65
+    box-shadow: none
+
+
+
+=button-variant($color, $bg, $bg-hover, $border, $border-hover)
+    color: $color
+    background-color: $bg
+    border-color: $border
+
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active,
+    .open > &.dropdown-toggle
+        color: $color
+        background-color: $bg-hover
+        border-color: $border-hover
+
+    &:active,
+    &.active,
+    .open > &.dropdown-toggle
+        background-image: none
+
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] &
+        &,
+        &:hover,
+        &:focus,
+        &.focus,
+        &:active,
+        &.active
+            background-color: $bg
+            border-color: $border
+
+.btn-green
+    +button-variant(#fff, $color-green-strong, $color-green-deep, $color-green-strong, $color-green-strong)
+
+.btn-red
+    +button-variant(#fff, $color-red, $color-red-blight, $color-red-strong, $color-red-strong)
+
+    // &.btn-blue
+    //     +button-variant(#fff, $color-blue, $color-blue-dark)
+    //
+    // &.btn-yellow
+    //     +button-variant(#fff, $color-yellow, $color-yellow-dark)

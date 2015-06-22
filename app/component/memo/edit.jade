@@ -1,0 +1,20 @@
+p
+    a(href="/memo") いちらん
+
+h2
+    span(v-if="edit") へんしゅう
+    span(v-if="!edit") あたらしい
+    
+p ※俺用
+form(v-on="submit: performUpdate($event)")
+
+    .control-group
+        input.control(v-model="memo.title" placeholder="たいとる")
+    .control-group
+        input.control(v-model="memo.digest" placeholder="ようやく")
+    .control-group
+        .editor.control(v-editable="memo.content" placeholder="ほんぶん")
+    .control-group
+        button.btn.btn-green.btn-block(type="submit") ほぞん
+    .control-group(v-if="edit")
+        button.btn.btn-red.btn-block(v-on="click:  performDelete()") さくじょ

@@ -1,0 +1,10 @@
+.container
+    h1 ろぐいん
+    p ※俺用
+    form(v-on="submit: performLogin($event)")
+        .control-group
+            input.control(v-model="credentials.username" placeholder="なまえ")
+        .control-group
+            input.control(type="password" v-model="credentials.password" placeholder="ひみつの")
+        .control-group
+            button.btn.btn-green.btn-block(type="submit") ろぐいん

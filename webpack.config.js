@@ -71,7 +71,6 @@ module.exports = new function() {
         new HtmlWebpackPlugin({
             template: 'app/index.html',
             favicon: './app/assets/favicon.ico',
-            title: 'えんだーまんの家',
             inject: 'body'
         })
     ];

@@ -4,8 +4,9 @@
     "start": "webpack-dev-server",
     "dev": "webpack",
     "prod": "webpack -p",
-    "clean": "rm -r build",
-    "seo": "forever start-seo.js"
+    "seo": "forever start node_modules/spaseo.js/bin/spaseo -u http://endaaman.me -p 9999",
+    "seo-dev": "forever start node_modules/spaseo.js/bin/spaseo -u http://enda.local -p 9999",
+    "clean": "rm -r build"
   },
   "dependencies": {
     "es6-promise": "^2.3.0",

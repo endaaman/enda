@@ -20,6 +20,11 @@ module.exports = Vue.extend
         performUpdate: (e)->
             e.preventDefault()
 
+            # TODO: まともなバリデーション
+            if not @memo.title
+                Vue.toast 'タイトルがないぞハゲ'
+                return
+
             if @edit
                 req = request.put "#{config.api}/memos/#{@memo._id}"
             else

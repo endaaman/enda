@@ -4,7 +4,8 @@
     "start": "webpack-dev-server",
     "dev": "webpack",
     "prod": "webpack -p",
-    "clean": "rm -r build"
+    "clean": "rm -r build",
+    "seo": "forever start-seo.js"
   },
   "dependencies": {
     "es6-promise": "^2.3.0",
@@ -15,6 +16,7 @@
     "moment": "^2.10.3",
     "normalize.css": "^3.0.3",
     "page": "^1.6.3",
+    "spaseo.js": "0.0.0",
     "vue": "^0.12.1"
   },
   "devDependencies": {

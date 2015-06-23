@@ -4,7 +4,7 @@ p
 
 .memo-list(v-repeat="memo: memos")
     h2.memo-title
-        a(href="/memo/{{memo._id}}") {{ memo.title }}
+        a(href="/memo/{{memo.title}}") {{ memo.title }}
     .memo-digest(v-if="memo.digest") {{ memo.digest }}
     .memo-date {{ memo.created_at | date 'YYYY MM/DD' }}
         

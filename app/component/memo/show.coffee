@@ -12,7 +12,7 @@ module.exports = Vue.extend
         memo: {}
         compiledContent: ''
     attached: ->
-        request.get "#{config.api}/memos/#{@$context.params.id}"
+        request.get "#{config.api}/memos/#{@$context.params.title}"
         .end (err, res)=>
             if err
                 page '/memo'

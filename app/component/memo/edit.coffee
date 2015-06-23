@@ -13,13 +13,15 @@ module.exports = Vue.extend
             'title': ''
             'digest': ''
             'content': ''
+            'created_at': null
+            'updated_at': null
         edit: false
     methods:
         performUpdate: (e)->
             e.preventDefault()
 
             if @edit
-                req = request.put "#{config.api}/memos/#{@$context.params.id}"
+                req = request.put "#{config.api}/memos/#{@memo._id}"
             else
                 req = request.post "#{config.api}/memos"
             req
@@ -29,12 +31,12 @@ module.exports = Vue.extend
                 if err
                     Vue.toast 'ハゲ'
                     return
-                page "/memo/#{res.body._id}"
+                page "/memo/#{res.body.title}"
                 Vue.toast 'いいぞ〜〜'
 
         performDelete: ()->
             request
-            .del "#{config.api}/memos/#{@$context.params.id}"
+            .del "#{config.api}/memos/#{@memo._id}"
             .set token.header()
             .end (err, res)->
                 if err
@@ -44,10 +46,10 @@ module.exports = Vue.extend
                 Vue.toast 'いいぞ〜〜'
 
     attached: ->
-        @edit = !!@$context.params.id
+        @edit = !!@$context.params.title
 
         if @edit
-            request.get "#{config.api}/memos/#{@$context.params.id}"
+            request.get "#{config.api}/memos/#{@$context.params.title}"
             .end (err, res)=>
                 if err
                     page '/memo'

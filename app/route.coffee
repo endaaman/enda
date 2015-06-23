@@ -31,7 +31,7 @@ Vue.route
     views:
         content: require('./component/memo/edit')
 .sib
-    url: '/:id'
+    url: '/:title'
     views:
         content: require('./component/memo/show')
 .child

@@ -2,6 +2,7 @@ Vue = require 'vue'
 page = require 'page'
 request = require 'superagent'
 marked = require 'marked'
+spaseo = require 'spaseo.js'
 
 config = require '../../config'
 
@@ -12,6 +13,7 @@ module.exports = Vue.extend
         memo: {}
         compiledContent: ''
     attached: ->
+        cb = spaseo()
         request.get "#{config.api}/memos/#{@$context.params.title}"
         .end (err, res)=>
             if err
@@ -19,3 +21,4 @@ module.exports = Vue.extend
                 return
             @memo = res.body
             @compiledContent = marked @memo.content
+            cb()

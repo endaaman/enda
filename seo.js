@@ -1,0 +1,1 @@
+require('spaseo.js')();

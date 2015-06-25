@@ -4,8 +4,7 @@
     "start": "webpack-dev-server",
     "dev": "webpack",
     "prod": "webpack -p",
-    "seo": "forever start node_modules/spaseo.js/bin/spaseo -u http://endaaman.me -p 9999",
-    "seo-dev": "forever start node_modules/spaseo.js/bin/spaseo -u http://enda.local -p 9999",
+    "seo": "pm2 start seo.js --name enda-seo",
     "clean": "rm -r build"
   },
   "dependencies": {
@@ -17,7 +16,7 @@
     "moment": "^2.10.3",
     "normalize.css": "^3.0.3",
     "page": "^1.6.3",
-    "spaseo.js": "0.0.2",
+    "spaseo.js": "0.0.4",
     "vue": "^0.12.1"
   },
   "devDependencies": {

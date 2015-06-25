@@ -13,9 +13,11 @@ module.exports = Vue.extend
         memo: {}
         compiledContent: ''
     attached: ->
+        Vue.loading.active = true
         cb = spaseo()
         request.get "#{config.api}/memos/#{@$context.params.title}"
         .end (err, res)=>
+            Vue.loading.active = false
             if err
                 page '/memo'
                 return

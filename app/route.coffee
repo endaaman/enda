@@ -3,45 +3,45 @@ Vue = require 'vue'
 Vue.route
     ancester: true
     views:
-        sidebar: require './component/sidebar'
+        sidebar: require './view/sidebar'
 
 Vue.route
     url: '/'
     views:
-        content: require './component/home'
+        content: require './view/home'
 
 Vue.route
     url: '/about'
     views:
-        content: require './component/about'
+        content: require './view/about'
 
 Vue.route
     url: '/login'
     views:
-        content: require './component/login'
+        content: require './view/login'
 
 
 
 Vue.route
     url: '/memo'
     views:
-        content: require('./component/memo/list')
+        content: require('./view/memo/list')
 .child
     url: '/new'
     views:
-        content: require('./component/memo/edit')
+        content: require('./view/memo/edit')
 .sib
     url: '/:title'
     views:
-        content: require('./component/memo/show')
+        content: require('./view/memo/show')
 .child
     url: '/edit'
     views:
-        content: require('./component/memo/edit')
+        content: require('./view/memo/edit')
 
 
 # this should be placed last
 Vue.route
     url: '*'
     views:
-        content: require './component/404'
+        content: require './view/404'

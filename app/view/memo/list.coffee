@@ -10,8 +10,10 @@ module.exports = Vue.extend
     data: ->
         memos: []
     attached: ->
+        Vue.loading.active = true
         cb = spaseo()
         request.get "#{config.api}/memos"
         .end (err, res)=>
             @memos = res.body
             cb()
+            Vue.loading.active = false

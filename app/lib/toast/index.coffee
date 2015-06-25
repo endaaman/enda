@@ -1,6 +1,6 @@
 module.exports = (Vue, options)->
-    toast = null
-    Vue.component 'toast',
+    toast = new Vue
+        el: '#toast'
         replace: true
         template: do require './index.jade'
         data: ->
@@ -31,7 +31,7 @@ module.exports = (Vue, options)->
                 @$el.classList.remove 'toast-open'
 
         created: ->
-            toast = this
+            # toast = this
             @$on '$toast', (message, period)=>
                 @open message, period
 

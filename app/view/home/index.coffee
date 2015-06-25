@@ -19,10 +19,16 @@ module.exports = Vue.extend
             '以上'
             '以上'
             '以上'
-            '本当に以上だ😂😂😂😂'
+            'なんかごめんな😂'
         ]
         index: 0
     methods:
         toast: ->
             Vue.toast @messageList[if @index < @messageList.length then @index else @messageList.length-1]
             @index = @index + 1
+        loading: ->
+            Vue.loading.active = true
+            Vue.toast '7秒だけ回します。回るだけです。'
+            setTimeout ->
+                Vue.loading.active = false
+            , 5000

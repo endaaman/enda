@@ -10,9 +10,9 @@
     $size: 60px
     $weight: 2px
 
-    display: block
     position: fixed
     left: 50%
+    top: 50%
     margin-left: -$size/2
     margin-top: -$size/2
     border-width: $weight
@@ -23,11 +23,8 @@
     height: $size
     border-radius: $size / 2
 
-    top: -1000px
-    opacity: 0
-    transition: opacity .6s ease .2s
+    animation: loading-rotate .3s linear infinite
 
+    display: none
     &.loading-active
-        opacity: 1
-        top: 50%
-        animation: loading-rotate .3s linear infinite
+        display: block

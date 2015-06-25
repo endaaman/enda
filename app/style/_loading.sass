@@ -1,0 +1,33 @@
+
+@keyframes loading-rotate
+    from
+        transform: rotate(0deg)
+    to
+        transform: rotate(360deg)
+
+
+.loading
+    $size: 60px
+    $weight: 2px
+
+    display: block
+    position: fixed
+    left: 50%
+    margin-left: -$size/2
+    margin-top: -$size/2
+    border-width: $weight
+    border-style: solid
+    border-color: transparent
+    border-top-color: $color-blue-blight
+    width: $size
+    height: $size
+    border-radius: $size / 2
+
+    top: -1000px
+    opacity: 0
+    transition: opacity .6s ease .2s
+
+    &.loading-active
+        opacity: 1
+        top: 50%
+        animation: loading-rotate .3s linear infinite

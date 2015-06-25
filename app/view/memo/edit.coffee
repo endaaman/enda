@@ -17,6 +17,9 @@ module.exports = Vue.extend
             'updated_at': null
         edit: false
     methods:
+        jump: ->
+            page '/memo'
+
         performUpdate: (e)->
             e.preventDefault()
 
@@ -43,7 +46,7 @@ module.exports = Vue.extend
             request
             .del "#{config.api}/memos/#{@memo._id}"
             .set token.header()
-            .end (err, res)->
+            .end (err, res)=>
                 if err
                     Vue.toast 'ハゲ'
                     return

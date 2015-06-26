@@ -16,7 +16,7 @@ renderer.link = (href, title, text)->
 
 marked.setOptions
     highlight: (code, lang, callback)->
-        hljs.highlight(lang, code).value
+        hljs.highlight(lang or '', code).value
     renderer: renderer
 
 

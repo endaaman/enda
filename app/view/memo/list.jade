@@ -1,10 +1,11 @@
-h1.page-title こじんてきなメモ
-p 
-    a(href="/memo/new") あたらしい
+.content
+    h1.page-title こじんてきなメモ
+    p
+        a(href="/memo/new") あたらしい
 
-.memo-list(v-repeat="memo: memos")
-    h2.memo-title
-        a(href="/memo/{{memo.title}}") {{ memo.title }}
-    .memo-digest(v-if="memo.digest") {{ memo.digest }}
-    .memo-date {{ memo.created_at | date 'YYYY MM/DD' }}
-        
+    .memo-list(v-repeat="memo: memos")
+        h2.memo-title
+            a(href="/memo/{{memo.title}}") {{ memo.title }}
+        .memo-digest(v-if="memo.digest") {{ memo.digest }}
+        .memo-date {{ memo.created_at | date 'YYYY MM/DD' }}
+            

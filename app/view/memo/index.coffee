@@ -1,5 +1,2 @@
-Vue = require 'vue'
-
-module.exports =
-    list: require './list'
-    show: require './show'
+module.exports = (Vue, options)->
+	Vue.use require './list'

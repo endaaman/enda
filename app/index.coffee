@@ -53,4 +53,7 @@ router.events.on '$pageUpdated', (require './lib/meta').handler
 
 start = ->
     router.start()
+    Vue.finishLoading()
+
+Vue.startLoading()
 auth.check().then start, start

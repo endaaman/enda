@@ -8,5 +8,7 @@ getApiHost = ->
             'http://api.enda.local'
 
 module.exports =
+    siteName: 'えんだーまんの家'
     api: getApiHost()
+    baseUrl: location.protocol + '//' + location.host
     tokenKey: 'token'

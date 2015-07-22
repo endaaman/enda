@@ -20,7 +20,10 @@ article.memo-show
         margin-bottom: $line-height-computed
 
     h1.memo-title
-        font-size: 2em
+        font-size: 40px
+        @media (max-width: $screen-xs-max)
+            font-size: 32px
+
         font-weight: 100
     //
     // h2
@@ -28,3 +31,7 @@ article.memo-show
 
     .memo-date
         color: $color-gray
+
+    img
+        display: block
+        width: 100%

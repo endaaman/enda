@@ -5,7 +5,6 @@ Vue = require 'vue'
 
 marked = require 'marked'
 hljs = require 'highlight.js'
-spaseo = require 'spaseo.js'
 
 renderer = new marked.Renderer()
 renderer.link = (href, title, text)->
@@ -19,46 +18,40 @@ renderer.link = (href, title, text)->
 
 marked.setOptions
     highlight: (code, lang, callback)->
-        hljs.highlight(lang or '', code).value
+        if lang
+            try
+                hljs.highlight(lang, code).value
+            catch
+                code
+        else
+            code
     renderer: renderer
 
+
+spaseo = require 'spaseo.js'
 spaseo.wrap (cb)->
     Vue.nextTick ->
         cb()
 
+auth = require './lib/auth'
+router = require './lib/router'
 
-# Vue.use require './lib/route'
-Vue.use require './directive/dateformat'
-Vue.use require './directive/editor'
+Vue.use router.plugin
+Vue.use require './component/dateformat'
+Vue.use require './component/editor'
 
 Vue.use require './component/toast'
 Vue.use require './component/loader'
 Vue.use require './component/sidebar'
 
-Vue.use require './view/home'
-Vue.use require './view/login'
-Vue.use require './view/about'
-Vue.use require './view/memo'
-Vue.use require './view/404'
+router.route require './routes'
 
 app = new Vue
     el: 'body'
     template: do require './root.jade'
-    data:
-        views:
-            content: null
 
-page = require 'page'
+router.events.on '$pageUpdated', (require './lib/meta').handler
 
-page '/', (ctx)->
-    app.views.content = 'home'
-page '/memo', (ctx)->
-    app.views.content = 'memo-list'
-page '/login', (ctx)->
-    app.views.content = 'login'
-page '/about', (ctx)->
-    app.views.content = 'about'
-page '*', (ctx)->
-    app.views.content = '_404'
-
-page()
+start = ->
+    router.start()
+auth.check().then start, start

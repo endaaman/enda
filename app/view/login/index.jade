@@ -1,11 +1,10 @@
-.content
-    .container
-        h1 ろぐいん
-        p ※俺用
-        form(v-on="submit: performLogin($event)")
-            .control-group
-                input.control(v-model="credentials.username" placeholder="なまえ")
-            .control-group
-                input.control(type="password" v-model="credentials.password" placeholder="ひみつの")
-            .control-group
-                button.btn.btn-green.btn-block(type="submit") ろぐいん
+.container
+    h1 ろぐいん
+    p ※俺用
+    form(v-on="submit: performLogin($event)")
+        .control-group
+            input.control(type="text" name="username" v-model="credentials.username" placeholder="なまえ")
+        .control-group
+            input.control(type="password" name="password" v-model="credentials.password" placeholder="ひみつの")
+        .control-group
+            button.btn.btn-green.btn-block(type="submit") ろぐいん

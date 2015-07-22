@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "es6-promise": "^2.3.0",
+    "eventemitter2": "^0.4.14",
     "font-awesome": "^4.3.0",
     "highlight.js": "^8.6.0",
     "lodash": "^3.9.3",

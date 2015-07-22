@@ -1,29 +1,22 @@
-request = require 'superagent'
-page = require 'page'
+Vue = require 'vue'
 
-config = require '../../config'
-token = require '../../lib/token'
+router = require '../../lib/router'
+auth = require '../../lib/auth'
 
-module.exports = (Vue, options)->
-    Vue.component 'login',
-        replace: true
-        template: do require './index.jade'
-        data: ->
-            credentials:
-                username: ''
-                password: ''
+module.exports = Vue.extend
+    template: do require './index.jade'
+    data: ->
+        credentials:
+            username: ''
+            password: ''
 
-        methods:
-            performLogin: (e)->
-                e.preventDefault()
-                request
-                .post "#{config.api}/session"
-                .send @credentials
-                .end (err, res)=>
-                    if err
-                        Vue.toast 'ハゲ'
-                        return
+    methods:
+        performLogin: (e)->
+            e.preventDefault()
 
-                    token.set res.body.token
-                    page '/'
-                    Vue.toast 'いいぞ〜〜'
+            auth.login @credentials
+            .then ->
+                router.go '/', true
+                Vue.toast 'いいぞ〜〜'
+            , ->
+                Vue.toast 'ハゲ'

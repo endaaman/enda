@@ -1,7 +1,8 @@
 p
-    a(href="/memo") いちらん
-    | 、
-    a(href="/memo/{{$context.params.title}}/edit") へんしゅう
+    a(href="/memo") いちらんに戻る
+    span(v-if="active")
+        | 、
+        a(href="/memo/{{$context.params.title}}/edit") へんしゅう
 
 article.memo-show
     header

@@ -1,8 +1,8 @@
 config = require '../../config'
 
 
-applyMetaTag = (name, content)->
-    el = document.querySelector "meta[name=\"#{name}\"]"
+applyMetaTag = (key, name, content)->
+    el = document.querySelector "meta[#{key}=\"#{name}\"]"
 
     if not content
         if el
@@ -10,7 +10,7 @@ applyMetaTag = (name, content)->
     else
         if not el
             el  = document.createElement 'meta'
-            el.setAttribute 'name', name
+            el.setAttribute key, name
             document.head.appendChild el
         el.setAttribute 'content', content
 
@@ -22,21 +22,21 @@ setTitle = (title)->
         newTitle = config.siteName
 
     document.title = newTitle
-    applyMetaTag 'og:title', newTitle
+    applyMetaTag 'property', 'og:title', newTitle
 
 setSiteName = (siteName)->
-    applyMetaTag 'og:site_name', siteName
+    applyMetaTag 'property', 'og:site_name', siteName
 
 
 setType = (_type)->
-    applyMetaTag 'og:type', _type
+    applyMetaTag 'property', 'og:type', _type
 
 setImage = (url)->
-    applyMetaTag 'og:image', url
+    applyMetaTag 'property', 'og:image', url
 
 setDescription = (description)->
-    applyMetaTag 'description', description
-    applyMetaTag 'og:description', description
+    applyMetaTag 'name', 'description', description
+    applyMetaTag 'property', 'og:description', description
 
 
 setKeywords = (keywords)->
@@ -45,7 +45,7 @@ setKeywords = (keywords)->
     else
         strKeywords = ''
 
-    applyMetaTag 'keywords', strKeywords
+    applyMetaTag 'name', 'keywords', strKeywords
 
 
 

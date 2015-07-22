@@ -1,6 +1,7 @@
 config = require '../../config'
 
 
+
 applyMetaTag = (key, name, content)->
     el = document.querySelector "meta[#{key}=\"#{name}\"]"
 
@@ -23,20 +24,25 @@ setTitle = (title)->
 
     document.title = newTitle
     applyMetaTag 'property', 'og:title', newTitle
+    applyMetaTag 'name', 'twitter:title', newTitle
 
 setSiteName = (siteName)->
     applyMetaTag 'property', 'og:site_name', siteName
 
-
 setType = (_type)->
     applyMetaTag 'property', 'og:type', _type
 
+setUrl = (url)->
+    applyMetaTag 'property', 'og:url', url
+
 setImage = (url)->
     applyMetaTag 'property', 'og:image', url
+    applyMetaTag 'name', 'twitter:image', url
 
 setDescription = (description)->
     applyMetaTag 'name', 'description', description
     applyMetaTag 'property', 'og:description', description
+    applyMetaTag 'name', 'twitter:description', description
 
 
 setKeywords = (keywords)->
@@ -55,6 +61,7 @@ module.exports = new ->
         setType m.type or 'website'
         setSiteName m.site_name or config.siteName
         setTitle m.title
+        setUrl m.url or location.href
         setImage m.image or config.baseUrl + require("../../assets/endaaman.png")
         setDescription m.description
         setKeywords m.keywords

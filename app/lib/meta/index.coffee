@@ -61,7 +61,7 @@ module.exports = new ->
         setType m.type or 'website'
         setSiteName m.site_name or config.siteName
         setTitle m.title
-        setUrl m.url or location.href
+        setUrl m.url or config.baseUrl + location.pathname
         setImage m.image or config.baseUrl + require("../../assets/endaaman.png")
         setDescription m.description
         setKeywords m.keywords

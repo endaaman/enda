@@ -5,8 +5,6 @@ if /localhost/.test location.host
 
 require('es6-promise').polyfill()
 require 'page'
-require 'lodash'
-require 'moment'
 require 'superagent'
 require 'eventemitter2'
 

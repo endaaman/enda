@@ -1,3 +1,5 @@
+u = require '../../lib/util'
+
 module.exports = (Vue, options)->
     Vue.directive 'editable',
         twoWay: true
@@ -19,13 +21,9 @@ module.exports = (Vue, options)->
             ).bind this
             @el.addEventListener 'input', @handler
 
-            @el.addEventListener 'focus', ->
-                console.log 'focus'
-
-
         update: (value)->
             @updatePlaceholder value
-            if _.isString value
+            if u.isString value
                 @el.innerText = value
         unbind: ->
             @el.removeEventListener 'input', @handler

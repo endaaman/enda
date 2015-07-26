@@ -38,9 +38,7 @@ auth = require './lib/auth'
 router = require './lib/router'
 
 Vue.use router.plugin
-Vue.use require './component/dateformat'
 Vue.use require './component/editor'
-
 Vue.use require './component/toast'
 Vue.use require './component/loader'
 

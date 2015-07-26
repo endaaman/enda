@@ -9,6 +9,7 @@ getApiHost = ->
 
 module.exports =
     siteName: 'えんだーまんの家'
+    defaultImage: require './assets/endaaman.png'
     api: getApiHost()
     baseUrl: location.protocol + '//' + location.host
     tokenKey: 'token'

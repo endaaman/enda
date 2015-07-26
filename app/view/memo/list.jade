@@ -8,5 +8,5 @@ p(v-if="active")
         a(href="/memo/{{memo.title}}") {{ memo.title }}
     .memo-digest(v-if="memo.digest") {{ memo.digest }}
     .memo-date 
-        | {{ memo.created_at | date 'YYYY MM/DD' }}
+        | {{ memo.created_at | date}}
         span(v-if="memo.draft")  - したがき

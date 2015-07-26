@@ -21,3 +21,11 @@ module.exports = Vue.extend
             if err
                 return
             @memos = res.body
+
+    filters:
+        Vue.filter 'date', (_date, format)->
+            date = new Date _date
+            y = date.getFullYear()
+            m = date.getMonth()
+            d = date.getDate()
+            "#{y} #{m}/#{d}"

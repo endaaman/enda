@@ -8,9 +8,10 @@ hljs = require 'highlight.js'
 
 renderer = new marked.Renderer()
 renderer.link = (href, title, text)->
-    internal = /^\//.test href
-    target = if internal then '' else ' target="_blank"'
-    prefix = if internal then '' else "<i class=\"fa fa-fw fa-external-link\"></i> "
+    external = not /^\//.test href
+    usePrefix = external and not /^http/.test text
+    target = if external then ' target="_blank"' else ''
+    prefix = if usePrefix then "<i class=\"fa fa-fw fa-external-link\"></i> " else ''
     title = if title then " title=\"#{title}\"" else ''
     href= " href=\"#{href}\""
 

@@ -8,4 +8,5 @@ env.key_filename = '~/.ssh/sakura'
 def deploy():
     with cd('/var/www/enda'):
         run('git pull origin master -f')
+        run('npm i')
         run('npm run prod')

@@ -18,6 +18,11 @@ module.exports = (Vue, options)->
                 @updatePlaceholder text
             ).bind this
             @el.addEventListener 'input', @handler
+
+            @el.addEventListener 'focus', ->
+                console.log 'focus'
+
+
         update: (value)->
             @updatePlaceholder value
             if _.isString value

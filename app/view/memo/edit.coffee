@@ -12,6 +12,7 @@ module.exports = Vue.extend
         memo:
             'title': ''
             'digest': ''
+            'draft': false
             'content': ''
             'created_at': null
             'updated_at': null

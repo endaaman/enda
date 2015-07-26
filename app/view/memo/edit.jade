@@ -13,6 +13,9 @@ form(v-on="submit: performUpdate($event)")
     .control-group
         input.control(v-model="memo.digest" placeholder="ようやく")
     .control-group
+        input.control(type="checkbox" v-model="memo.draft" id="memoDraft")
+        label.control-label(for="memoDraft") したがき
+    .control-group
         .editor.control(v-editable="memo.content" placeholder="ほんぶん")
     .control-group
         button.btn.btn-green.btn-block(type="submit") ほぞん

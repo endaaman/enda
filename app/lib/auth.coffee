@@ -1,5 +1,5 @@
-config = require '../../config'
-token = require '../token'
+config = require '../config'
+token = require './token'
 request = require 'superagent'
 
 active = false

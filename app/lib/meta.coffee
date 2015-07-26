@@ -1,4 +1,5 @@
-config = require '../../config'
+config = require '../config'
+
 
 
 
@@ -62,7 +63,7 @@ module.exports = new ->
         setSiteName m.site_name or config.siteName
         setTitle m.title
         setUrl m.url or config.baseUrl + location.pathname
-        setImage m.image or config.baseUrl + require("../../assets/endaaman.png")
+        setImage m.image or config.baseUrl + config.defaultImage
         setDescription m.description
         setKeywords m.keywords
 

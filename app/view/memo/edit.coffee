@@ -1,9 +1,10 @@
 Vue = require 'vue'
-page = require 'page'
 request = require 'superagent'
 
 config = require '../../config'
 token = require '../../lib/token'
+router = require '../../lib/router'
+toast = require '../../lib/toast'
 
 
 module.exports = Vue.extend
@@ -24,7 +25,6 @@ module.exports = Vue.extend
         performUpdate: (e)->
             e.preventDefault()
 
-            # TODO: まともなバリデーション
             if not @memo.title
                 Vue.toast 'タイトルがないぞハゲ'
                 return
@@ -38,10 +38,10 @@ module.exports = Vue.extend
             .send @memo
             .end (err, res)=>
                 if err
-                    Vue.toast 'ハゲ'
+                    toast 'ハゲ'
                     return
-                page "/memo/#{res.body.title}"
-                Vue.toast 'いいぞ〜〜'
+                router.go "/memo/#{res.body.title}"
+                toast 'いいぞ〜〜'
 
         performDelete: ()->
             request
@@ -51,8 +51,8 @@ module.exports = Vue.extend
                 if err
                     Vue.toast 'ハゲ'
                     return
-                page '/memo'
-                Vue.toast 'いいぞ〜〜'
+                router.go '/memo'
+                toast 'いいぞ〜〜'
 
     attached: ->
         @edit = !!@$context.params.title
@@ -61,6 +61,6 @@ module.exports = Vue.extend
             request.get "#{config.api}/memos/#{@$context.params.title}"
             .end (err, res)=>
                 if err
-                    page '/memo'
+                    router.go '/memo'
                     return
-                @memo = res.body
+                @$set 'memo', res.body

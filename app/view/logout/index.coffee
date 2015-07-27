@@ -2,6 +2,7 @@ Vue = require 'vue'
 
 router = require '../../lib/router'
 auth = require '../../lib/auth'
+toast = require '../../lib/toast'
 
 module.exports = Vue.extend
     template: '<h1>logout</h1>'
@@ -9,4 +10,4 @@ module.exports = Vue.extend
         auth.logout()
         Vue.nextTick ->
             router.go '/', true
-            Vue.toast 'ログアウトしたぜ'
+            toast 'ログアウトしたぜ'

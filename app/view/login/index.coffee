@@ -2,6 +2,7 @@ Vue = require 'vue'
 
 router = require '../../lib/router'
 auth = require '../../lib/auth'
+toast = require '../../lib/toast'
 
 module.exports = Vue.extend
     template: do require './index.jade'
@@ -17,6 +18,6 @@ module.exports = Vue.extend
             auth.login @credentials
             .then ->
                 router.go '/', true
-                Vue.toast 'いいぞ〜〜'
+                toast 'いいぞ〜〜'
             , ->
-                Vue.toast 'ハゲ'
+                toast 'ハゲ'

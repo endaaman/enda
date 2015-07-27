@@ -5,6 +5,8 @@ spaseo = require 'spaseo.js'
 
 config = require '../../config'
 auth = require '../../lib/auth'
+loader= require '../../lib/loader'
+router = require '../../lib/router'
 
 module.exports = Vue.extend
     template: do require './list.jade'
@@ -12,15 +14,16 @@ module.exports = Vue.extend
         memos: []
         active: auth.active()
     attached: ->
-        # @$startLoading()
+        loader.show()
         cb = spaseo()
         request.get "#{config.api}/memos"
         .end (err, res)=>
-            # @$finishLoading()
+            loader.hide()
             cb()
             if err
+                router.go '/'
                 return
-            @memos = res.body
+            @$set 'memos', res.body
 
     filters:
         Vue.filter 'date', (_date, format)->

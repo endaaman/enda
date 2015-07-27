@@ -7,6 +7,7 @@ spaseo = require 'spaseo.js'
 config = require '../../config'
 meta = require '../../lib/meta'
 auth = require '../../lib/auth'
+loader = require '../../lib/loader'
 
 module.exports = Vue.extend
     template: do require './show.jade'
@@ -15,16 +16,16 @@ module.exports = Vue.extend
         compiledContent: ''
         active: auth.active()
     attached: ->
-        Vue.startLoading()
+        loader.show()
         cb = spaseo()
         request.get "#{config.api}/memos/#{@$context.params.title}"
         .end (err, res)=>
             if err
-                Vue.finishLoading()
+                loader.hide()
                 page '/memo'
                 return
-            @memo = res.body
-            @compiledContent = marked @memo.content
+            @$set 'memo', res.body
+            @$set 'compiledContent', marked @memo.content
 
             matchedImage = @memo.content.match /\!\[.*\]\((.*)\)/
 
@@ -34,5 +35,5 @@ module.exports = Vue.extend
                 image: if matchedImage and matchedImage[1] then matchedImage[1] else null
                 description: @memo.digest
 
-            Vue.finishLoading()
+            loader.hide()
             cb()

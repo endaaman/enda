@@ -34,25 +34,23 @@ spaseo.wrap (cb)->
     Vue.nextTick ->
         cb()
 
-auth = require './lib/auth'
+
 router = require './lib/router'
+auth = require './lib/auth'
+meta = require './lib/meta'
+loader = require './lib/loader'
 
 Vue.use router.plugin
 Vue.use require './component/editor'
-Vue.use require './component/toast'
-Vue.use require './component/loader'
 
 router.route require './routes'
+router.events.on '$pageUpdated', meta.handler
 
-app = new Vue
-    el: 'body'
-    template: do require './root.jade'
-
-router.events.on '$pageUpdated', (require './lib/meta').handler
+app = require './app'
 
 start = ->
     router.start()
-    Vue.finishLoading()
+    loader.hide()
 
-Vue.startLoading()
+loader.show()
 auth.check().then start, start

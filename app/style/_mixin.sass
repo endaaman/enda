@@ -9,6 +9,12 @@
     margin-left: auto
     margin-right: auto
 
+=link-unstyled
+    text-decoration: none
+
+=list-unstyled
+    padding-left: 0
+    list-style: none
 
 =button-unstyled
     border: 0
@@ -16,3 +22,22 @@
     background-color: transparent
     outline: 0
     -webkit-appearance: none
+
+=baricon-size($size)
+    width: $size
+    height: $size
+    font-size: $size
+
+=baricon-color($color)
+    .baricon-bar
+        background-color: $color
+        border-color: $color
+
+=disabled
+    cursor: no-drop
+    opacity: .5
+    box-shadow: none
+    user-select: none
+    -moz-user-select: none
+    -webkit-user-select: none
+    -ms-user-select: none

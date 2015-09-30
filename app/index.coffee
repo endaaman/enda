@@ -1,56 +1,45 @@
 require './style/index.sass'
 
+require './ga'
+(require './lib/font') 'Source Sans Pro': true
 
 Vue = require 'vue'
-
-marked = require 'marked'
-hljs = require 'highlight.js'
-
-renderer = new marked.Renderer()
-renderer.link = (href, title, text)->
-    external = not /^\//.test href
-    usePrefix = external and not /^http/.test text
-    target = if external then ' target="_blank"' else ''
-    prefix = if usePrefix then "<i class=\"fa fa-fw fa-external-link\"></i> " else ''
-    title = if title then " title=\"#{title}\"" else ''
-    href= " href=\"#{href}\""
-
-    "<a#{href}#{target}#{title}>#{prefix}#{text}</a>"
-
-marked.setOptions
-    highlight: (code, lang, callback)->
-        if lang
-            try
-                hljs.highlight(lang, code).value
-            catch
-                code
-        else
-            code
-    renderer: renderer
-
+Vue.use require 'vue-resource'
+Vue.use require 'vue-validator'
+# for IE
+Vue.http.headers.common['If-Modified-Since'] = 0
 
 spaseo = require 'spaseo.js'
 spaseo.wrap (cb)->
     Vue.nextTick ->
         cb()
 
+Vue.use require './lib/router'
+Vue.use require './lib/auth'
+Vue.use require './lib/loader'
+Vue.use require './lib/toast'
+Vue.use require './lib/resolver'
+Vue.use require './lib/meta'
+Vue.use require './lib/responsive'
+Vue.use require './component/bytes'
+Vue.use require './component/editable'
+Vue.use require './component/modal'
 
-router = require './lib/router'
-auth = require './lib/auth'
-meta = require './lib/meta'
-loader = require './lib/loader'
+Vue.router.route require './routes'
 
-Vue.use router.plugin
-Vue.use require './component/editor'
+(require './handler') Vue
 
-router.route require './routes'
-router.events.on '$pageUpdated', meta.handler
+app = new Vue
+    template: '<div v-view="root"></div>'
 
-app = require './app'
+app.$mount '#app'
 
 start = ->
-    router.start()
-    loader.hide()
+    Vue.router.start()
 
-loader.show()
-auth.check().then start, start
+token = require './lib/token'
+if token.exists()
+    Vue.loader()
+    Vue.resolver.append Vue.auth.check().then start, start
+else
+    Vue.nextTick start

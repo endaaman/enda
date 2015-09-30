@@ -1,36 +1,42 @@
 config = require '../config'
 token = require './token'
-request = require 'superagent'
+u = require './util'
 
-active = false
+user = null
 
-module.exports =
-    active: -> active
-    check: ->
-        new Promise (resolve, reject)->
-            request
-            .get "#{config.api}/session"
-            .set token.header()
-            .end (err, res)->
-                active = !err
-                if err
-                    reject err
-                else
-                    resolve res
+setUser = (u)->
+    user = u
 
-    login: (credentials)->
-        new Promise (resolve, reject)->
-            request
-            .post "#{config.api}/session"
-            .send credentials
-            .end (err, res)->
-                token.set res.body.token
-                active = !err
-                if err
-                    reject err
-                else
-                    resolve res
+module.exports = (Vue)->
+    auth =
+        active: -> user?
+        user: (copy)->
+            if copy? and copy
+                u.extend {}, user,  true
+            else
+                user
 
-    logout: ->
-        active = false
-        token.clear()
+        check: ->
+            Vue.http
+            .get "#{config.api}/session", (data)->
+                setUser data.user
+            .error (err)=>
+                @silentLogout()
+                throw err
+
+        login: (credentials)->
+            Vue.http
+            .post "#{config.api}/session", credentials, (data)->
+                token.set data.token
+                setUser data.user
+            .error (err)=>
+                @silentLogout()
+                throw err
+
+        logout: ->
+            user = null
+            token.clear()
+
+
+    Vue.auth = auth
+    Vue.prototype.$auth = auth

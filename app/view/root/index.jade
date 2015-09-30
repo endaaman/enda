@@ -1,7 +1,8 @@
-.sidebar
+.content(v-view="content")
+.sidebar(v-class="'sidebar-open': open")
     .sidebar-toggler.shown-xs
         button.unstyled(v-on="click: sidebarToggle()" )
-            i.fa.fa-bars(v-el="togglerIcon")
+            i.fa.fa-bars(v-class="'fa-times': open, 'fa-bars': !open")
                 
     .sidebar-icon
         a.icon-overlay(href="/") endaaman
@@ -16,7 +17,7 @@
             
         .sidebar-item
             a.sidebar-link(href="/memo") memo
-            
+
         .sidebar-item(v-if="!active")
             a.sidebar-link(href="/login") login
             
@@ -24,7 +25,7 @@
             a.sidebar-link(href="/logout") logout
 
     .sidebar-footer
-        | Source of this site is on 
+        | Source of this site is on&nbsp;
         a.sidebar-link(href="https://github.com/endaaman/enda" target="_blank") client
-        | , 
+        | ,&nbsp;
         a.sidebar-link(href="https://github.com/endaaman/enda-api" target="_blank") api

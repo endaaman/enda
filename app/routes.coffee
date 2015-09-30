@@ -1,4 +1,6 @@
-module.exports = [
+u = require './lib/util'
+
+main = [
     url: '/'
     data:
         meta:
@@ -6,11 +8,8 @@ module.exports = [
             description: 'endaaman\'s personal webpage'
     views:
         content: require './view/home'
-        sidebar: require './view/sidebar'
 ,
     url: '/memo'
-    views:
-        sidebar: require './view/sidebar'
     subs: [
         url: '/'
         data:
@@ -22,36 +21,51 @@ module.exports = [
     ,
         url: '/new'
         data:
-            restricted: true
+            next: '/'
         views:
             content: require './view/memo/edit'
     ,
         url: '/:title'
+        views:
+            content: require './view/memo/detail'
         subs: [
             url: '/'
             views:
-                content: require './view/memo/show'
+                memo_detail: require './view/memo/show'
         ,
             url: '/edit'
             data:
-                restricted: true
+                next: '/'
             views:
-                content: require './view/memo/edit'
+                memo_detail: require './view/memo/edit'
         ]
     ]
+,
+    url: '/file'
+    data:
+        next: '/'
+    views:
+        content: require './view/file'
 ,
     url: '/login'
     views:
         content: require './view/login'
-        sidebar: require './view/sidebar'
 ,
     url: '/logout'
     views:
         content: require './view/logout'
-        sidebar: require './view/sidebar'
 ,
     url: '*'
     views:
         content: require './view/404'
-        sidebar: require './view/sidebar'
 ]
+
+
+routes = [
+    views:
+        root: require './view/root'
+    subs: u.copy main
+]
+
+
+module.exports = routes

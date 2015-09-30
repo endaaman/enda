@@ -1,15 +1,21 @@
+isLocal = /local/.test location.host
+
 getApiHost = ->
-    if /localhost/.test location.host
-        'http://localhost:3000'
+    if isLocal
+        '//localhost:3000'
     else
         if /endaaman.me/.test location.host
-            'http://api.endaaman.me'
+            '//api.endaaman.me'
         else
-            'http://api.enda.local'
+            '//api.enda.local'
+
 
 module.exports =
     siteName: 'えんだーまんの家'
     defaultImage: require './assets/endaaman.png'
-    api: getApiHost()
     baseUrl: location.protocol + '//' + location.host
+    api: getApiHost()
     tokenKey: 'token'
+    trackingCode: 'UA-64476534-1'
+    isLocal: isLocal
+    isRemote: not isLocal

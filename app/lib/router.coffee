@@ -1,77 +1,101 @@
 page = require 'page'
+qs = require 'qs'
+
+u = require './util'
+
+currentContext = null
 
 targetViews = {}
-attachedModels = {}
-currentContext = null
-__reload = false
+attachedVms = {}
+currentRoute = null
 
-EventEmitter2 = (require 'eventemitter2')
+redirectHistory = {}
+
+__reload = false
+__started = false
+
+EventEmitter2 = require 'eventemitter2'
 events = new EventEmitter2()
 
-extend = (a, b, copy)->
-    target = if copy then (extend {}, a, false) else a
-    for k, v of b
-        target[k] = v
-    target
 
+emitEvent = (ev, context, next, past, status)->
+    events.emit ev, context, next, past, status
+    for name, vm of attachedVms
+        vm.$emit ev, context, next, past, status
 
-emitEvent = (ev, next, past)->
-    events.emit ev, next, past
-    for name, model of attachedModels
-        model.$emit ev, next, past
-
+callUpdateOfVm = (vm)->
+    opt = vm.__proto__.constructor.options
+    if typeof opt.updated is 'function'
+        opt.updated.call vm
 
 updatePage = (nextRoute, pastRoute, context)->
-    emitEvent '$pageUpdating', nextRoute, pastRoute
+    status =
+        next: null
 
+    emitEvent '$pageUpdating', context, nextRoute, pastRoute, status
+    if status.next
+        if status.next is true
+            return false
+        if redirectHistory[context.path]
+            throw new Error 'Your route setting contains redirect loop'
+        redirectHistory[context.path] = true
+        page.redirect status.next
+        return false
+
+    redirectHistory = {}
+    pastContext = currentContext
     currentContext = context
 
-    if pastRoute is nextRoute
+    if pastContext?.path is currentContext.path and not __reload
         return true
 
     attachedViews = {}
 
     for route in nextRoute.familyLine
-        for viewName, modelClass of route.views
+        for viewName, klass of route.views
             if attachedViews[viewName]
                 console.warn "Attached vb twice to the view whose name is `#{viewName}`"
 
-            if model = attachedModels[viewName]
-                if not __reload and model.__proto__.constructor is modelClass
+            if vm = attachedVms[viewName]
+                if not __reload and vm.__proto__.constructor is klass
                     attachedViews[viewName] = true
+                    callUpdateOfVm vm
                     continue
                 else
-                    model.$destroy true
+                    vm.$destroy true
 
             if targetView = targetViews[viewName]
-                model = new modelClass
-                    replace: !modelClass.options.replace? or !!modelClass.options.replace
-                    computed:
-                        $context:
-                            get: -> currentContext
+                vm = targetView.vm.$addChild
+                    replace: !klass.options.replace? or !!klass.options.replace
+                , klass
 
-                model.$mount().$appendTo targetView.el
-                attachedModels[viewName] = model
+                callUpdateOfVm vm
+
+                vm.$mount().$appendTo targetView.el
+                attachedVms[viewName] = vm
                 attachedViews[viewName] = true
             else
                 console.warn "The view named `#{viewName}` does not exist"
 
-    for viewName, model of attachedModels
+    for viewName, vm of attachedVms
         if not attachedViews[viewName]
-            model.$destroy true
-            delete attachedModels[viewName]
+            vm.$destroy true
+            delete attachedVms[viewName]
 
-    emitEvent '$pageUpdated', nextRoute, pastRoute
+
+    emitEvent '$pageUpdated', context, nextRoute, pastRoute
+
     __reload = false
+
     true
 
 handlers = []
 
 class Route
-    @routes: {}
-    @currentRoute = new Route
-    @registerRoutes: ->
-        for url, route of Route.routes
+    routes = {}
+
+    @registerRoutes = ->
+        for url, route of routes
             route.register()
 
     constructor: (params)->
@@ -82,19 +106,22 @@ class Route
         @data = do =>
             base = params.data or {}
             if @parent
-                extend @parent.data, base, true
+                u.extend @parent.data, base, true
             else
                 base
 
+
+        @abstract = !params.url or !!params.abstract
         @url = do =>
-            if @parent and @parent isnt this
-                @parent.url + params.url
+            if params.url
+                if @parent and @parent isnt this
+                    return @parent.url + params.url
+                else
+                    return params.url
             else
-                params.url or ''
+                return ''
 
         @familyLine = if @parent? then @parent.familyLine.concat [this] else [this]
-
-        @abstract = !@url or !!params.abstract
 
         if Array.isArray params.subs
             for sub in params.subs
@@ -104,56 +131,45 @@ class Route
                     @abstract = true
 
         if not @abstract
-            if Route.routes[@url]?
+            if routes[@url]?
                 throw new Error "Tried to define dupricated routes `#{@url}`"
-            Route.routes[@url] = this
+            routes[@url] = this
 
     route: (params)->
         new Route params
 
     register: ->
         page @url, (context, next)=>
-            updatePage this, Route.currentRoute, context
-            Route.currentRoute = this
+            success = updatePage this, currentRoute, context
+            if success
+                currentRoute = this
+
+currentRoute = new Route
 
 
+router = events
 
-module.exports = new class
-    _started: false
+routerBase =
     go: (path, reload)->
         __reload = !!reload
         page path
-
-    Route: Route
-    events: events
-    setHandler: (handler)->
-        Route.handler = handler
-    plugin: (Vue, options)=>
-        options ?= {}
-        viewName = ((typeof options.viewName is 'string') and options.viewName) or 'view'
-
-        Vue.directive viewName,
-            isLiteral: true
-            bind: ->
-                name = @expression
-                if targetViews[name]?
-                    throw new Error "The view whose name is `#{name}` is already binded to the document"
-                targetViews[name] = this
-            unbind: ->
-                delete targetViews[@expression]
-
-        if options.autoStart
-            Vue.nextTick =>
-                @start()
-
+    reload: ->
+        @go currentContext.path, true
     start: (Vue)->
-        if not @_started
+        if not __started
+            if 'scrollRestoration' in history
+                history.scrollRestoration = 'manual'
+            page '*', (context, next)->
+                context.query = qs.parse context.querystring
+                next()
             Route.registerRoutes()
             page()
         else
             console.warn 'Tried to start routing twice'
-        @_started = true
+        __started = true
 
+    trimQuery: ->
+        page.redirect currentContext.pathname
 
     route: (params)->
         if Array.isArray params
@@ -161,3 +177,35 @@ module.exports = new class
                 new Route p
         else
             new Route params
+
+    context: currentContext
+
+    views: attachedVms
+
+u.extend router, routerBase
+
+module.exports = (Vue, options)->
+    options ?= {}
+    viewName = ((u.isString options.viewName) and options.viewName) or 'view'
+    routerName = ((u.isString options.routerName) and options.routerName) or 'router'
+
+    Vue.directive viewName,
+        isLiteral: true
+        bind: ->
+            name = @expression
+            if targetViews[name]?
+                throw new Error "The view whose name is `#{name}` is already binded to the document"
+            targetViews[name] = this
+        unbind: ->
+            delete targetViews[@expression]
+
+    Object.defineProperty Vue.prototype, '$context',
+        get: ->
+            currentContext
+
+    Vue.prototype['$'+routerName] = router
+    Vue[routerName] = router
+
+    if options.autoStart
+        Vue.nextTick ->
+            router.start()

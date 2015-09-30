@@ -2,11 +2,13 @@ h1.page-title Memoranda
 p(v-if="active")
     a(href="/memo/new") あたらしい
 
-.memo-list(v-repeat="memo: memos" v-show="!memo.draft || active")
-    di
-    h2.memo-title
-        a(href="/memo/{{memo.title}}") {{ memo.title }}
-    .memo-digest(v-if="memo.digest") {{ memo.digest }}
-    .memo-date 
-        | {{ memo.created_at | date}}
-        span(v-if="memo.draft")  - したがき
+p(v-show="!memos") よみこみちう
+
+div(v-if="resolved")
+    .memo-list(v-repeat="memo: memos" v-show="!memo.draft || active")
+        h2.memo-title
+            a(href="/memo/{{memo.title}}") {{ memo.title }}
+        .memo-digest(v-if="memo.digest") {{ memo.digest }}
+        .memo-date
+            | {{ memo.created_at | date}}
+            span(v-if="memo.draft")  - したがき

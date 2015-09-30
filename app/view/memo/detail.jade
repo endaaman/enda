@@ -1,0 +1,9 @@
+p
+    a(href="/memo") いちらんにもどる
+
+div(v-if="!notFound")
+    div(v-view="memo_detail")
+
+div(v-if="rejected")
+    h1 Not Found
+    p 記事が見つかりませんでした。

@@ -72,6 +72,7 @@ module.exports = new function() {
     }),
     new HtmlWebpackPlugin({
       template: './'+conf.src+'/index.html',
+      favicon: './'+conf.src+'/assets/favicon.ico',
       inject: 'body'
     })
   ];

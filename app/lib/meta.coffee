@@ -62,7 +62,7 @@ module.exports = (Vue)->
         setSiteName config.siteName
         setTitle m.title
         setUrl m.url or config.baseUrl + location.pathname
-        setImage m.image
+        setImage m.image or require '../assets/endaaman.png'
         setDescription m.description or location.href
         setKeywords m.keywords
 

@@ -35,12 +35,12 @@ module.exports = Vue.extend
                 @$toast '削除しました'
             , =>
                 @$toast 'エラーが発生しました'
+    events:
+        memoResolved: ->
+            @memo = @$parent.memo
 
     created: ->
-        if @editing
-            @$on 'memoResolved', =>
-                @memo = @$parent.memo
-        else
+        if not @editing
             @memo =
                 title: ''
                 digest: ''

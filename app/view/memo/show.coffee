@@ -11,8 +11,8 @@ module.exports = Vue.extend
         active: @$auth.active()
         memo: null
 
-    created: ->
-        @$on 'memoResolved', =>
+    events:
+        memoResolved: ->
             @memo = @$parent.memo
             @compiledContent = marked @memo.content
 

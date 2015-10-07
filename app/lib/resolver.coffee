@@ -14,7 +14,7 @@ baseResolver =
 resolver = u.extend ee, baseResolver
 
 resolveAsPromise = (vm, promise)->
-    opt = vm.__proto__.constructor.options
+    opt = vm.$options
 
     pendings.push promise.then (results)->
         for key, result of results
@@ -32,7 +32,7 @@ resolveAsPromise = (vm, promise)->
 
 
 resolveAsDict = (vm, dictPromises)->
-    opt = vm.__proto__.constructor.options
+    opt = vm.$options
 
     keyMap = []
     promises = []

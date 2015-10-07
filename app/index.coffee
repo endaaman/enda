@@ -24,6 +24,7 @@ Vue.use require './lib/responsive'
 Vue.use require './component/bytes'
 Vue.use require './component/editable'
 Vue.use require './component/modal'
+Vue.use require './component/dateformat'
 
 Vue.router.route require './routes'
 

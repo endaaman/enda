@@ -5,7 +5,7 @@ article.memo-show(v-if="memo")
         h1.memo-title {{memo.title}}
         div(v-if="active")
             a(href="/memo/{{memo.title}}/edit") へんしゅう
-        .memo-date created at: {{ memo.created_at | date 'YYYY MM/DD hh:mm:ss' }}
-        .memo-date updated at: {{ memo.updated_at | date 'YYYY MM/DD hh:mm:ss' }}
+        .memo-date created at: {{ memo.created_at | date }}
+        .memo-date updated at: {{ memo.updated_at | date }}
     
     .memo-content(v-html="compiledContent")

@@ -18,15 +18,17 @@ EventEmitter2 = require 'eventemitter2'
 events = new EventEmitter2()
 
 
+callHook = (vm, hook)->
+    opt = vm.$options
+    if typeof opt[hook] is 'function'
+        opt[hook].call vm
+    else
+        opt[hook]
+
 emitEvent = (ev, context, next, past, status)->
     events.emit ev, context, next, past, status
     for name, vm of attachedVms
         vm.$emit ev, context, next, past, status
-
-callUpdateOfVm = (vm)->
-    opt = vm.__proto__.constructor.options
-    if typeof opt.updated is 'function'
-        opt.updated.call vm
 
 updatePage = (nextRoute, pastRoute, context)->
     status =
@@ -57,9 +59,10 @@ updatePage = (nextRoute, pastRoute, context)->
                 console.warn "Attached vb twice to the view whose name is `#{viewName}`"
 
             if vm = attachedVms[viewName]
-                if not __reload and vm.__proto__.constructor is klass
+                if not __reload and vm instanceof klass
                     attachedViews[viewName] = true
-                    callUpdateOfVm vm
+                    vm._digest()
+                    callHook vm, 'updated'
                     continue
                 else
                     vm.$destroy true
@@ -69,7 +72,7 @@ updatePage = (nextRoute, pastRoute, context)->
                     replace: !klass.options.replace? or !!klass.options.replace
                 , klass
 
-                callUpdateOfVm vm
+                callHook vm, 'updated'
 
                 vm.$mount().$appendTo targetView.el
                 attachedVms[viewName] = vm
@@ -172,6 +175,10 @@ routerBase =
         page.redirect currentContext.pathname
 
     route: (params)->
+        if __started
+            console.warn 'Do not register routes after started'
+            return
+
         if Array.isArray params
             for p in params
                 new Route p
@@ -186,10 +193,8 @@ u.extend router, routerBase
 
 module.exports = (Vue, options)->
     options ?= {}
-    viewName = ((u.isString options.viewName) and options.viewName) or 'view'
-    routerName = ((u.isString options.routerName) and options.routerName) or 'router'
 
-    Vue.directive viewName,
+    Vue.directive 'view',
         isLiteral: true
         bind: ->
             name = @expression
@@ -201,10 +206,10 @@ module.exports = (Vue, options)->
 
     Object.defineProperty Vue.prototype, '$context',
         get: ->
-            currentContext
+            do -> currentContext
 
-    Vue.prototype['$'+routerName] = router
-    Vue[routerName] = router
+    Vue.prototype['$router'] = router
+    Vue['router'] = router
 
     if options.autoStart
         Vue.nextTick ->

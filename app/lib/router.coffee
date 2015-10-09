@@ -22,8 +22,6 @@ callHook = (vm, hook)->
     opt = vm.$options
     if typeof opt[hook] is 'function'
         opt[hook].call vm
-    else
-        opt[hook]
 
 emitEvent = (ev, context, next, past, status)->
     events.emit ev, context, next, past, status
@@ -85,11 +83,8 @@ updatePage = (nextRoute, pastRoute, context)->
             vm.$destroy true
             delete attachedVms[viewName]
 
-
     emitEvent '$pageUpdated', context, nextRoute, pastRoute
-
     __reload = false
-
     true
 
 handlers = []
@@ -185,8 +180,6 @@ routerBase =
         else
             new Route params
 
-    context: currentContext
-
     views: attachedVms
 
 u.extend router, routerBase
@@ -206,7 +199,7 @@ module.exports = (Vue, options)->
 
     Object.defineProperty Vue.prototype, '$context',
         get: ->
-            do -> currentContext
+            currentContext
 
     Vue.prototype['$router'] = router
     Vue['router'] = router

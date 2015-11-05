@@ -7,17 +7,17 @@ Memo = require '../../resource/memo'
 module.exports = Vue.extend
     template: do require './show.jade'
     data: ->
-        compiledContent: ''
         active: @$auth.active()
         memo: null
 
     events:
         memoResolved: ->
             @memo = @$parent.memo
-            @compiledContent = marked @memo.content
+            compiledContent = marked @memo.content
 
-            matchedImage = @memo.content.match /\!\[.*\]\((.*)\)/
+            @$$.content.innerHTML = compiledContent
+            elImage = document.querySelector '#memoContent img'
             @$meta
                 title: @memo.title
-                image: if matchedImage and matchedImage[1] then matchedImage[1] else null
+                image: elImage.src or null
                 description: @memo.digest

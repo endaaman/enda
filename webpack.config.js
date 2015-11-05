@@ -35,9 +35,7 @@ module.exports = new function() {
       { test: /\.css$/,
         loader: ExtractTextPlugin.extract('css?sourceMap')
       },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url?limit=10000&minetype=application/font-woff' },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file' }
+      { test: /\.(ttf|eot|svg|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file' }
     ]
   };
 
@@ -51,6 +49,7 @@ module.exports = new function() {
     app: ['./'+conf.src+'/index.coffee'],
     vendor: ['./'+conf.src+'/vendor.coffee']
   };
+
 
   this.output = {
     path: path.join(__dirname, conf.destDirName),

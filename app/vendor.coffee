@@ -1,7 +1,5 @@
 require 'font-awesome/css/font-awesome.css'
 
-if /localhost/.test location.host
-    require 'webpack-dev-server/client?http://localhost:8080'
 
 window._Promise = window.Promise
 window.Promise = require 'bluebird'
@@ -9,13 +7,20 @@ window.Promise = require 'bluebird'
 require 'page'
 require 'eventemitter2'
 
-require 'vue'
+Vue = require 'vue'
 require 'vue-validator'
 require 'vue-resource'
 require 'spaseo.js'
-
+spaseo = require 'spaseo.js'
 marked = require 'marked'
 hljs = require 'highlight.js'
+
+
+spaseo.wrap (cb)->
+    Vue.nextTick ->
+        console.log 'noti'
+        cb()
+
 
 renderer = new marked.Renderer()
 renderer.link = (href, title, text)->
@@ -26,6 +31,8 @@ renderer.link = (href, title, text)->
     title = if title then " title=\"#{title}\"" else ''
     href= " href=\"#{href}\""
     "<a#{href}#{target}#{title}>#{prefix}#{text}</a>"
+
+
 marked.setOptions
     renderer: renderer
     highlight: (code, lang, callback)->

@@ -9,11 +9,6 @@ Vue.use require 'vue-validator'
 # for IE
 Vue.http.headers.common['If-Modified-Since'] = 0
 
-spaseo = require 'spaseo.js'
-spaseo.wrap (cb)->
-    Vue.nextTick ->
-        cb()
-
 Vue.use require './lib/router'
 Vue.use require './lib/auth'
 Vue.use require './lib/loader'

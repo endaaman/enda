@@ -23,7 +23,7 @@ table.table(v-if="resolved")
     tbody
         tr(v-repeat="file: files")
             td
-                a(href="/files/{{file}}" target="_blank") {{file}}
+                a(href="/static/{{file}}" target="_blank") {{file}}
             td
                 ul.list-inline.nomb
                     li

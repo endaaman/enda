@@ -86,7 +86,7 @@ module.exports = new function() {
     historyApiFallback: true,
     stats: { colors: true },
     proxy: {
-      '/files/*': 'http://enda.local'
+      '/static/*': 'http://localhost:3000'
     }
   };
 }

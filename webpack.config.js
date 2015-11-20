@@ -9,7 +9,7 @@ var argv = require('yargs').argv;
 var conf = new function() {
   this.prod = !!argv.p;
   this.src = 'app';
-  this.fileName = this.prod ? '[name]-[hash]' : '[name]';
+  this.fileName = '[name]-[hash]';
   this.destDirName = 'build';
   this.defines = {
     'process.env.NODE_ENV': JSON.stringify(this.prod ? 'production' : 'development')

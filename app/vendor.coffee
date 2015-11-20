@@ -18,7 +18,6 @@ hljs = require 'highlight.js'
 
 spaseo.wrap (cb)->
     Vue.nextTick ->
-        console.log 'noti'
         cb()
 
 

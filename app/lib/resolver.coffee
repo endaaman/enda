@@ -58,9 +58,6 @@ module.exports = (Vue, options)->
             promises.push v
 
         pending = Promise.all promises
-        .catch (e)->
-            console.log e
-            throw e
         .then (results)->
             st ->
                 for i, result of results
@@ -77,6 +74,6 @@ module.exports = (Vue, options)->
                 vm.$set 'rejected', true
                 if typeof opt.rejected is 'function'
                     opt.rejected.call vm, e
-                console.warn e.stack
+            throw e
 
         pendings.push pending

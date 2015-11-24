@@ -3,20 +3,14 @@ isOnPhantom = typeof window.callPhantom is 'function'
 innerWrapper = (cb)->
     setTimeout cb, 0
 
-$log = (text)->
-    if isOnPhantom
-        window.callPhantom
-            command: 'LOG'
-            text: text
-
 originalCallback = (status)->
     if isOnPhantom
-        if not status
-            status = 200
-
-        window.callPhantom
+        opt =
             command: 'FINISH'
-            status: status
+        if status
+            opt.status = status
+
+        window.callPhantom opt
 
 renderman = ->
     if isOnPhantom
@@ -31,9 +25,6 @@ renderman.isOnPhantom = isOnPhantom
 
 renderman.wrap = (wrapper)->
     innerWrapper = wrapper
-
-renderman.log = (text)->
-    $log text
 
 
 module.exports = renderman

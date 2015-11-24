@@ -13,6 +13,5 @@ module.exports = (Vue)->
         do reset
 
     Vue.resolver.on '$rejected', ->
-        # tell Phantom if the page is 404
         cb 404
         do reset

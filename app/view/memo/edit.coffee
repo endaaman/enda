@@ -6,7 +6,7 @@ Memo = require '../../resource/memo'
 module.exports = Vue.extend
     template: do require './edit.jade'
     data: ->
-        memo: null
+        memo: {}
         editing: !!@$context.params.title
     methods:
         performUpdate: (e)->
@@ -17,7 +17,7 @@ module.exports = Vue.extend
             else
                 p = Memo.save {}, @memo
 
-             p.then (res)=>
+            p.then (res)=>
                 @modified = false
                 @$router.go "/memo/#{@memo.title}", true
                 @$toast 'いいぞ〜〜'

@@ -17,6 +17,7 @@ __started = false
 EventEmitter2 = require 'eventemitter2'
 events = new EventEmitter2()
 
+Vue = null
 
 callHook = (vm, hook)->
     opt = vm.$options
@@ -66,9 +67,9 @@ updatePage = (nextRoute, pastRoute, context)->
                     vm.$destroy true
 
             if targetView = targetViews[viewName]
-                vm = targetView.vm.$addChild
+                vm = new klass
+                    parent: targetView.vm
                     replace: !klass.options.replace? or !!klass.options.replace
-                , klass
 
                 callHook vm, 'updated'
 
@@ -184,7 +185,8 @@ routerBase =
 
 u.extend router, routerBase
 
-module.exports = (Vue, options)->
+module.exports = (_Vue, options)->
+    Vue = _Vue
     options ?= {}
 
     Vue.directive 'view',

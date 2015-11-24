@@ -3,7 +3,7 @@ require './style/index.sass'
 require './ga'
 (require './lib/font')
     'Source Sans Pro': true
-    'Source Code Pro':500
+    'Source Code Pro': 500
 
 Vue = require 'vue'
 Vue.use require 'vue-resource'
@@ -23,9 +23,11 @@ Vue.use require './component/editable'
 Vue.use require './component/modal'
 Vue.use require './component/dateformat'
 
-Vue.router.route require './routes'
+# handlers
+Vue.use require './handler'
 
-(require './handler') Vue
+
+Vue.router.route require './routes'
 
 app = new Vue
     template: '<div v-view="root"></div>'

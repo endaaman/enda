@@ -2,18 +2,18 @@ h1 File management
 
 
 p(v-if="!tmpFiles")
-    input.hidden(type="file" v-on="change: selectFiles($event)" multiple v-el="fileSelector")
-    button.btn.btn-green.btn-small(v-on="click: $$.fileSelector.click()") Select file(s)
+    input.hidden(type="file" v-on:change="selectFiles($event)" multiple v-el:file-selector)
+    button.btn.btn-green.btn-small(v-on:click="$els.fileSelector.click()") Select file(s)
 
 ul
-    li(v-repeat="file: tmpFiles") {{file.name}}({{file.size | bytes}})
+    li(v-for="file in tmpFiles") {{file.name}}({{file.size | bytes}})
 
 div(v-if="tmpFiles")
     ul.list-inline
         li
-            button.btn.btn-green.btn-small(v-on="click: performUpload()") Upload file(s)
+            button.btn.btn-green.btn-small(v-on:click="performUpload()") Upload file(s)
         li
-            button.btn.btn-yellow.btn-small(v-on="click: clearFiles()") Clear file(s)
+            button.btn.btn-yellow.btn-small(v-on:click="clearFiles()") Clear file(s)
 
 table.table(v-if="resolved")
     thead
@@ -21,22 +21,22 @@ table.table(v-if="resolved")
             th name
             th command
     tbody
-        tr(v-repeat="file: files")
+        tr(v-for="file in files")
             td
                 a(href="/static/{{file}}" target="_blank") {{file}}
             td
                 ul.list-inline.nomb
                     li
-                        button.btn.btn-green.btn-small(v-on="click: openRenameModal(file)") リネーム
+                        button.btn.btn-green.btn-small(v-on:click="openRenameModal(file)") リネーム
                     li
-                        button.btn.btn-red.btn-small(v-on="click: openDeleteModal(file)") 削除
+                        button.btn.btn-red.btn-small(v-on:click="openDeleteModal(file)") 削除
 
-modal(shown="{{@ shownDeleteModal}}" title="Confirmation")
-    button.btn.btn-red(v-on="click: performDelete(deletingFilename)")
+modal(v-bind:shown.sync="shownDeleteModal" v-bind:title="Confirmation")
+    button.btn.btn-red(v-on:click="performDelete(deletingFilename)")
         | {{deletingFilename}}を削除
 
-modal(shown="{{@ shownRenameModal}}" title="Rename file")
-    form(v-on="submit: performRename($event)")
+modal(v-bind:shown.sync="shownRenameModal" v-bind:title="Rename file")
+    form(v-on:submit="performRename($event)")
         .control-group
             .control-label 変更するファイル名
             .control-static {{renamingFilename}}

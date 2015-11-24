@@ -9,7 +9,7 @@ var argv = require('yargs').argv;
 var conf = new function() {
   this.prod = !!argv.p;
   this.src = 'app';
-  this.fileName = '[name]-[hash]';
+  this.fileName = this.prod ? '[name]-[hash]' : '[name]';
   this.destDirName = 'build';
   this.defines = {
     'process.env.NODE_ENV': JSON.stringify(this.prod ? 'production' : 'development')
@@ -86,7 +86,8 @@ module.exports = new function() {
     historyApiFallback: true,
     stats: { colors: true },
     proxy: {
-      '/static/*': 'http://localhost:3000'
+      '/static/*': 'http://localhost:3000',
+      '/api/*': 'http://localhost:3000'
     }
   };
 }

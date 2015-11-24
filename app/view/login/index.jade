@@ -1,7 +1,7 @@
 .container
     h1 ろぐいん
     p ※俺用
-    form(v-on="submit: performLogin($event)")
+    form(v-on:submit="performLogin($event)")
         .control-group
             input.control(type="text" name="username" v-model="credentials.username" placeholder="なまえ")
         .control-group

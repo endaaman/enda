@@ -4,11 +4,11 @@ module.exports = (Vue)->
         template: do require './index.jade'
         methods:
             show: ->
-                @$$.loader.classList.add 'loader-active'
-                @$$.overlay.classList.add 'overlay-active'
+                @$els.loader.classList.add 'loader-active'
+                @$els.overlay.classList.add 'overlay-active'
             hide: ->
-                @$$.loader.classList.remove 'loader-active'
-                @$$.overlay.classList.remove 'overlay-active'
+                @$els.loader.classList.remove 'loader-active'
+                @$els.overlay.classList.remove 'overlay-active'
 
     loader = (v)->
         if v? and not v
@@ -17,9 +17,6 @@ module.exports = (Vue)->
             vm.show()
 
     vm.$mount().$appendTo document.body
-
-    # Vue.router.on '$pageUpdating', ->
-    #     vm.hide()
 
     Vue.loader = loader
     Vue.prototype.$loader = loader

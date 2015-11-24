@@ -15,7 +15,7 @@ module.exports = Vue.extend
             @memo = @$parent.memo
             compiledContent = marked @memo.content
 
-            @$$.content.innerHTML = compiledContent
+            @$els.content.innerHTML = compiledContent
             elImage = document.querySelector '#memoContent img'
             @$meta
                 title: @memo.title

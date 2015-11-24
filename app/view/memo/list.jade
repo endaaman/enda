@@ -5,7 +5,7 @@ p(v-if="active")
 p(v-show="!memos") よみこみちう
 
 div(v-if="resolved")
-    .memo-list(v-repeat="memo: memos" v-show="!memo.draft || active")
+    .memo-list(v-for="memo in memos")
         h2.memo-title
             a(href="/memo/{{memo.title}}") {{ memo.title }}
         .memo-digest(v-if="memo.digest") {{ memo.digest }}

@@ -1,7 +1,6 @@
 Vue = require 'vue'
 
 module.exports = Vue.extend
-    replace: true
     template: do require './index.jade'
     data: ->
         open: false

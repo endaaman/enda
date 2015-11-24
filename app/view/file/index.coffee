@@ -65,13 +65,10 @@ module.exports = Vue.extend
             .then =>
                 @$loader false
                 @$router.reload()
-                @$toast 'ファイルをリネームしました'
+                @$toast 'Renamed'
             , =>
                 @$loader false
-                @$toast 'すでにファイルが存在しないか、不正なファイル名が指定されました。'
-
-        onCopied: (e)->
-            @$toast 'クリップボードにコピーしました'
+                @$toast 'Failed'
 
     created: ->
         @$resolve

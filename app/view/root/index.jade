@@ -1,8 +1,8 @@
 .content(v-view="content")
-.sidebar(v-class="'sidebar-open': open")
+.sidebar(:class="{'sidebar-open': open}")
     .sidebar-toggler.shown-xs
-        button.unstyled(v-on="click: sidebarToggle()" )
-            i.fa.fa-bars(v-class="'fa-times': open, 'fa-bars': !open")
+        button.unstyled(v-on:click="sidebarToggle()" )
+            i.fa.fa-bars(:class="{'fa-times': open, 'fa-bars': !open}")
                 
     .sidebar-icon
         a.icon-overlay(href="/") endaaman
@@ -21,9 +21,9 @@
         .sidebar-item(v-if="!active")
             a.sidebar-link(href="/login") login
             
-        .sidebar-item(v-if="active")
+        .sidebar-item(v-else)
             a.sidebar-link(href="/logout") logout
-
+    
     .sidebar-footer
         | Source of this site is on&nbsp;
         a.sidebar-link(href="https://github.com/endaaman/enda" target="_blank") client

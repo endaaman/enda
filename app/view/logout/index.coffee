@@ -1,4 +1,3 @@
-
 Vue = require 'vue'
 
 module.exports = Vue.extend

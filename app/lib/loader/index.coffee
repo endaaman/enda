@@ -18,5 +18,4 @@ module.exports = (Vue)->
 
     vm.$mount().$appendTo document.body
 
-    Vue.loader = loader
-    Vue.prototype.$loader = loader
+    Vue.loader = Vue.prototype.$loader = loader

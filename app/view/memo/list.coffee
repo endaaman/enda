@@ -1,5 +1,4 @@
 Vue = require 'vue'
-spaseo = require 'spaseo.js'
 
 Memo = require '../../resource/memo'
 

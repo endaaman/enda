@@ -5,20 +5,15 @@ window._Promise = window.Promise
 window.Promise = require 'bluebird'
 
 require 'page'
+require 'qs'
 require 'eventemitter2'
 
 Vue = require 'vue'
 require 'vue-validator'
 require 'vue-resource'
-require 'spaseo.js'
 spaseo = require 'spaseo.js'
 marked = require 'marked'
 hljs = require 'highlight.js'
-
-
-spaseo.wrap (cb)->
-    Vue.nextTick ->
-        cb()
 
 
 renderer = new marked.Renderer()

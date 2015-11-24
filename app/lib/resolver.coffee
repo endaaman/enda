@@ -1,7 +1,7 @@
 EventEmitter2 = (require 'eventemitter2')
-spaseo = require 'spaseo.js'
 
-u = require './util'
+
+u = require '../util'
 
 ee = new EventEmitter2()
 pendings = []
@@ -13,6 +13,8 @@ baseResolver =
 
 resolver = u.extend ee, baseResolver
 
+st = (cb)->
+    setTimeout cb, 0
 
 module.exports = (Vue, options)->
 
@@ -20,25 +22,23 @@ module.exports = (Vue, options)->
         if pendings.length is 0
             return
 
-        cb = spaseo()
-
         resolver.emit '$resolving'
 
         Promise.all pendings
         .then ->
-            resolver.emit '$resolved'
-            for vm in vms
-                vm.$emit '$resolved'
-            vms = []
-            pendings = []
-            cb()
+            st ->
+                resolver.emit '$resolved'
+                for vm in vms
+                    vm.$emit '$resolved'
+                vms = []
+                pendings = []
         , ->
-            resolver.emit '$rejected'
-            for vm in vms
-                vm.$emit '$rejected'
-            vms = []
-            pendings = []
-            cb 404
+            st ->
+                resolver.emit '$rejected'
+                for vm in vms
+                    vm.$emit '$rejected'
+                vms = []
+                pendings = []
 
     Vue.resolver = resolver
 
@@ -58,19 +58,25 @@ module.exports = (Vue, options)->
             promises.push v
 
         pending = Promise.all promises
+        .catch (e)->
+            console.log e
+            throw e
         .then (results)->
-            for i, result of results
-                if typeof result is 'undefined'
-                    e = new Error "You resolve undefined by `#{keyMap[i]}`"
-                    console.warn e.stack
-                vm[keyMap[i]] = result
-            vm.$set 'resolved', true
-            if typeof opt.resolved is 'function'
-                opt.resolved.call vm
-        , (err)->
-            vm.$set 'rejected', true
-            if typeof opt.rejected is 'function'
-                opt.rejected.call vm, err
-            throw err
+            st ->
+                for i, result of results
+                    if typeof result is 'undefined'
+                        e = new Error "You resolve undefined by `#{keyMap[i]}`"
+                        console.warn e.stack
+                    vm[keyMap[i]] = result
+                vm.$set 'resolved', true
+                if typeof opt.resolved is 'function'
+                    opt.resolved.call vm
+            , 0
+        , (e)->
+            st ->
+                vm.$set 'rejected', true
+                if typeof opt.rejected is 'function'
+                    opt.rejected.call vm, e
+                console.warn e.stack
 
         pendings.push pending

@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "bluebird": "^3.0.5",
-    "dateformat": "^1.0.11",
     "eventemitter2": "^0.4.14",
     "font-awesome": "^4.4.0",
     "highlight.js": "^8.8.0",
@@ -16,10 +15,8 @@
     "normalize.css": "^3.0.3",
     "page": "^1.6.3",
     "qs": "^5.2.0",
-    "spaseo.js": "^0.1.5",
     "vue": "^1.0.10",
     "vue-resource": "^0.1.16",
-    "vue-router": "^0.7.7",
     "vue-validator": "^2.0.0-alpha.4"
   },
   "devDependencies": {

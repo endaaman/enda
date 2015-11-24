@@ -5,12 +5,21 @@ require './ga'
     'Source Sans Pro': true
     'Source Code Pro': 500
 
+renderman = require './ext/renderman'
+
 Vue = require 'vue'
+
+renderman.wrap (cb)->
+    Vue.nextTick ->
+        cb()
+
 Vue.use require 'vue-resource'
 Vue.use require 'vue-validator'
 # for IE
 Vue.http.headers.common['If-Modified-Since'] = 0
 
+
+Vue.use require './lib/token'
 Vue.use require './lib/router'
 Vue.use require './lib/auth'
 Vue.use require './lib/loader'
@@ -37,8 +46,7 @@ app.$mount '#app'
 start = ->
     Vue.router.start()
 
-token = require './lib/token'
-if token.exists()
+if Vue.token.exists()
     Vue.loader()
     Vue.resolver.append Vue.auth.check().then start, start
 else

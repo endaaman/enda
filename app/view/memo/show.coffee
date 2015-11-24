@@ -1,6 +1,5 @@
 Vue = require 'vue'
 marked = require 'marked'
-spaseo = require 'spaseo.js'
 
 Memo = require '../../resource/memo'
 
@@ -19,5 +18,5 @@ module.exports = Vue.extend
             elImage = document.querySelector '#memoContent img'
             @$meta
                 title: @memo.title
-                image: elImage.src or null
+                image: elImage?.src
                 description: @memo.digest

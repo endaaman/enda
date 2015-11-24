@@ -1,7 +1,7 @@
 page = require 'page'
 qs = require 'qs'
 
-u = require './util'
+u = require '../util'
 
 currentContext = null
 

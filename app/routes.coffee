@@ -1,4 +1,4 @@
-u = require './lib/util'
+u = require './util'
 
 main = [
     url: '/'

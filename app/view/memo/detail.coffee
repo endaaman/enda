@@ -1,6 +1,5 @@
 Vue = require 'vue'
 marked = require 'marked'
-spaseo = require 'spaseo.js'
 
 Memo = require '../../resource/memo'
 

@@ -35,5 +35,4 @@ module.exports = (Vue)->
     toast = (message, period)->
         vm.open message, period
 
-    Vue.toast = toast
-    Vue.prototype.$toast = toast
+    Vue.toast = Vue.prototype.$toast = toast

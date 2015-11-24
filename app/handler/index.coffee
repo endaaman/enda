@@ -1,8 +1,9 @@
 module.exports = (Vue)->
-    (require './trailing_slash') Vue
-    (require './rule') Vue
-    (require './href') Vue
-    (require './scroll') Vue
-    (require './loader') Vue
-    (require './meta') Vue
-    (require './ga') Vue
+    Vue.use require './trailing_slash'
+    Vue.use require './rule'
+    Vue.use require './href'
+    Vue.use require './scroll'
+    Vue.use require './loader'
+    Vue.use require './meta'
+    Vue.use require './ga'
+    Vue.use require './seo'

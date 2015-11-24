@@ -1,6 +1,5 @@
 config = require '../config'
-token = require './token'
-u = require './util'
+u = require '../util'
 
 user = null
 
@@ -27,7 +26,7 @@ module.exports = (Vue)->
         login: (credentials)->
             Vue.http
             .post "#{config.api}/session", credentials, (data)->
-                token.set data.token
+                Vue.token.set data.token
                 setUser data.user
             .error (err)=>
                 @silentLogout()
@@ -35,8 +34,7 @@ module.exports = (Vue)->
 
         logout: ->
             user = null
-            token.clear()
+            Vue.token.clear()
 
 
-    Vue.auth = auth
-    Vue.prototype.$auth = auth
+    Vue.auth = Vue.prototype.$auth = auth

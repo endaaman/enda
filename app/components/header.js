@@ -7,18 +7,21 @@ import icon from '../assets/endaaman.png'
 class Header extends Component {
   render() {
     return (
-      <div className={styles.header}>
+      <header className={styles.header}>
         <div className={styles.icon}>
-          <img src={icon} />
+          <Link to="/">
+            <img src={icon} />
+          </Link>
         </div>
-        <div className={styles.message}>endaaman /
+        <div className={styles.message}>
+          <span>@endaaman / </span>
           <span className={styles.links}>
             <a href="https://github.com/endaaman" target="_blank">Github</a>
             <span> - </span>
             <a href="http://twitter.com/endaaman" target="_blank">Twitter</a>
           </span>
           </div>
-      </div>
+      </header>
     )
   }
 }

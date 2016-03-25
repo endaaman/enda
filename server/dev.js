@@ -13,7 +13,7 @@ var webpackConfig = require('../webpack/dev')
 var compiler = webpack(webpackConfig)
 var project_base_path = require('path').resolve(__dirname, '..')
 
-webpackConfig.entry.wds = `webpack-dev-server/client?http://localhost:${port}`
+webpackConfig.entry.app.unshift(`webpack-dev-server/client?http://localhost:${port}`)
 
 var server = new webpackDevServer(compiler, webpackConfig.devServer)
 

@@ -23,10 +23,12 @@ class Footer extends Component {
   render() {
     // let builtAt = (new Date(window.__BUILT_AT__)).toString()
     return (
-      <div className={styles.footer}>
-        <hr />
-        <div>Build at {this.state.builtAt}</div>
-      </div>
+      <footer>
+        <div className={styles.footerShadow}></div>
+        <div className={styles.footer}>
+          <div className={styles.buitTime}>Built at {this.state.builtAt}</div>
+        </div>
+      </footer>
     )
   }
 }

@@ -1,16 +1,22 @@
-var webpack = require('webpack')
-var path = require('path')
+const webpack = require('webpack')
+const path = require('path')
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 
-var Webpack_isomorphic_tools_plugin =
+const Webpack_isomorphic_tools_plugin =
   require('webpack-isomorphic-tools/plugin')
-var webpack_isomorphic_tools_configuration =
+const webpack_isomorphic_tools_configuration =
   require('../webpack-isomorphic-tools')
 var webpack_isomorphic_tools_plugin =
   new Webpack_isomorphic_tools_plugin(webpack_isomorphic_tools_configuration)
+
+
+const stylePathResolves = (
+  'includePaths[]=' + path.resolve('./') + '&' +
+  'includePaths[]=' + path.resolve('./node_modules')
+)
 
 
 module.exports = function(production, devServer){
@@ -19,15 +25,15 @@ module.exports = function(production, devServer){
       webpack_isomorphic_tools_plugin.development()
   }
 
-  var fileName = production ? '[name]-[hash]' : '[name]';
+  const fileName = production ? '[name]-[hash]' : '[name]';
 
-  var defines = {
+  const defines = {
     'process.env.NODE_ENV': production ? '"production"' : '"development"',
     'global.__BUILT_AT__': '' + Date.now()
   }
 
 
-  var config = {}
+  const config = {}
 
   if (!production) {
     config.devtool = '#inline-source-map'
@@ -63,12 +69,14 @@ module.exports = function(production, devServer){
       require('autoprefixer'),
       require('precss'),
       require('postcss-simple-vars'),
+      require('postcss-nested'),
+      require('postcss-current-selector'),
     ]
   }
 
 
   config.entry = {
-    app: './app/index.js'
+    app: ['./app/index.js']
   }
 
 

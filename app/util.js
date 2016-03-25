@@ -1,3 +1,4 @@
+
 export function isOnServer() {
   return !!(typeof process === 'object' && process + '' === '[object process]')
 }
@@ -22,4 +23,16 @@ export function createPromiseWatchMiddleware() {
   middleware.wait = () => Promise.all(promises)
 
   return middleware
+}
+
+export function getGoogleFontsHref(fonts) {
+  var family = Object.keys(fonts).map(function(name) {
+    var details = fonts[name]
+    name = name.replace(/\s+/g, '+')
+    return typeof details === 'boolean'
+      ? name
+      : name + ':' + makeArray(details).join(',')
+  }).join('|')
+
+  return '//fonts.googleapis.com/css?family=' + family
 }

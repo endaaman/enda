@@ -5,17 +5,24 @@ import Root from '../components/root'
 import Container from '../components/container'
 import Header from '../components/header'
 import Footer from '../components/footer'
+import { connect } from 'react-redux'
 
-class NoMatch extends Component {
+import { logout } from '../actions/session'
+
+class Logout extends Component {
+  logout() {
+    this.props.dispatch(logout())
+  }
   render() {
     return (
       <Root>
         <Helmet
-          title="404"
+          title="Logout"
         />
         <Header />
         <div>
-          <h1>404</h1>
+          <h1>Logout</h1>
+          <button onClick={this.logout.bind(this)}>Logout</button>
         </div>
         <Footer />
       </Root>
@@ -23,4 +30,4 @@ class NoMatch extends Component {
   }
 }
 
-export default NoMatch
+export default connect()(Logout)

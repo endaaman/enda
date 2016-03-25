@@ -3,7 +3,7 @@ $iconSize: 40px;
 
 
 .header {
-    background-color: #abfbb6;
+    background-color: #65B891;
     padding: 8px 0;
 }
 
@@ -16,11 +16,12 @@ $iconSize: 40px;
         height: $iconSize;
         border-radius: calc($iconSize / 2);
     }
+    span {
+        height: 14px;
+    }
 }
 
 .message {
-    color: #260F26;
-    /*font-family: monospace;*/
     font-size: 14px;
     height: 16px;
     line-height: 16px;

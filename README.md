@@ -1,3 +1,3 @@
-# endaaman.me
+# 例のアレ
 
-source code of [endaaman.me](http://endaaman.me)
+see `package.json`

@@ -1,9 +1,0 @@
-module.exports = (Vue)->
-    Vue.use require './trailing_slash'
-    Vue.use require './rule'
-    Vue.use require './href'
-    Vue.use require './scroll'
-    Vue.use require './loader'
-    Vue.use require './meta'
-    Vue.use require './ga'
-    Vue.use require './seo'

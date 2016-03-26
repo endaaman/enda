@@ -1,3 +1,4 @@
+import './polyfill'
 import React, { createElement as $ } from 'react'
 import { render } from 'react-dom'
 import { Router, match, browserHistory } from 'react-router'

@@ -10,24 +10,38 @@ import { connect } from 'react-redux'
 import { logout } from '../actions/session'
 
 class Logout extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   logout() {
     this.props.dispatch(logout())
+    this.context.router.push('/')
   }
   render() {
     return (
       <Root>
         <Helmet
           title="Logout"
+          meta={[
+            { name: 'robots', content: 'nofollow, noindex' },
+          ]}
         />
         <Header />
-        <div>
+        <Container>
           <h1>Logout</h1>
-          <button onClick={this.logout.bind(this)}>Logout</button>
-        </div>
+          { !this.props.active
+              ? <p>You are not logged in</p>
+              : null
+          }
+          <button disabled={!this.props.active} onClick={this.logout.bind(this)}>Logout</button>
+        </Container>
         <Footer />
       </Root>
     )
   }
 }
 
-export default connect()(Logout)
+export default connect((state)=>({
+  active: !!state.session.user
+}))(Logout)

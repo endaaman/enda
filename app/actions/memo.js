@@ -1,7 +1,9 @@
 import { Http } from '../lib/http'
 
-export const RECIEVE_MEMOLIST = 'RECIEVE_MEMOLIST'
-export const RECIEVE_MEMO = 'RECIEVE_MEMO'
+export const RECIEVE_MEMOLIST = Symbol()
+
+export const START_FETCHING_MEMO = Symbol()
+export const RECIEVE_MEMO = Symbol()
 
 
 
@@ -49,7 +51,6 @@ export function fetchMemo(id) {
       dispatch({
         type: RECIEVE_MEMO,
         item: res.data,
-        isFetched: true,
       })
     })
   }

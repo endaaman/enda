@@ -12,12 +12,13 @@ import { login } from '../actions/session'
 
 
 class Login extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   onSubmit(data) {
-    this.props.dispatch(login(data))
-    .then(()=> {
-      console.log('ok')
-    }, ()=> {
-      console.log('failed')
+    this.props.dispatch(login(data)).then(()=> {
+      this.context.router.push('/')
     })
   }
   render() {
@@ -25,21 +26,26 @@ class Login extends Component {
       <Root>
         <Helmet
           title="Login"
+          meta={[
+            { name: 'robots', content: 'nofollow, noindex' },
+          ]}
         />
         <Header />
-        <div>
+        <Container>
           <h1>Login</h1>
-          <pre><code>
-            {JSON.stringify(this.props.session)}
-          </code></pre>
-          <LoginForm onSubmit={this.onSubmit.bind(this)}/>
-        </div>
+          { this.props.active
+              ? <p>You are already logged in</p>
+              : null
+          }
+          <LoginForm disabled={this.props.active} onSubmit={this.onSubmit.bind(this)}/>
+        </Container>
         <Footer />
       </Root>
     )
   }
 }
 
+
 export default connect(state =>({
-  session: state.session
+  active: !!state.session.user
 }))(Login)

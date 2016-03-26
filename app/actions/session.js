@@ -1,7 +1,8 @@
 import { Http } from '../lib/http'
 
-export const CREATE_SESSION = 'CREATE_SESSION'
-export const DELETE_SESSION = 'DELETE_SESSION'
+export const CREATE_SESSION = Symbol()
+export const DELETE_SESSION = Symbol()
+
 
 export function login(payload) {
   return (dispatch)=> {
@@ -29,9 +30,6 @@ export function check() {
       return
     }
     return Http().get('/api/session', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
     }).then(res => {
       dispatch({
         type: CREATE_SESSION,

@@ -1,14 +1,42 @@
 import React, {Component} from 'react'
 import { reduxForm } from 'redux-form'
 
+function validate(values) {
+  const errors = {}
+  if (!values.title) {
+
+  }
+  return errors
+}
+
+class CommonInput extends Component {
+  render() {
+    return (
+      <div className={styles.input}>
+        <input type="text" />
+      </div>
+    )
+  }
+}
+
 
 class MemoForm extends Component {
   render() {
-    const { fields: {text}, handleSubmit } = this.props
+    const { fields: {title, digest, draft, content}, handleSubmit } = this.props
     return (
       <form onSubmit={handleSubmit}>
-        <label>Text</label>
-        <input type="text" {...text}/>
+        <div>
+          <input type="text" placeholder="title" {...title}/>
+        </div>
+        <div>
+          <label><input type="checkbox" {...draft}></input>is draft</label>
+        </div>
+        <div>
+          <input type="text" placeholder="digest" {...digest}/>
+        </div>
+        <div>
+          <textarea placeholder="content" {...content}/>
+        </div>
         <button onClick={handleSubmit}>Submit</button>
       </form>
     )
@@ -17,5 +45,6 @@ class MemoForm extends Component {
 
 export default reduxForm({
   form: 'memo',
-  fields: ['text'],
+  fields: ['title', 'digest', 'draft', 'content'],
+  validate
 })(MemoForm)

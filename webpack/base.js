@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const fs = require('fs')
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -12,6 +13,7 @@ const webpack_isomorphic_tools_configuration =
 var webpack_isomorphic_tools_plugin =
   new Webpack_isomorphic_tools_plugin(webpack_isomorphic_tools_configuration)
 
+const babelrc = JSON.parse(fs.readFileSync('./.babelrc'))
 
 const stylePathResolves = (
   'includePaths[]=' + path.resolve('./') + '&' +
@@ -56,10 +58,7 @@ module.exports = function(production, devServer){
         test: /.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
-        query: {
-         'presets': ['es2015', 'react'],
-         'plugins': ['syntax-decorators'],
-        }
+        query: babelrc
       }
     ]
   }

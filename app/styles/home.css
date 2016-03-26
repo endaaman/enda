@@ -1,6 +1,6 @@
 
 .memoList {
-    margin: 0;
+    margin-top: 48px;
     padding: 0;
 }
 
@@ -17,7 +17,7 @@ $itemColor: #111;
     }
 
     a {
-        padding: 8px 0;
+        padding: 12px 0;
         display: block;
         color: $itemColor;
         text-decoration: none;
@@ -26,7 +26,7 @@ $itemColor: #111;
     h3 {
         margin: 0;
         padding: 0;
-        font-size: 18px;
+        font-size: 20px;
         font-weight: normal;
     }
     footer {

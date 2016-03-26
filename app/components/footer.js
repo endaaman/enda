@@ -1,4 +1,6 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router'
 
 import styles from '../styles/footer.css'
 
@@ -21,12 +23,21 @@ class Footer extends Component {
     }
   }
   render() {
-    // let builtAt = (new Date(window.__BUILT_AT__)).toString()
+    const active = !!this.props.session.user
     return (
       <footer>
         <div className={styles.footerShadow}></div>
         <div className={styles.footer}>
-          <div className={styles.buitTime}>Built at {this.state.builtAt}</div>
+          <div className={styles.rightItem}>
+            <span>Built at {this.state.builtAt}</span>
+          </div>
+          <div className={styles.leftItem}>
+            <span>
+              <Link to={active ? '/logout' : '/login'}>
+                {active ? 'Logout' : 'Login'}
+              </Link>
+              </span>
+          </div>
         </div>
       </footer>
     )
@@ -34,4 +45,7 @@ class Footer extends Component {
 }
 
 
-export default Footer
+
+export default connect((state)=>({
+  session: state.session
+}))(Footer)

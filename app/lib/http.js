@@ -1,19 +1,29 @@
 import axios from 'axios'
 import { isOnServer } from '../util'
 
-let axiosInstance
+let instance
 
 export function Http() {
-  if (axiosInstance) {
-    return axiosInstance
+  if (instance) {
+    return instance
   }
 
   const base = isOnServer()
     ? 'http://localhost:3000'
     : ''
 
-  axiosInstance= axios.create({
+  instance= axios.create({
     baseURL: base,
   })
-  return axiosInstance
+  instance.interceptors.request.use(function (config) {
+    if (!isOnServer()) {
+      const token = localStorage.getItem('token')
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
+    return config
+  }, function (error) {
+    return Promise.reject(error)
+  })
+
+  return instance
 }

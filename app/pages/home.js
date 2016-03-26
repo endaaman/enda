@@ -58,8 +58,6 @@ class Home extends Component {
           title="Home"
         />
         <Header />
-        <p><Link to="/login">login</Link></p>
-        <p><Link to="/logout">logout</Link></p>
         <Container>
           <MemoList memos={this.props.memos} />
         </Container>

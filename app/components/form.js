@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 
 import styles from '../styles/form.css'
 
-class Root extends Component {
+class CommonInput extends Component {
   render() {
     return (
       <div className={styles.input}>

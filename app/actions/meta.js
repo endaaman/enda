@@ -1,4 +1,4 @@
-export const UPDATE_META = 'UPDATE_META'
+export const UPDATE_META = Symbol()
 
 export function updateMeta() {
   return {

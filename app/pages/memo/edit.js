@@ -49,10 +49,7 @@ class MemoShow extends Component {
         <Header />
         <article>
           <Container>
-            <pre><code>
-              {JSON.stringify(this.props.memo)}
-            </code></pre>
-            <MemoForm onSubmit={this.onSubmit.bind(this)}/>
+            <MemoForm onSubmit={this.onSubmit.bind(this)} memo={memo}/>
 
           </Container>
         </article>

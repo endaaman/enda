@@ -21,6 +21,7 @@ class Root extends Component {
   render() {
     const desc = '@endaaman\'s website'
     const metas = [
+      { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width,initial-scale=1' },
       { name: 'twitter:card', content: 'summary' },
       { name: 'twitter:site', content: '@endaaman' },

@@ -9,41 +9,26 @@ import { Provider } from 'react-redux'
 import routes from '../app/routes'
 import configureStore from '../app/store/configure'
 
+const webpackIsomorphicTools = global.webpackIsomorphicTools
 
 
-export default function(req, res, webpackIsomorphicTools) {
+function buildHtml(head, script, content, initialState) {
+  return `<!doctype html>
+<html>
+  <head>
+    ${head}
+  </head>
+  <body>
+    <div id="app">${content}</div>
+    <script>
+      window.__initial_state__ = ${JSON.stringify(initialState)}
+    </script>
+    ${script}
+  </body>
+</html>`
+}
 
-  function buildHtml(head, content, initialState) {
-    const assets = webpackIsomorphicTools.assets()
-
-    const styles = []
-    for (let name in assets.styles) {
-      let path = assets.styles[name]
-      styles.push(` <link rel="stylesheet" href="${path}"/>`)
-    }
-
-    const scripts = []
-    for (let name in assets.javascript) {
-      let path = assets.javascript[name]
-      scripts.push(`<script src="${path}"></script>`)
-    }
-    return `
-      <!doctype html>
-      <html>
-        <head>
-          ${head.title.toString()}
-          ${head.meta.toString()}
-          ${head.link.toString()}
-          ${styles.join('')}
-        </head>
-        <body>
-          <div id="app">${content}</div>
-          <div id="initialState" style="display: none" data-data='${JSON.stringify(initialState)}'></div>
-          ${scripts.join('')}
-        </body>
-      </html>`
-  }
-
+export default function(req, res, onError) {
   match({routes, location: req.originalUrl}, (error, redirectLocation, renderProps) => {
     if (error) {
       res.status(500).send(error.message)
@@ -57,9 +42,29 @@ export default function(req, res, webpackIsomorphicTools) {
       const render = ()=> {
         const provider = $(Provider, {store: store}, $(RouterContext, renderProps))
         const initialState = store.getState()
+
         const content = renderToString(provider)
         const head = rewind()
-        const html = buildHtml(content, initialState, webpackIsomorphicTools)
+        const assets = webpackIsomorphicTools.assets()
+
+        const heads = []
+        heads.push(head.title.toString())
+        heads.push(head.meta.toString())
+        heads.push(head.link.toString())
+
+        for (let name in assets.styles) {
+          let path = assets.styles[name]
+          heads.push(` <link rel="stylesheet" href="${path}"/>`)
+        }
+
+        const scripts = []
+        for (let name in assets.javascript) {
+          let path = assets.javascript[name]
+          scripts.push(`<script src="${path}"></script>`)
+        }
+
+        const html = buildHtml(heads.join('\n'), scripts.join('\n'), content, initialState)
+
         const notFound = false
         res.status(notFound ? 404 : 200).send(html)
       }
@@ -70,12 +75,11 @@ export default function(req, res, webpackIsomorphicTools) {
       }
 
       const promises = renderProps.components.map(c => {
-        return (c && c.loadProps) ? c.loadProps(params) : Promise.resolve()
+        return (c && c.loadProps && typeof c.loadProps == 'function')
+          ? c.loadProps(params)
+          : Promise.resolve()
       })
-      console.log(promises)
-      Promise.all(promises).then(render, (error)=> {
-        res.status(500).send(error)
-      })
+      Promise.all(promises).then(render).catch(onError)
     }
   })
 }

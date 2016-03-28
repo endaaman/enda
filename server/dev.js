@@ -1,7 +1,7 @@
 require('babel-polyfill')
 require('babel-register')
 
-
+var ansi2html = require('ansi2html')
 var express = require('express')
 var webpack = require('webpack')
 var webpackDevServer = require('webpack-dev-server')
@@ -17,10 +17,23 @@ webpackConfig.entry.app.unshift(`webpack-dev-server/client?http://localhost:${po
 
 var server = new webpackDevServer(compiler, webpackConfig.devServer)
 
-var webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack-isomorphic-tools'))
+global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack-isomorphic-tools'))
 .development(true)
 .server(project_base_path, function(){
   server.use('*', function(req, res) {
+    function onError(error) {
+      var result = '' + error
+      if (error.stack) {
+        result = result + error.stack
+      }
+      console.error(result)
+      res.status(500).send(`
+        <html>
+        <pre>${ansi2html(result)}</pre>
+        </html>
+      `)
+    }
+
     u.removeDependingModuleCaches(require.resolve('./handler'), function(name) {
       if (/\/node_modules\//.test(name)) {
         return false
@@ -30,9 +43,9 @@ var webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack-isom
     webpackIsomorphicTools.refresh()
     try {
       var handler = require('./handler').default
-      handler(req, res, webpackIsomorphicTools)
-    } catch(err) {
-      res.status(500).send(err.toString())
+      handler(req, res, onError)
+    } catch(error) {
+      onError(error)
     }
   })
 

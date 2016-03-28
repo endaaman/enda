@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
+
+import { Text, Checkbox, Editor } from '../components/controls'
 
 function validate(values) {
   const errors = {}
@@ -9,34 +12,21 @@ function validate(values) {
   return errors
 }
 
-class CommonInput extends Component {
-  render() {
-    return (
-      <div className={styles.input}>
-        <input type="text" />
-      </div>
-    )
-  }
-}
 
 
 class MemoForm extends Component {
+  componentWillMount() {
+    let { title, draft, digest, content } = this.props.memo
+    this.props.initializeForm({ title, draft, digest, content })
+  }
   render() {
     const { fields: {title, digest, draft, content}, handleSubmit } = this.props
     return (
       <form onSubmit={handleSubmit}>
-        <div>
-          <input type="text" placeholder="title" {...title}/>
-        </div>
-        <div>
-          <label><input type="checkbox" {...draft}></input>is draft</label>
-        </div>
-        <div>
-          <input type="text" placeholder="digest" {...digest}/>
-        </div>
-        <div>
-          <textarea placeholder="content" {...content}/>
-        </div>
+        <Text field={title} placeholder="title" />
+        <Text field={digest} placeholder="digest" />
+        <Checkbox field={draft} label="draft" id="draft" />
+        {/*<Editor field={content} />*/}
         <button onClick={handleSubmit}>Submit</button>
       </form>
     )

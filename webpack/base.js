@@ -70,6 +70,7 @@ module.exports = function(production, devServer){
       require('postcss-simple-vars'),
       require('postcss-nested'),
       require('postcss-current-selector'),
+      require('postcss-mixins'),
     ]
   }
 

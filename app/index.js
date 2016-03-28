@@ -15,11 +15,7 @@ import './styles/global.css'
 
 const rootDom = document.getElementById('app')
 
-let initialState = {}
-try{
-  initialState = JSON.parse(document.getElementById('initialState').dataset.data)
-} catch(e) {
-}
+let initialState = window.__initial_state__ || {}
 
 let store = configureStore(initialState)
 const history = syncHistoryWithStore(browserHistory, store)

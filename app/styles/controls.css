@@ -120,3 +120,40 @@ $toggler-inner-size: 10px;
     opacity: 1;
   }
 }
+
+
+
+.button {
+  button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    v-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    user-select: none;
+
+    padding: 8px;
+    line-height: 16px;
+    border: solid 1px $border-color;
+    border-radius: 2px;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: .5;
+      box-shadow: none;
+    }
+  }
+}

@@ -59,6 +59,7 @@ class Home extends Component {
         />
         <Header />
         <Container>
+          <p><Link to="/memos/aaaaa">404</Link></p>
           <MemoList memos={this.props.memos} />
         </Container>
         <Footer />

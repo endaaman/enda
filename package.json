@@ -39,6 +39,7 @@
     "redux-form": "^4.2.2",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.0.1",
+    "unique-id-mixin": "^1.0.0",
     "webpack-isomorphic-tools": "^2.2.31"
   },
   "devDependencies": {
@@ -57,6 +58,7 @@
     "isomorphic-style-loader": "0.0.12",
     "memory-fs": "^0.3.0",
     "node-sass": "^3.4.2",
+    "postcss-import": "^8.0.2",
     "postcss-loader": "^0.8.2",
     "postcss-mixins": "^4.0.1",
     "postcss-simple-vars": "^1.2.0",

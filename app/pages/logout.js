@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import Helmet from 'react-helmet'
+import { connect } from 'react-redux'
 
 import Root from '../components/root'
 import Container from '../components/container'
 import Header from '../components/header'
 import Footer from '../components/footer'
-import { connect } from 'react-redux'
+import { Button } from '../components/controls'
 
 import { logout } from '../actions/session'
 
@@ -31,10 +33,13 @@ class Logout extends Component {
         <Container>
           <h1>Logout</h1>
           { !this.props.active
-              ? <p>You are not logged in</p>
+              ? (
+                <p>You are not logged in.
+                Please <Link to="/login">Login</Link></p>
+              )
               : null
           }
-          <button disabled={!this.props.active} onClick={this.logout.bind(this)}>Logout</button>
+          <Button disabled={!this.props.active} onClick={this.logout.bind(this)}>Logout</Button>
         </Container>
         <Footer />
       </Root>

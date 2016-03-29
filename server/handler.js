@@ -40,6 +40,7 @@ export default function(req, res, onError) {
       const store = configureStore({})
 
       const render = ()=> {
+        console.log('rendering..')
         const provider = $(Provider, {store: store}, $(RouterContext, renderProps))
         const initialState = store.getState()
 
@@ -64,7 +65,6 @@ export default function(req, res, onError) {
         }
 
         const html = buildHtml(heads.join('\n'), scripts.join('\n'), content, initialState)
-
         const notFound = false
         res.status(notFound ? 404 : 200).send(html)
       }
@@ -73,13 +73,16 @@ export default function(req, res, onError) {
         dispatch: store.dispatch,
         params: renderProps.params,
       }
-
+      console.log('start')
       const promises = renderProps.components.map(c => {
-        return (c && c.loadProps && typeof c.loadProps == 'function')
+        const hasLoadProps = c && c.loadProps && typeof c.loadProps === 'function'
+        console.log(hasLoadProps)
+        return hasLoadProps
           ? c.loadProps(params)
           : Promise.resolve()
+        // return Promise.resolve()
       })
-      Promise.all(promises).then(render).catch(onError)
+      Promise.all(promises).then(render, onError)
     }
   })
 }

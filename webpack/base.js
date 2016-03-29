@@ -15,11 +15,6 @@ var webpack_isomorphic_tools_plugin =
 
 const babelrc = JSON.parse(fs.readFileSync('./.babelrc'))
 
-const stylePathResolves = (
-  'includePaths[]=' + path.resolve('./') + '&' +
-  'includePaths[]=' + path.resolve('./node_modules')
-)
-
 
 module.exports = function(production, devServer){
   if (!production) {
@@ -65,6 +60,9 @@ module.exports = function(production, devServer){
 
   config.postcss = function() {
     return [
+      // require('postcss-import')({
+      //   addDependencyTo: webpack
+      // }),
       require('autoprefixer'),
       require('precss'),
       require('postcss-simple-vars'),

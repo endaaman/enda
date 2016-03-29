@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 
@@ -33,8 +34,12 @@ class Login extends Component {
         <Header />
         <Container>
           <h1>Login</h1>
+          <p>※俺用</p>
           { this.props.active
-              ? <p>You are already logged in</p>
+              ? (
+                <p>You are already logged in.
+                  Please <Link to="/logout">Logout</Link>.</p>
+              )
               : null
           }
           <LoginForm disabled={this.props.active} onSubmit={this.onSubmit.bind(this)}/>

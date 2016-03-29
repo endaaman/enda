@@ -1,19 +1,18 @@
 import React, {Component} from 'react'
 import { reduxForm } from 'redux-form'
 
+import { Text, Checkbox, Button } from '../components/controls'
+
+
 
 class LoginForm extends Component {
   render() {
     const { fields: {username, password}, handleSubmit, disabled } = this.props
     return (
       <form onSubmit={handleSubmit}>
-        <div>
-          <input type="text" placeholder="username" {...username}/>
-        </div>
-        <div>
-          <input type="password" placeholder="password" {...password}/>
-        </div>
-        <button disabled={disabled} onClick={handleSubmit}>Submit</button>
+        <Text field={username} placeholder="username" />
+        <Text field={password} placeholder="password" type="password" />
+        <Button disabled={disabled} onClick={handleSubmit}>Submit</Button>
       </form>
     )
   }

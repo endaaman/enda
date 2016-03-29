@@ -10,7 +10,6 @@ import configureStore from './store/configure'
 import reducer from './reducers/combined'
 
 
-import 'evil-icons/assets/evil-icons.css'
 import './styles/global.css'
 
 const rootDom = document.getElementById('app')

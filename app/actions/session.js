@@ -1,4 +1,4 @@
-import { Http } from '../lib/http'
+import Http from '../lib/http'
 
 export const CREATE_SESSION = Symbol()
 export const DELETE_SESSION = Symbol()

@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { isOnServer } from '../util'
 
-let instance
+let instance = null
 
-export function Http() {
+export default function Http() {
   if (instance) {
     return instance
   }
@@ -14,14 +14,15 @@ export function Http() {
 
   instance= axios.create({
     baseURL: base,
+    timeout: 10000,
   })
-  instance.interceptors.request.use(function (config) {
+  instance.interceptors.request.use(config => {
     if (!isOnServer()) {
       const token = localStorage.getItem('token')
       config.headers['Authorization'] = `Bearer ${token}`
     }
     return config
-  }, function (error) {
+  }, error => {
     return Promise.reject(error)
   })
 

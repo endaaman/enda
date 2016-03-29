@@ -13,6 +13,7 @@ import MemoForm from '../../forms/memo'
 import NoMacth from '../404'
 
 import { getMemo } from '../../actions/memo'
+import { findMemo } from '../../util'
 
 class MemoShow extends Component {
   constructor (props) {
@@ -61,15 +62,6 @@ class MemoShow extends Component {
 
 
 export default connect((state, ownProps) => ({
-  memo: state.memo.detail.items.find((memo)=> {
-    let found = false
-    if (ownProps.params.title === memo.title) {
-      found = true
-    }
-    if (ownProps.params.title === memo._id) {
-      found = true
-    }
-    return found
-  }) || {},
+  memo: findMemo(state.memo.detail.items, ownProps.params.title) || {},
   session: state.session,
 }))(MemoShow)

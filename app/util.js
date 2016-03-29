@@ -1,3 +1,6 @@
+function asArray(v) {
+  return Array.isArray(v) ? v : [v]
+}
 
 export function isOnServer() {
   return !!(typeof process === 'object' && process + '' === '[object process]')
@@ -12,10 +15,6 @@ export function keyBy(list, keyName) {
 }
 
 export function getGoogleFontsHref(fonts) {
-  function asArray(arr) {
-    return Array.isArray(arr) ? arr : [arr]
-  }
-
   var family = Object.keys(fonts).map(function(name) {
     var details = fonts[name]
     name = name.replace(/\s+/g, '+')
@@ -25,4 +24,18 @@ export function getGoogleFontsHref(fonts) {
   }).join('|')
 
   return '//fonts.googleapis.com/css?family=' + family
+}
+
+export function findMemo(memos, idOrTitle, failResult = null) {
+  const result = memos.find((memo)=> {
+    let found = false
+    if (idOrTitle === memo.title) {
+      found = true
+    }
+    if (idOrTitle === memo._id) {
+      found = true
+    }
+    return found
+  })
+  return result || failResult
 }

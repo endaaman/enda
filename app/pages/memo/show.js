@@ -4,14 +4,16 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import marked from 'marked'
 
+import NoMacth from '../404'
+
 import Root from '../../components/root'
 import Header from '../../components/header'
 import Container from '../../components/container'
 import Footer from '../../components/footer'
 
-import NoMacth from '../404'
-
 import { getMemo } from '../../actions/memo'
+import { findMemo } from '../../util'
+
 import styles from '../../styles/memo.css'
 
 class MemoShow extends Component {
@@ -21,15 +23,17 @@ class MemoShow extends Component {
       notFound: false
     }
   }
-  static loadProps({dispatch, params}) {
+  static loadProps({ dispatch, params }) {
     return dispatch(getMemo(params.title))
   }
   componentWillMount() {
     this.constructor.loadProps(this.props)
-    .catch(()=> {
-      this.setState({
-        notFound: true
-      })
+    .then((memo)=> {
+      if (!memo) {
+        this.setState({
+          notFound: true
+        })
+      }
     })
   }
   getHref() {
@@ -58,6 +62,7 @@ class MemoShow extends Component {
   render() {
     const memo = this.props.memo
     if (this.state.notFound) {
+      console.log('404')
       return (<NoMacth />)
     }
     return (
@@ -98,15 +103,6 @@ class MemoShow extends Component {
 }
 
 export default connect((state, ownProps) => ({
-  memo: state.memo.detail.items.find((memo)=> {
-    let found = false
-    if (ownProps.params.title === memo.title) {
-      found = true
-    }
-    if (ownProps.params.title === memo._id) {
-      found = true
-    }
-    return found
-  }) || {},
+  memo: findMemo(state.memo.detail.items, ownProps.params.title) || {},
   session: state.session,
 }))(MemoShow)

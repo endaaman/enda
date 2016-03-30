@@ -23,7 +23,7 @@ class MemoShow extends Component {
     }
   }
   static loadProps({dispatch, params}) {
-    return dispatch(getMemo(params.title))
+    return dispatch(getMemo(params.path))
   }
   componentWillMount() {
     this.constructor.loadProps(this.props)
@@ -62,6 +62,6 @@ class MemoShow extends Component {
 
 
 export default connect((state, ownProps) => ({
-  memo: findMemo(state.memo.detail.items, ownProps.params.title) || {},
+  memo: findMemo(state.memo.detail.items, ownProps.params.path) || {},
   session: state.session,
 }))(MemoShow)

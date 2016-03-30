@@ -21,6 +21,8 @@ export function fetchMemos() {
         items: res.data,
       })
       return res.data
+    }, error => {
+      dispatch(hideLoader())
     })
   }
 }
@@ -37,18 +39,18 @@ export function getMemos() {
 }
 
 
-export function failToFetchMemo(idOrTitle) {
+export function failToFetchMemo(path) {
   return {
     type: FAIL_TO_FETCH_MEMO,
-    noMatched: idOrTitle,
+    noMatched: path,
   }
 }
 
 
-export function fetchMemo(idOrTitle) {
+export function fetchMemo(path) {
   return (dispatch)=> {
     dispatch(showLoader())
-    return Http().get(`/api/memos/${idOrTitle}`)
+    return Http().get(`/api/memos/${path}`)
     .then(res => {
       const memo = res.data
       dispatch(hideLoader())
@@ -59,22 +61,21 @@ export function fetchMemo(idOrTitle) {
       return memo
     }, error => {
       dispatch(hideLoader())
-      dispatch(failToFetchMemo(idOrTitle))
+      dispatch(failToFetchMemo(path))
     })
   }
 }
 
-export function getMemo(idOrTitle) {
+export function getMemo(path) {
   return (dispatch, getState)=> {
     const state = getState().memo.detail
-    console.log(state)
-    const memo = findMemo(state.items, idOrTitle)
-    const notMathed = state.noMatches.indexOf(idOrTitle) > -1
+    const memo = findMemo(state.items, path)
+    const notMathed = state.noMatches.indexOf(path) > -1
 
     if (memo || notMathed) {
       return Promise.resolve(memo)
     } else {
-      return dispatch(fetchMemo(idOrTitle))
+      return dispatch(fetchMemo(path))
     }
   }
 }

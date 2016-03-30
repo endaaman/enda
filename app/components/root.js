@@ -1,7 +1,10 @@
 import React, {Component} from 'react'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
+
 import Loader from './loader'
+import Header from './header'
+import Footer from './footer'
 
 import { getGoogleFontsHref } from '../util'
 import { check } from '../actions/session'
@@ -28,7 +31,7 @@ class Root extends Component {
       { name: 'twitter:site', content: '@endaaman' },
       { name: 'twitter:image', content: icon },
       { property: 'og:image', content: icon },
-      
+
       { name: 'description', content: desc },
       { name: 'twitter:description', content: desc },
       { property: 'og:description', content: desc },
@@ -43,7 +46,9 @@ class Root extends Component {
           ]}
           meta={metas}
         />
+        <Header />
         {this.props.children}
+        <Footer />
         <Loader />
       </div>
     )

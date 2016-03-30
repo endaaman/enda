@@ -26,13 +26,13 @@ export function getGoogleFontsHref(fonts) {
   return '//fonts.googleapis.com/css?family=' + family
 }
 
-export function findMemo(memos, idOrTitle, failResult = null) {
+export function findMemo(memos, path, failResult = null) {
   const result = memos.find((memo)=> {
     let found = false
-    if (idOrTitle === memo.title) {
+    if (path === memo.title) {
       found = true
     }
-    if (idOrTitle === memo._id) {
+    if (path === memo._id) {
       found = true
     }
     return found

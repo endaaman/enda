@@ -24,7 +24,7 @@ class MemoShow extends Component {
     }
   }
   static loadProps({ dispatch, params }) {
-    return dispatch(getMemo(params.title))
+    return dispatch(getMemo(params.path))
   }
   componentWillMount() {
     this.constructor.loadProps(this.props)
@@ -60,49 +60,43 @@ class MemoShow extends Component {
     }
   }
   render() {
-    const memo = this.props.memo
-    if (this.state.notFound) {
-      console.log('404')
-      return (<NoMacth />)
-    }
-    return (
-      <Root>
-        <Helmet
-          title={memo.title}
-          meta={[
-            { name: 'description', content: memo.description },
-            { name: 'twitter:description', content: memo.description },
-            { property: 'og:description', content: memo.description },
-          ]}
-        />
-        <Header />
-        <article>
-          <header className={styles.header}>
-            <Container>
-              <h1 className={styles.title}>
-                <Link to={this.getHref()}>{memo.title}</Link>
-              </h1>
-              <div className={styles.date}>
-                <span>{this.dateFormat(memo.created_at)}</span>
-                <span> </span>
-                { this.props.session.user
-                    ? <Link to={`/memos/${memo._id}/edit`}>edit</Link>
-                    : null
-                }
-              </div>
-            </Container>
-          </header>
+    const fail = <NotFound />
+    const ok = (
+      <div>
+        <header className={styles.header}>
           <Container>
-            <div dangerouslySetInnerHTML={this.getContentHtml()} />
+            <h1 className={styles.title}>
+              <Link to={this.getHref()}>{memo.title}</Link>
+            </h1>
+            <div className={styles.date}>
+              <span>{this.dateFormat(memo.created_at)}</span>
+              <span> </span>
+              { this.props.session.user
+                  ? <Link to={`/memos/${memo._id}/edit`}>edit</Link>
+                  : null
+              }
+            </div>
           </Container>
-        </article>
-        <Footer />
-      </Root>
+        </header>
+        <Container>
+          <div dangerouslySetInnerHTML={this.getContentHtml()} />
+        </Container>
+      </div>
+    )
+
+    return (
+      <article>
+        { this.props.notFound
+          ? fail
+          : ok
+        }
+      </article>
     )
   }
 }
 
 export default connect((state, ownProps) => ({
-  memo: findMemo(state.memo.detail.items, ownProps.params.title) || {},
+  memo: findMemo(state.memo.detail.items, ownProps.params.path) || {},
+  notFound: state.memo.detail.noMatches.indexOf(ownProps.params.path) < 0,
   session: state.session,
 }))(MemoShow)

@@ -40,7 +40,6 @@ export default function(req, res, onError) {
       const store = configureStore({})
 
       const render = ()=> {
-        console.log('rendering..')
         const provider = $(Provider, {store: store}, $(RouterContext, renderProps))
         const initialState = store.getState()
 
@@ -73,10 +72,8 @@ export default function(req, res, onError) {
         dispatch: store.dispatch,
         params: renderProps.params,
       }
-      console.log('start')
       const promises = renderProps.components.map(c => {
         const hasLoadProps = c && c.loadProps && typeof c.loadProps === 'function'
-        console.log(hasLoadProps)
         return hasLoadProps
           ? c.loadProps(params)
           : Promise.resolve()

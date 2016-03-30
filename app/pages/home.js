@@ -53,17 +53,15 @@ class Home extends Component {
   }
   render() {
     return (
-      <Root>
+      <article>
         <Helmet
           title="Home"
         />
-        <Header />
         <Container>
           <p><Link to="/memos/aaaaa">404</Link></p>
           <MemoList memos={this.props.memos} />
         </Container>
-        <Footer />
-      </Root>
+      </article>
     )
   }
 }

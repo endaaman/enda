@@ -8,6 +8,7 @@ import Footer from './footer'
 
 import { getGoogleFontsHref } from '../util'
 import { check } from '../actions/session'
+import { addHistory } from '../actions/history'
 
 import styles from '../styles/root.css'
 import icon from '../assets/endaaman.png'
@@ -19,9 +20,23 @@ const fonts = {
 }
 
 class Root extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showBackButton: false
+    }
+  }
   componentDidMount() {
     this.props.dispatch(check())
   }
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props.location.pathname)
+    addHistory(this.props.location.pathname)
+    // var routeChanged = nextProps.location !== this.props.location
+    // console.log(routeChanged)
+    // this.setState({ showBackButton: routeChanged })
+  }
+
   render() {
     const desc = '@endaaman\'s website'
     const metas = [
@@ -55,4 +70,6 @@ class Root extends Component {
   }
 }
 
-export default connect()(Root)
+export default connect((state)=>({
+  prevHref: state.history.last
+}))(Root)

@@ -16,6 +16,7 @@ function validate(values) {
 
 class MemoForm extends Component {
   componentWillMount() {
+    console.log('mount')
     let { title, draft, digest, content } = this.props.memo
     this.props.initializeForm({ title, draft, digest, content })
   }
@@ -26,7 +27,7 @@ class MemoForm extends Component {
         <Text field={title} placeholder="title" />
         <Text field={digest} placeholder="digest" />
         <Checkbox field={draft} label="draft" id="draft" />
-        {/*<Editor field={content} />*/}
+        <Editor field={content} placeholder="content" />
         <button onClick={handleSubmit}>Submit</button>
       </form>
     )

@@ -45,9 +45,9 @@ $border-active-color: #373;
   }
 }
 
-/*.editor {
+.editor {
   margin: 8px 0;
-  & > div {
+  & > textarea {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -62,8 +62,13 @@ $border-active-color: #373;
     border: solid 1px $border-color;
     border-radius: 2px;
     background-color: #fff;
+
+    min-height: 320px;
+
+    @mixin placeholder-color $border-color;
+
   }
-}*/
+}
 
 
 $toggler-outer-size: 16px;

@@ -1,8 +1,5 @@
 import React, {Component} from 'react'
-import uuid from 'node-uuid'
-
-import { Editor as Draft, EditorState} from 'draft-js'
-
+import Textarea from 'react-textarea-autosize'
 
 import styles from '../styles/controls.css'
 
@@ -51,17 +48,13 @@ export class Checkbox extends Component {
 }
 
 export class Editor extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {editorState: EditorState.createEmpty()};
-    this.onChange = (editorState) => this.setState({editorState});
-  }
   render() {
     const { field } = this.props
-    const {editorState} = this.state;
     return (
       <div className={styles.editor}>
-        <Draft editorState={editorState} onChange={this.onChange} />
+        <Textarea
+          {...field}
+          placeholder={this.props.placeholder}></Textarea>
       </div>
     )
   }

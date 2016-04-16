@@ -3,10 +3,7 @@ import { Link } from 'react-router'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 
-import Root from '../components/root'
 import Container from '../components/container'
-import Header from '../components/header'
-import Footer from '../components/footer'
 
 import LoginForm from '../forms/login'
 import { login } from '../actions/session'
@@ -24,16 +21,10 @@ class Login extends Component {
   }
   render() {
     return (
-      <Root>
-        <Helmet
-          title="Login"
-          meta={[
-            { name: 'robots', content: 'nofollow, noindex' },
-          ]}
-        />
-        <Header />
+      <article>
         <Container>
           <h1>Login</h1>
+          <pre><code>{JSON.stringify(this.props.router, 0, 4)}</code></pre>
           <p>※俺用</p>
           { this.props.active
               ? (
@@ -44,13 +35,13 @@ class Login extends Component {
           }
           <LoginForm disabled={this.props.active} onSubmit={this.onSubmit.bind(this)}/>
         </Container>
-        <Footer />
-      </Root>
+      </article>
     )
   }
 }
 
 
-export default connect(state =>({
-  active: !!state.session.user
+export default connect((state, ownProps) =>({
+  active: !!state.session.user,
+  router: ownProps
 }))(Login)

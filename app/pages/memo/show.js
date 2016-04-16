@@ -4,12 +4,10 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import marked from 'marked'
 
-import NoMacth from '../404'
+import NoMacth from '../no_match'
 
-import Root from '../../components/root'
-import Header from '../../components/header'
 import Container from '../../components/container'
-import Footer from '../../components/footer'
+import NotFound from '../../components/not_found'
 
 import { getMemo } from '../../actions/memo'
 import { findMemo } from '../../util'
@@ -17,25 +15,13 @@ import { findMemo } from '../../util'
 import styles from '../../styles/memo.css'
 
 class MemoShow extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      notFound: false
-    }
-  }
   static loadProps({ dispatch, params }) {
     return dispatch(getMemo(params.path))
   }
   componentWillMount() {
     this.constructor.loadProps(this.props)
-    .then((memo)=> {
-      if (!memo) {
-        this.setState({
-          notFound: true
-        })
-      }
-    })
   }
+
   getHref() {
     const l = this.props.location
     const search = l.search
@@ -60,8 +46,7 @@ class MemoShow extends Component {
     }
   }
   render() {
-    const fail = <NotFound />
-    const ok = (
+    const ok = memo => (
       <div>
         <header className={styles.header}>
           <Container>
@@ -83,12 +68,15 @@ class MemoShow extends Component {
         </Container>
       </div>
     )
+    const memo = this.props.memo
 
     return (
       <article>
         { this.props.notFound
-          ? fail
-          : ok
+          ? (<NotFound />)
+          : memo
+            ? ok(memo)
+            : null
         }
       </article>
     )
@@ -96,7 +84,7 @@ class MemoShow extends Component {
 }
 
 export default connect((state, ownProps) => ({
-  memo: findMemo(state.memo.detail.items, ownProps.params.path) || {},
-  notFound: state.memo.detail.noMatches.indexOf(ownProps.params.path) < 0,
+  memo: findMemo(state.memo.detail.items, ownProps.params.path),
+  notFound: state.memo.detail.noMatches.indexOf(ownProps.params.path) > -1,
   session: state.session,
 }))(MemoShow)

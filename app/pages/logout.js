@@ -22,14 +22,7 @@ class Logout extends Component {
   }
   render() {
     return (
-      <Root>
-        <Helmet
-          title="Logout"
-          meta={[
-            { name: 'robots', content: 'nofollow, noindex' },
-          ]}
-        />
-        <Header />
+      <article>
         <Container>
           <h1>Logout</h1>
           { !this.props.active
@@ -41,8 +34,7 @@ class Logout extends Component {
           }
           <Button disabled={!this.props.active} onClick={this.logout.bind(this)}>Logout</Button>
         </Container>
-        <Footer />
-      </Root>
+      </article>
     )
   }
 }

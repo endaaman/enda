@@ -14,6 +14,9 @@ import { getMemos } from '../actions/memo'
 import styles from '../styles/home.css'
 
 
+import { showToast } from '../actions/toast'
+
+
 class MemoList extends Component {
   dateFormat(date) {
     const _d = new Date(date)
@@ -58,7 +61,11 @@ class Home extends Component {
           title="Home"
         />
         <Container>
-          <p><Link to="/memos/aaaaa">404</Link></p>
+          {/*<ul>
+            <li><Link to="/memos/aaaaa">404</Link></li>
+            <li><button onClick={this.toast.bind(this)}>toast</button></li>
+          </ul>*/}
+
           <MemoList memos={this.props.memos} />
         </Container>
       </article>
@@ -66,8 +73,6 @@ class Home extends Component {
   }
 }
 
-export default connect(state => {
-  return {
-    memos: state.memo.list.items
-  }
-})(Home)
+export default connect(state => ({
+  memos: state.memo.list.items
+}))(Home)

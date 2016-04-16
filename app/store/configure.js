@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { createHistory } from 'history'
-import promiseMiddleware from 'redux-promise'
 import combinedReducer from '../reducers/combined'
 
 import { isOnServer } from '../util'

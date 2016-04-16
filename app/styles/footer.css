@@ -1,36 +1,45 @@
 $footerHeight: 32px;
 
 .footer {
-    background-color: #2C363F;
-    position: absolute;
-    bottom: 0;
-    padding-right: 8px;
-    width: 100%;
-    height: $footerHeight;
+  background-color: #2C363F;
+  position: absolute;
+  bottom: 0;
+  padding-right: 8px;
+  width: 100%;
+  height: $footerHeight;
 }
 
 .footerShadow {
-    width: 100%;
-    height: $footerHeight;
+  width: 100%;
+  height: $footerHeight;
 }
 
 .rightItem, .leftItem {
-    color: #aaa;
-    line-height: $footerHeight;
-    font-size: 14px;
+  color: #aaa;
+  line-height: $footerHeight;
+  font-size: 14px;
 }
 
 .rightItem {
-    margin-right: 8px;
-    float: right;
-    text-align: right;
-    font-style: italic;
+  margin-right: 8px;
+  float: right;
+  text-align: right;
+  font-style: italic;
 }
 
 .leftItem {
-    margin-left: 8px;
-    a {
-        color: inherit;
-        text-decoration: none;
-    }
+  margin-left: 8px;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    float: left;
+    margin-right: 16px;
+  }
 }

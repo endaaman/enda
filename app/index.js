@@ -13,10 +13,8 @@ import reducer from './reducers/combined'
 import './styles/global.css'
 
 const rootDom = document.getElementById('app')
-
-let initialState = window.__initial_state__ || {}
-
-let store = configureStore(initialState)
+const initialState = window.__initial_state__ || {}
+const store = configureStore(initialState)
 const history = syncHistoryWithStore(browserHistory, store)
 
 match({ routes, history }, (error, redirectLocation, renderProps) => {

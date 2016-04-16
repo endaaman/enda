@@ -2,13 +2,13 @@ import React, {Component} from 'react'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 
-import Loader from './loader'
 import Header from './header'
 import Footer from './footer'
+import Loader from './loader'
+import Toast from './toast'
 
 import { getGoogleFontsHref } from '../util'
 import { check } from '../actions/session'
-import { addHistory } from '../actions/history'
 
 import styles from '../styles/root.css'
 import icon from '../assets/endaaman.png'
@@ -26,15 +26,9 @@ class Root extends Component {
       showBackButton: false
     }
   }
+
   componentDidMount() {
     this.props.dispatch(check())
-  }
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props.location.pathname)
-    addHistory(this.props.location.pathname)
-    // var routeChanged = nextProps.location !== this.props.location
-    // console.log(routeChanged)
-    // this.setState({ showBackButton: routeChanged })
   }
 
   render() {
@@ -65,11 +59,10 @@ class Root extends Component {
         {this.props.children}
         <Footer />
         <Loader />
+        <Toast />
       </div>
     )
   }
 }
 
-export default connect((state)=>({
-  prevHref: state.history.last
-}))(Root)
+export default connect()(Root)

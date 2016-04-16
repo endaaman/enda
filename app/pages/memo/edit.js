@@ -10,10 +10,11 @@ import MemoForm from '../../forms/memo'
 
 import NoMacth from '../no_match'
 
-import { getMemo } from '../../actions/memo'
+import { getMemo, updateMemo } from '../../actions/memo'
+import { showToast } from '../../actions/toast'
 import { findMemo } from '../../util'
 
-class MemoShow extends Component {
+class MemoEdit extends Component {
   static loadProps({dispatch, params}) {
     return dispatch(getMemo(params.path))
   }
@@ -22,7 +23,13 @@ class MemoShow extends Component {
   }
 
   onSubmit(data) {
-    console.log(data)
+    const { dispatch } = this.props
+    dispatch(updateMemo(this.props.memo._id, data))
+    .then(()=> {
+      dispatch(showToast('ok'))
+    }, err => {
+      dispatch(showToast('failed'))
+    })
   }
   render() {
     const ok = (memo)=> (
@@ -50,4 +57,4 @@ export default connect((state, ownProps) => ({
   memo: findMemo(state.memo.detail.items, ownProps.params.path),
   notFound: state.memo.detail.noMatches.indexOf(ownProps.params.path) > -1,
   session: state.session,
-}))(MemoShow)
+}))(MemoEdit)

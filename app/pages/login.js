@@ -24,7 +24,6 @@ class Login extends Component {
       <article>
         <Container>
           <h1>Login</h1>
-          <pre><code>{JSON.stringify(this.props.router, 0, 4)}</code></pre>
           <p>※俺用</p>
           { this.props.active
               ? (

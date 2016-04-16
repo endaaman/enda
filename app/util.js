@@ -29,10 +29,10 @@ export function getGoogleFontsHref(fonts) {
 export function findMemo(memos, path, failResult = null) {
   const result = memos.find((memo)=> {
     let found = false
-    if (path === memo.title) {
+    if (path === memo._id) {
       found = true
     }
-    if (path === memo._id) {
+    if (path === memo.title) {
       found = true
     }
     return found

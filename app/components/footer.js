@@ -32,11 +32,17 @@ class Footer extends Component {
             <span>Built at {this.state.builtAt}</span>
           </div>
           <div className={styles.leftItem}>
-            <span>
-              <Link to={active ? '/logout' : '/login'}>
-                {active ? 'Logout' : 'Login'}
-              </Link>
-              </span>
+            <ul>
+              <li>
+                <Link to={active ? '/logout' : '/login'}>
+                  {active ? 'Logout' : 'Login'}
+                </Link>
+              </li>
+              { active
+                  ? <li><Link to="/memos/new">new memo</Link></li>
+                  : null
+              }
+            </ul>
           </div>
         </div>
       </footer>

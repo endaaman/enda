@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 
-import { Text, Checkbox, Editor } from '../components/controls'
+import { Text, Checkbox, Editor, Button } from '../components/controls'
 
 function validate(values) {
   const errors = {}
@@ -16,8 +16,12 @@ function validate(values) {
 
 class MemoForm extends Component {
   componentWillMount() {
-    console.log('mount')
-    let { title, draft, digest, content } = this.props.memo
+    let {
+      title = '',
+      draft = '',
+      digest = '',
+      content = '',
+    } = this.props.memo
     this.props.initializeForm({ title, draft, digest, content })
   }
   render() {
@@ -28,7 +32,7 @@ class MemoForm extends Component {
         <Text field={digest} placeholder="digest" />
         <Checkbox field={draft} label="draft" id="draft" />
         <Editor field={content} placeholder="content" />
-        <button onClick={handleSubmit}>Submit</button>
+        <Button onClick={handleSubmit}>Save</Button>
       </form>
     )
   }

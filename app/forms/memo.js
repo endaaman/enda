@@ -4,6 +4,9 @@ import { reduxForm } from 'redux-form'
 
 import { Text, Checkbox, Editor, Button } from '../components/controls'
 
+import { listInline } from '../styles/utils.css'
+
+
 function validate(values) {
   const errors = {}
   if (!values.title) {
@@ -25,7 +28,7 @@ class MemoForm extends Component {
     this.props.initializeForm({ title, draft, digest, content })
   }
   render() {
-    const { fields: {title, digest, draft, content}, handleSubmit } = this.props
+    const { fields: { title, digest, draft, content }, handleSubmit } = this.props
     return (
       <form onSubmit={handleSubmit}>
         <Text field={title} placeholder="title" />

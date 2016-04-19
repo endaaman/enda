@@ -34,6 +34,9 @@ class MemoEdit extends Component {
   render() {
     const ok = (memo)=> (
       <Container>
+        <p>
+          <Link to={`/memos/${memo.title}`}>Back to memo</Link>
+        </p>
         <MemoForm onSubmit={this.onSubmit.bind(this)} memo={memo}/>
       </Container>
     )

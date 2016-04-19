@@ -7,19 +7,57 @@ import marked from 'marked'
 import NoMacth from '../no_match'
 
 import Container from '../../components/container'
+import Modal from '../../components/modal'
 import NotFound from '../../components/not_found'
 
-import { getMemo } from '../../actions/memo'
+import { showToast} from '../../actions/toast'
+import { getMemo, deleteMemo } from '../../actions/memo'
 import { findMemo } from '../../util'
 
 import styles from '../../styles/memo.css'
 
 class MemoShow extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
   static loadProps({ dispatch, params }) {
     return dispatch(getMemo(params.path))
   }
   componentWillMount() {
     this.constructor.loadProps(this.props)
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      modalIsOpen: false
+    }
+  }
+
+  openModal(e) {
+    e.preventDefault()
+    this.setState({
+      modalIsOpen: true
+    })
+  }
+
+  closeModal(e) {
+    e.preventDefault()
+    this.setState({
+      modalIsOpen: false
+    })
+  }
+
+  deleteMemo() {
+    const { dispatch } = this.props
+    const title = this.props.memo.title
+    dispatch(deleteMemo(this.props.memo._id))
+    .then(()=> {
+      dispatch(showToast(`deleted "${title}"`))
+      this.context.router.push('/')
+    }, ()=> {
+      dispatch(showToast('something wrong'))
+    })
   }
 
   getHref() {
@@ -55,9 +93,13 @@ class MemoShow extends Component {
             </h1>
             <div className={styles.date}>
               <span>{this.dateFormat(memo.created_at)}</span>
-              <span> </span>
               { this.props.session.user
-                  ? <Link to={`/memos/${memo._id}/edit`}>edit</Link>
+                  ? <span>
+                    <span> </span>
+                    <Link to={`/memos/${memo._id}/edit`}>edit</Link>
+                    <span> </span>
+                    <a onClick={this.openModal.bind(this)} href="#">delete</a>
+                  </span>
                   : null
               }
             </div>
@@ -66,6 +108,12 @@ class MemoShow extends Component {
         <Container>
           <div dangerouslySetInnerHTML={this.getContentHtml()} />
         </Container>
+        <Modal
+          isOpen={this.state.modalIsOpen}>
+          <button onClick={this.deleteMemo.bind(this)}>delete</button>
+          <span> </span>
+          <button onClick={this.closeModal.bind(this)}>close</button>
+        </Modal>
       </div>
     )
     const memo = this.props.memo

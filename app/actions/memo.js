@@ -8,6 +8,10 @@ export const DROP_MEMOLIST = Symbol()
 export const START_FETCHING_MEMO = Symbol()
 export const RECIEVE_MEMO = Symbol()
 export const FAIL_TO_FETCH_MEMO = Symbol()
+export const ADD_MEMO = Symbol()
+export const SET_MEMO = Symbol()
+export const DELETE_MEMO = Symbol()
+
 
 
 export function dropMemos() {
@@ -66,8 +70,8 @@ export function fetchMemo(path) {
       })
       return memo
     }, error => {
-      dispatch(hideLoader())
       dispatch(failToFetchMemo(path))
+      dispatch(hideLoader())
     })
   }
 }
@@ -88,29 +92,55 @@ export function getMemo(path) {
 }
 
 
+export function deleteMemo(id) {
+  return (dispatch, getState)=> {
+    dispatch(showLoader())
+    return Http().delete(`/api/memos/${id}`)
+    .then(() => {
+      dispatch(dropMemos())
+      dispatch(hideLoader())
+      dispatch({
+        type: DELETE_MEMO,
+        id: id,
+      })
+    }, error => {
+      dispatch(hideLoader())
+    })
+  }
+}
+
+
 function uploadMemo(id, memo) {
   return (dispatch, getState)=> {
     dispatch(showLoader())
+
+    const updating = !!id
     return Http().request({
-      method: id ? 'PATCH' : 'POST',
-      url:  id ? `/api/memos/${id}` : '/api/memos',
+      method: updating ? 'PATCH' : 'POST',
+      url:  updating ? `/api/memos/${id}` : '/api/memos',
       data: memo,
     }).then(res => {
       const memo = res.data
       dispatch(dropMemos())
       dispatch(hideLoader())
-      dispatch({
-        type: RECIEVE_MEMO,
-        item: memo,
-      })
+      if (updating) {
+        dispatch({
+          type: SET_MEMO,
+          item: memo,
+        })
+      } else {
+        dispatch({
+          type: ADD_MEMO,
+          item: memo,
+        })
+      }
       return memo
     }, error => {
       dispatch(hideLoader())
-      dispatch(failToFetchMemo(path))
+      // dispatch(failToFetchMemo(path))
     })
   }
 }
-
 
 
 export function createMemo(memo) {

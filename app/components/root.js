@@ -20,13 +20,6 @@ const fonts = {
 }
 
 class Root extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      showBackButton: false
-    }
-  }
-
   componentDidMount() {
     this.props.dispatch(check())
   }

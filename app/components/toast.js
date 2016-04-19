@@ -9,7 +9,6 @@ import styles from '../styles/toast.css'
 
 class Toast extends Component {
   hide() {
-    console.log(this.props.active)
     this.props.dispatch(hideToast())
   }
 

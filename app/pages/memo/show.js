@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
-import marked from 'marked'
+// import marked from 'marked'
+import MarkdownComponent from 'react-markdown'
 
 import NoMacth from '../no_match'
 
@@ -12,9 +13,10 @@ import NotFound from '../../components/not_found'
 
 import { showToast} from '../../actions/toast'
 import { getMemo, deleteMemo } from '../../actions/memo'
-import { findMemo } from '../../util'
+import { findMemo, getMarkdownRenderers } from '../../util'
 
 import styles from '../../styles/memo.css'
+
 
 class MemoShow extends Component {
   static contextTypes = {
@@ -55,18 +57,11 @@ class MemoShow extends Component {
     .then(()=> {
       dispatch(showToast(`deleted "${title}"`))
       this.context.router.push('/')
-    }, ()=> {
-      dispatch(showToast('something wrong'))
+    }, err => {
+      dispatch(showToast('Something wrong'))
     })
   }
 
-  getHref() {
-    const l = this.props.location
-    const search = l.search
-      ? '?' + l.search
-      : ''
-    return `${l.pathname}${search}`
-  }
   dateFormat(date) {
     const _d = new Date(date)
     const y = _d.getFullYear()
@@ -74,22 +69,30 @@ class MemoShow extends Component {
     const d = _d.getDate() + 1
     return `${y}年${m}月${d}日`
   }
+
   getContentHtml() {
-    let html = ''
-    if (this.props.memo.content) {
-      html = marked(this.props.memo.content)
-    }
+    const html = marked(this.props.memo.content)
     return {
       __html: html
     }
   }
+
   render() {
-    const ok = memo => (
-      <div>
+    const ok = memo => {
+      const metas = [
+        // { name: 'twitter:image', content: icon },
+        // { property: 'og:image', content: icon },
+        { name: 'description', content: memo.digest },
+        { name: 'twitter:description', content: memo.digest },
+        { property: 'og:description', content: memo.digest },
+      ]
+
+      return (<div>
+        <Helmet title={memo.title} meta={metas} />
         <header className={styles.header}>
           <Container>
             <h1 className={styles.title}>
-              <Link to={this.getHref()}>{memo.title}</Link>
+              <Link to={this.props.location.pathname}>{memo.title}</Link>
             </h1>
             <div className={styles.date}>
               <span>{this.dateFormat(memo.created_at)}</span>
@@ -106,7 +109,7 @@ class MemoShow extends Component {
           </Container>
         </header>
         <Container>
-          <div dangerouslySetInnerHTML={this.getContentHtml()} />
+          <MarkdownComponent source={memo.content} renderers={getMarkdownRenderers()}/>
         </Container>
         <Modal
           isOpen={this.state.modalIsOpen}>
@@ -114,8 +117,8 @@ class MemoShow extends Component {
           <span> </span>
           <button onClick={this.closeModal.bind(this)}>close</button>
         </Modal>
-      </div>
-    )
+      </div>)
+    }
     const memo = this.props.memo
 
     return (

@@ -39,17 +39,18 @@ module.exports = function(production, devServer){
   config.module = {
     loaders: [
       {
+        test: /\.json$/,
+        loader: 'json'
+      }, {
         test: webpack_isomorphic_tools_plugin.regular_expression('images'),
         loader: 'file'
-      },
-      {
+      }, {
         test: /.css$/,
         loader:
           ExtractTextPlugin.extract(
             'css?sourceMap&importLoaders=1&modules&localIdentName=[hash:base64:5]!postcss'
           )
-      },
-      {
+      }, {
         test: /.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,

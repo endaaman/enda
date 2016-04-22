@@ -33,7 +33,7 @@ class MemoList extends Component {
         {
           memos.map(memo => (
             <li className={styles.memoItem} key={memo._id}>
-              <Link to={`/memos/${memo.title}`}>
+              <Link to={`/memo/${memo.title}`}>
                 <h3>{memo.title}</h3>
                 <footer>{this.dateFormat(memo.created_at)}</footer>
               </Link>
@@ -60,12 +60,18 @@ class Home extends Component {
         <Helmet
           title="Home"
         />
+        { this.props.active
+            ? (<Container>
+              <h2>管理</h2>
+              <ul>
+                <li><Link to="/memo/new">Add memo</Link></li>
+                <li><Link to="/file">Manage files</Link></li>
+              </ul>
+            </Container>)
+            : null
+        }
         <Container>
-          {/*<ul>
-            <li><Link to="/memos/aaaaa">404</Link></li>
-            <li><button onClick={this.toast.bind(this)}>toast</button></li>
-          </ul>*/}
-
+          <h2>メモ</h2>
           <MemoList memos={this.props.memos} />
         </Container>
       </article>
@@ -74,5 +80,6 @@ class Home extends Component {
 }
 
 export default connect(state => ({
-  memos: state.memo.list.items
+  memos: state.memo.list.items,
+  active: !!state.session.user,
 }))(Home)

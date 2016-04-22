@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
-// import marked from 'marked'
+import dateFormat from 'dateformat'
 import MarkdownComponent from 'react-markdown'
 
 import NoMacth from '../no_match'
@@ -10,6 +10,7 @@ import NoMacth from '../no_match'
 import Container from '../../components/container'
 import Modal from '../../components/modal'
 import NotFound from '../../components/not_found'
+import { Button } from '../../components/controls'
 
 import { showToast} from '../../actions/toast'
 import { getMemo, deleteMemo } from '../../actions/memo'
@@ -44,7 +45,9 @@ class MemoShow extends Component {
   }
 
   closeModal(e) {
-    e.preventDefault()
+    if (e) {
+      e.preventDefault()
+    }
     this.setState({
       modalIsOpen: false
     })
@@ -62,20 +65,6 @@ class MemoShow extends Component {
     })
   }
 
-  dateFormat(date) {
-    const _d = new Date(date)
-    const y = _d.getFullYear()
-    const m = _d.getMonth()
-    const d = _d.getDate() + 1
-    return `${y}年${m}月${d}日`
-  }
-
-  getContentHtml() {
-    const html = marked(this.props.memo.content)
-    return {
-      __html: html
-    }
-  }
 
   render() {
     const ok = memo => {
@@ -95,11 +84,11 @@ class MemoShow extends Component {
               <Link to={this.props.location.pathname}>{memo.title}</Link>
             </h1>
             <div className={styles.date}>
-              <span>{this.dateFormat(memo.created_at)}</span>
+              <span>{dateFormat(memo.created_at, 'yyyy年m月d日')}</span>
               { this.props.session.user
                   ? <span>
                     <span> </span>
-                    <Link to={`/memos/${memo._id}/edit`}>edit</Link>
+                    <Link to={`/memo/${memo._id}/edit`}>edit</Link>
                     <span> </span>
                     <a onClick={this.openModal.bind(this)} href="#">delete</a>
                   </span>
@@ -112,10 +101,11 @@ class MemoShow extends Component {
           <MarkdownComponent source={memo.content} renderers={getMarkdownRenderers()}/>
         </Container>
         <Modal
-          isOpen={this.state.modalIsOpen}>
-          <button onClick={this.deleteMemo.bind(this)}>delete</button>
-          <span> </span>
-          <button onClick={this.closeModal.bind(this)}>close</button>
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal.bind(this)}
+          >
+          <p>Are you sure to delete <strong>{memo.title}</strong> ?</p>
+          <Button onClick={this.deleteMemo.bind(this)}>delete</Button>
         </Modal>
       </div>)
     }

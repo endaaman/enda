@@ -1,3 +1,8 @@
+
+
 .codeBlock {
-  /*composes: * from "highlight.js/styles/vs.css";*/
+  :global {
+    /* NOTE: wait the `path` option implemented on 'postcss-partial-import' */
+    @import '../../node_modules/highlight.js/styles/solarized-dark.css';
+  }
 }

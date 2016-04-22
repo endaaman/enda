@@ -15,6 +15,9 @@ import { showToast } from '../../actions/toast'
 import { findMemo } from '../../util'
 
 class MemoEdit extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
   static loadProps({dispatch, params}) {
     return dispatch(getMemo(params.path))
   }
@@ -23,10 +26,11 @@ class MemoEdit extends Component {
   }
 
   onSubmit(data) {
-    const { dispatch } = this.props
-    dispatch(updateMemo(this.props.memo._id, data))
-    .then(()=> {
+    const { dispatch, memo } = this.props
+    dispatch(updateMemo(memo._id, data))
+    .then((newMemo)=> {
       dispatch(showToast('ok'))
+      this.context.router.push(`/memo/${newMemo.title}`)
     }, err => {
       dispatch(showToast('failed'))
     })
@@ -35,7 +39,7 @@ class MemoEdit extends Component {
     const ok = (memo)=> (
       <Container>
         <p>
-          <Link to={`/memos/${memo.title}`}>Back to memo</Link>
+          <Link to={`/memo/${memo.title}`}>Back to memo</Link>
         </p>
         <MemoForm onSubmit={this.onSubmit.bind(this)} memo={memo}/>
       </Container>

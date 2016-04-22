@@ -3,7 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import hljs from 'highlight.js'
 
 import styles from '../styles/code_block.css'
-console.log(styles)
+
 
 class CodeBlock extends Component{
   static propTypes: {
@@ -30,7 +30,7 @@ class CodeBlock extends Component{
 
   render () {
     return (
-      <pre>
+      <pre className={styles.codeBlock}>
           <code ref="code" className={this.props.language}>{this.props.literal}</code>
       </pre>
     )

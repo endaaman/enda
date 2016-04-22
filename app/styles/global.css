@@ -1,8 +1,7 @@
-/*@import "highlight.js/styles/vs.css"*/
+
 
 :global {
-  @import "./variables.css";
-
+  @import './variables.css';
   * {
     box-sizing: border-box;
     &:before, &:after {
@@ -18,12 +17,15 @@
   }
 
   body {
-    /*font-family: Ubuntu, 'Helvetica Neue', "Hiragino Kaku Gothic ProN", Meiryo, Arial, sans-serif;*/
     @mixin sans-serif;
 
     color: #111;
     background-color: #D6DBD2;
     font-size: 14px;
+  }
+
+  code {
+    @mixin monospace;
   }
 
   #app {
@@ -39,4 +41,24 @@
     font-size: inherit;
     line-height: inherit;
   }
+  ul, ol {
+    padding-left: 18px;
+  }
+
+  ul, ol {
+    &.inline {
+      list-style: none;
+      overflow: hidden;
+      padding-left: 0;
+      li {
+        float: left;
+        padding: 0;
+        margin-left: 8px;
+      }
+      li:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+
 }

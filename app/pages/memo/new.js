@@ -19,7 +19,7 @@ class MemoEdit extends Component {
   onSubmit(data) {
     this.props.dispatch(createMemo(data))
     .then((memo)=> {
-      this.context.router.push(`/memos/${memo.title}`)
+      this.context.router.push(`/memo/${memo.title}`)
     })
   }
   render() {

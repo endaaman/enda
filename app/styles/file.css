@@ -1,0 +1,30 @@
+.fileList {
+  overflow-x: auto;
+  table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+
+    thead {
+      tr {
+        border-bottom: solid 1px #111;
+      }
+    }
+
+    td, th {
+      padding: 6px 8px;
+      white-space: nowrap;
+    }
+
+    th {
+        word-break: keep-all;
+        text-align: center;
+    }
+
+    tr {
+      word-break: normal;
+      border-bottom: solid 1px #333;
+    }
+  }
+}

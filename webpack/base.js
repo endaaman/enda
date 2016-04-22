@@ -48,7 +48,7 @@ module.exports = function(production, devServer){
         test: /.css$/,
         loader:
           ExtractTextPlugin.extract(
-            'css?sourceMap&importLoaders=1&modules&localIdentName=[hash:base64:5]!postcss'
+            'css?sourceMap&modules&localIdentName=[hash:base64:5]!postcss'
           )
       }, {
         test: /.jsx?$/,
@@ -64,12 +64,13 @@ module.exports = function(production, devServer){
       // require('postcss-import')({
       //   addDependencyTo: webpack
       // }),
+      require('precss')({
+        addDependencyTo: webpack
+      }),
       require('autoprefixer'),
-      require('precss'),
-      require('postcss-simple-vars'),
-      require('postcss-nested'),
-      require('postcss-current-selector'),
-      require('postcss-mixins'),
+      // require('postcss-simple-vars'),
+      // require('postcss-current-selector'),
+      // require('postcss-mixins'),
     ]
   }
 
@@ -125,6 +126,7 @@ module.exports = function(production, devServer){
     stats: { colors: true },
     proxy: {
       '/api/*': 'http://localhost:3000',
+      '/static/*': 'http://localhost:3000',
     },
   }
 

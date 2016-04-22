@@ -19,7 +19,7 @@ function validate(values) {
 
 class MemoForm extends Component {
   componentWillMount() {
-    let {
+    const {
       title = '',
       draft = '',
       digest = '',

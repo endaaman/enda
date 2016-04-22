@@ -7,6 +7,7 @@ import Home from './pages/home'
 import MemoShow from './pages/memo/show'
 import MemoEdit from './pages/memo/edit'
 import MemoNew from './pages/memo/new'
+import _File from './pages/file'
 import Login from './pages/login'
 import Logout from './pages/logout'
 import NoMatch from './pages/no_match'
@@ -18,10 +19,11 @@ export default (
     <IndexRoute component={Home} />
     <Route path='login' component={Login} />
     <Route path='logout' component={Logout} />
-    <Redirect from='memos' to='/' />
-    <Route path='memos/new' component={MemoNew} />
-    <Route path='memos/:path' component={MemoShow} />
-    <Route path='memos/:path/edit' component={MemoEdit} />
+    <Redirect from='memo' to='/' />
+    <Route path='memo/new' component={MemoNew} />
+    <Route path='memo/:path' component={MemoShow} />
+    <Route path='memo/:path/edit' component={MemoEdit} />
+    <Route path='file' component={_File} />
     <Route path='*' name='404' component={NoMatch} />
   </Route>
 )

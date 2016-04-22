@@ -23,7 +23,7 @@ class Footer extends Component {
     }
   }
   render() {
-    const active = !!this.props.session.user
+    const { active } = this.props
     return (
       <footer>
         <div className={styles.footerShadow}></div>
@@ -38,10 +38,6 @@ class Footer extends Component {
                   {active ? 'Logout' : 'Login'}
                 </Link>
               </li>
-              { active
-                  ? <li><Link to="/memos/new">new memo</Link></li>
-                  : null
-              }
             </ul>
           </div>
         </div>
@@ -53,5 +49,5 @@ class Footer extends Component {
 
 
 export default connect((state)=>({
-  session: state.session
+  active: !!state.session.user
 }))(Footer)

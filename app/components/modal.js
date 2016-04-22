@@ -12,7 +12,7 @@ class _Modal extends Component {
       <Modal
         {...this.props}
         className={styles.content}
-        outerClassName={styles.overlay}>
+        overlayClassName={styles.overlay}>
         {this.props.children}
       </Modal>
     )

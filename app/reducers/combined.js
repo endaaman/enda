@@ -7,6 +7,7 @@ import memoListReducer from './memo/list'
 import sessionReducer from './session'
 import loaderReducer from './loader'
 import toastReducer from './toast'
+import fileReducer from './file'
 
 
 export default combineReducers({
@@ -15,6 +16,7 @@ export default combineReducers({
 
   loader: loaderReducer,
   toast: toastReducer,
+  files: fileReducer,
   memo: combineReducers({
     detail: memoDetailReducer,
     list: memoListReducer,

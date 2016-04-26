@@ -12,7 +12,7 @@ import NoMacth from '../no_match'
 
 import { getMemo, updateMemo } from '../../actions/memo'
 import { showToast } from '../../actions/toast'
-import { findMemo } from '../../util'
+import { findMemo } from '../../utils'
 
 class MemoEdit extends Component {
   static contextTypes = {

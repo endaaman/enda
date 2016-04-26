@@ -1,4 +1,5 @@
 import Http from '../lib/http'
+import { getApiPath as api } from '../utils'
 
 export const CREATE_SESSION = Symbol()
 export const DELETE_SESSION = Symbol()
@@ -6,7 +7,7 @@ export const DELETE_SESSION = Symbol()
 
 export function login(payload) {
   return (dispatch)=> {
-    return Http().post('/api/session', payload)
+    return Http().post(`${api()}/session`, payload)
     .then(res => {
       localStorage.setItem('token', res.data.token)
       dispatch({
@@ -29,7 +30,7 @@ export function check() {
     if (state.user) {
       return
     }
-    return Http().get('/api/session', {
+    return Http().get(`${api()}/session`, {
     }).then(res => {
       dispatch({
         type: CREATE_SESSION,

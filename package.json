@@ -2,14 +2,13 @@
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --config webpack/server.js",
-    "server-dev": "node server/dev.js",
-    "server-prod": "node server/prod.js",
-    "build-dev": "webpack --config webpack/dev.js",
-    "build-prod": "webpack --config webpack/prod.js",
+    "serve": "node server",
+    "build": "webpack --config webpack/config.js",
+    "build-and-serve": "npm run build && npm run serve",
     "clean": "rm -rf build webpack-assets.json webpack-stats.json"
   },
   "dependencies": {
-    "axios": "^0.9.1",
+    "axios": "^0.10.0",
     "babel-plugin-syntax-decorators": "^6.5.0",
     "babel-plugin-transform-class-properties": "^6.6.0",
     "babel-polyfill": "^6.7.4",
@@ -21,6 +20,7 @@
     "express": "^4.13.4",
     "highlight.js": "^9.3.0",
     "history": "^2.0.2",
+    "http-proxy-middleware": "^0.14.0",
     "marked": "^0.3.5",
     "react": "^15.0.1",
     "react-addons-css-transition-group": "^15.0.1",

@@ -3,20 +3,22 @@ const path = require('path')
 const fs = require('fs')
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 
 
 const Webpack_isomorphic_tools_plugin =
   require('webpack-isomorphic-tools/plugin')
 const webpack_isomorphic_tools_configuration =
-  require('../webpack-isomorphic-tools')
+  require('./isomorphic-tools')
 var webpack_isomorphic_tools_plugin =
   new Webpack_isomorphic_tools_plugin(webpack_isomorphic_tools_configuration)
 
 const babelrc = JSON.parse(fs.readFileSync('./.babelrc'))
+const production = process.env.NODE_ENV === 'production'
 
+module.exports = (function(){
+  const config = {}
 
-module.exports = function(production, devServer){
   if (!production) {
     webpack_isomorphic_tools_plugin =
       webpack_isomorphic_tools_plugin.development()
@@ -28,9 +30,6 @@ module.exports = function(production, devServer){
     'process.env.NODE_ENV': production ? '"production"' : '"development"',
     'global.__BUILT_AT__': '' + Date.now()
   }
-
-
-  const config = {}
 
   if (!production) {
     config.devtool = '#inline-source-map'
@@ -106,15 +105,6 @@ module.exports = function(production, devServer){
     ])
   }
 
-  if (devServer) {
-    config.plugins.push(
-      new HtmlWebpackPlugin({
-        template: './app/index.html',
-        inject: 'body'
-      })
-    )
-  }
-
 
   config.devServer = {
     port: 8080,
@@ -131,4 +121,4 @@ module.exports = function(production, devServer){
   }
 
   return config
-}
+})()

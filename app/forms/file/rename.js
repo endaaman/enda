@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { reduxForm } from 'redux-form'
 
-import { formatByteSize } from '../../util'
+import { formatByteSize } from '../../utils'
 import { Button, Text } from '../../components/controls'
 
 

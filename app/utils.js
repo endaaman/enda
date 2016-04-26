@@ -99,3 +99,24 @@ export function formatByteSize(size, precision = 1) {
   const number = Math.floor(Math.floor(Math.log(size)) / Math.log(1024))
   return (size / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number]
 }
+
+export function getApiPath() {
+  const hostname = isOnServer()
+    ? global.__HOSTNAME__
+    : window.location.hostname
+
+  return /localhost/.test(hostname)
+    ? 'http://localhost:3000'
+    : `http://api.${hostname}`
+}
+
+export function getStaticUrl(filename) {
+  const hostname = isOnServer()
+    ? global.__HOSTNAME__
+    : window.location.hostname
+
+    return /localhost/.test(hostname)
+      ? 'http://localhost:3001/${filename}'
+      : `http://static.${hostname}/${filename}`
+
+}

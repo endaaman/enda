@@ -1,4 +1,5 @@
 import Http from '../lib/http'
+import { getApiPath as api } from '../utils'
 import { showLoader, hideLoader } from './loader'
 
 export const START_FETCHING_MEMO = Symbol()
@@ -19,7 +20,7 @@ function dropFiles() {
 export function fetchFiles() {
   return (dispatch)=> {
     dispatch(showLoader())
-    return Http().get('/api/files')
+    return Http().get(`${api()}/files`)
     .then(res => {
       dispatch(hideLoader())
       dispatch({
@@ -48,7 +49,7 @@ export function getFiles() {
 export function deleteFile(filename) {
   return (dispatch, getState)=> {
     dispatch(showLoader())
-    return Http().delete(`/api/files/${filename}`)
+    return Http().delete(`${api()}/files/${filename}`)
     .then((res)=> {
       dispatch({
         type: DELETE_FILE,
@@ -70,7 +71,7 @@ export function uploadFiles(files) {
       // NOTE: force lower case
       data.append(file.name.toLowerCase(), file)
     }
-    return Http().post('/api/files', data)
+    return Http().post(`${api()}/files`, data)
     .then((res)=> {
       dispatch({
         type: ADD_FILES,
@@ -88,7 +89,7 @@ export function uploadFiles(files) {
 export function renameFile(oldName, newName) {
   return (dispatch, getState)=> {
     dispatch(showLoader())
-    return Http().post('/api/files/rename', { oldName, newName })
+    return Http().post(`${api()}/files/rename`, { oldName, newName })
     .then((res)=> {
       dispatch({
         type: RENAME_FILE,

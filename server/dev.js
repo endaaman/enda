@@ -1,6 +1,3 @@
-require('babel-polyfill')
-require('babel-register')
-
 var ansi2html = require('ansi2html')
 var express = require('express')
 var webpack = require('webpack')
@@ -8,16 +5,16 @@ var webpackDevServer = require('webpack-dev-server')
 var WebpackIsomorphicTools = require('webpack-isomorphic-tools')
 var u = require('./util')
 
-var port = parseInt(process.argv[2]) || 8080
-var webpackConfig = require('../webpack/dev')
+var port = 8080
+var webpackConfig = require('../webpack/config')
+webpackConfig.entry.app.unshift(`webpack-dev-server/client?http://localhost:8080`)
+
 var compiler = webpack(webpackConfig)
-var project_base_path = require('path').resolve(__dirname, '..')
-
-webpackConfig.entry.app.unshift(`webpack-dev-server/client?http://localhost:${port}`)
-
 var server = new webpackDevServer(compiler, webpackConfig.devServer)
 
-global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack-isomorphic-tools'))
+var project_base_path = require('path').resolve(__dirname, '..')
+
+global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/isomorphic-tools'))
 .development(true)
 .server(project_base_path, function(){
   server.use('*', function(req, res) {

@@ -7,7 +7,7 @@ import Footer from './footer'
 import Loader from './loader'
 import Toast from './toast'
 
-import { getGoogleFontsHref } from '../util'
+import { getGoogleFontsHref } from '../utils'
 import { check } from '../actions/session'
 
 import styles from '../styles/root.css'

@@ -15,7 +15,7 @@ import FileRenameForm from '../forms/file/rename'
 
 import { getFiles, uploadFiles, deleteFile, renameFile } from '../actions/file'
 import { showToast } from '../actions/toast'
-import { formatByteSize } from '../util'
+import { formatByteSize, getStaticUrl } from '../utils'
 
 import styles from '../styles/file.css'
 
@@ -95,7 +95,7 @@ class _File extends Component {
               files.map(file => {
                 return(
                   <tr key={file.name}>
-                    <td><a href={`/static/${file.name}`}>{file.name}</a></td>
+                    <td><a href={getStaticUrl(file.name)}>{file.name}</a></td>
                     <td>{formatByteSize(file.size)}</td>
                     <td>
                       <a href="#" onClick={this.toggleModal.bind(this, 'rename', true, file.name)}>rename</a>

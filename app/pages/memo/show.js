@@ -14,7 +14,7 @@ import { Button } from '../../components/controls'
 
 import { showToast} from '../../actions/toast'
 import { getMemo, deleteMemo } from '../../actions/memo'
-import { findMemo, getMarkdownRenderers } from '../../util'
+import { findMemo, getMarkdownRenderers } from '../../utils'
 
 import styles from '../../styles/memo.css'
 

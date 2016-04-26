@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import { createHistory } from 'history'
 import combinedReducer from '../reducers/combined'
 
-import { isOnServer } from '../util'
+import { isOnServer } from '../utils'
 import routes from '../routes'
 
 export default function(initialState = {}) {

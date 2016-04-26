@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { isOnServer } from '../util'
+import { isOnServer } from '../utils'
 
 let instance = null
 

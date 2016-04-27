@@ -71,6 +71,8 @@ class MemoShow extends Component {
       const metas = [
         // { name: 'twitter:image', content: icon },
         // { property: 'og:image', content: icon },
+        { name: 'twitter:title', content: `${memo.title} | えんだーまんの家` },
+
         { name: 'description', content: memo.digest },
         { name: 'twitter:description', content: memo.digest },
         { property: 'og:description', content: memo.digest },

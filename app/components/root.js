@@ -34,6 +34,7 @@ class Root extends Component {
       { name: 'twitter:image', content: icon },
       { property: 'og:image', content: icon },
 
+      { name: 'twitter:title', content: 'えんだーまんの家' },
       { name: 'description', content: desc },
       { name: 'twitter:description', content: desc },
       { property: 'og:description', content: desc },

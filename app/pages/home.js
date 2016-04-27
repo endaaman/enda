@@ -35,7 +35,10 @@ class MemoList extends Component {
             <li className={styles.memoItem} key={memo._id}>
               <Link to={`/memo/${memo.title}`}>
                 <h3>{memo.title}</h3>
-                <footer>{this.dateFormat(memo.created_at)}</footer>
+                <footer>
+                  <div className={styles.digest}>{memo.digest}</div>
+                  <div className={styles.date}>{this.dateFormat(memo.created_at)}</div>
+                </footer>
               </Link>
             </li>
           ))

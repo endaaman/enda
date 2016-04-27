@@ -100,7 +100,7 @@ export function formatByteSize(size, precision = 1) {
   return (size / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number]
 }
 
-export function getApiPath() {
+export function getApiRoot() {
   if (isOnServer()) {
     return global.API_BASE
   } else {

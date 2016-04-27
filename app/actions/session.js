@@ -1,5 +1,5 @@
 import Http from '../lib/http'
-import { getApiPath as api } from '../utils'
+import { getApiRoot as api } from '../utils'
 
 export const CREATE_SESSION = Symbol()
 export const DELETE_SESSION = Symbol()

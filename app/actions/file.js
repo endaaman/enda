@@ -1,5 +1,5 @@
 import Http from '../lib/http'
-import { getApiPath as api } from '../utils'
+import { getApiRoot as api } from '../utils'
 import { showLoader, hideLoader } from './loader'
 
 export const START_FETCHING_MEMO = Symbol()

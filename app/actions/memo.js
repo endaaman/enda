@@ -1,6 +1,6 @@
 import Http from '../lib/http'
 import { showLoader, hideLoader } from './loader'
-import { findMemo, getApiPath as api } from '../utils'
+import { findMemo, getApiRoot as api } from '../utils'
 
 export const RECIEVE_MEMOLIST = Symbol()
 export const DROP_MEMOLIST = Symbol()
@@ -59,7 +59,8 @@ export function failToFetchMemo(path) {
 export function fetchMemo(path) {
   return (dispatch)=> {
     dispatch(showLoader())
-    return Http().get(`${api()}/memos/${path}`)
+    const encodedPath = encodeURIComponent(path)
+    return Http().get(`${api()}/memos/${encodedPath}`)
     .then(res => {
       const memo = res.data
       dispatch(hideLoader())
@@ -116,7 +117,7 @@ function uploadMemo(id, memo) {
     const updating = !!id
     return Http().request({
       method: updating ? 'PATCH' : 'POST',
-      url:  updating ? `${api()}/memos/${id}` : '${api()}/memos',
+      url:  updating ? `${api()}/memos/${id}` : `${api()}/memos`,
       data: memo,
     }).then(res => {
       const memo = res.data

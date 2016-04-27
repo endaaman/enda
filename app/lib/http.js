@@ -8,12 +8,7 @@ export default function Http() {
     return instance
   }
 
-  const base = isOnServer()
-    ? 'http://localhost:3000'
-    : ''
-
   instance= axios.create({
-    baseURL: base,
     timeout: 10000,
   })
   instance.interceptors.request.use(config => {

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { initialize } from 'redux-form'
 import Helmet from 'react-helmet'
+import dateFormat from 'dateformat'
 
 import Root from '../components/root'
 import Container from '../components/container'
@@ -18,14 +19,6 @@ import { showToast } from '../actions/toast'
 
 
 class MemoList extends Component {
-  dateFormat(date) {
-    const _d = new Date(date)
-    const y = _d.getFullYear()
-    const m = _d.getMonth()
-    const d = _d.getDate() + 1
-    return `${y}年${m}月${d}日`
-  }
-
   render() {
     const memos = this.props.memos
     return (
@@ -37,7 +30,11 @@ class MemoList extends Component {
                 <h3>{memo.title}</h3>
                 <footer>
                   <div className={styles.digest}>{memo.digest}</div>
-                  <div className={styles.date}>{this.dateFormat(memo.created_at)}</div>
+                  <div className={styles.date}>
+                    { memo.draft ? <span style={{color: 'brown'}}>draft</span> : null}
+                    <span> </span>
+                    <span>{dateFormat(memo.created_at, 'yyyy年m月d日')}</span>
+                    </div>
                 </footer>
               </Link>
             </li>

@@ -117,7 +117,7 @@ export function getStaticUrl(filename) {
     : window.location.hostname
 
     return /localhost/.test(hostname)
-      ? 'http://localhost:3001/${filename}'
+      ? `http://localhost:3001/${filename}`
       : `http://static.${hostname}/${filename}`
 
 }

@@ -71,7 +71,9 @@ class Home extends Component {
             : null
         }
         <Container>
-          <h2>メモ</h2>
+        <p>IT系医学生の雑記帳です。</p>
+        </Container>
+        <Container>
           <MemoList memos={this.props.memos} />
         </Container>
       </article>

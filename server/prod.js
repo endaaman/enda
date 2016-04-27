@@ -5,6 +5,20 @@ var port = parseInt(process.argv[2]) || 8080
 var project_base_path = require('path').resolve(__dirname, '..')
 var server = express()
 
+global.API_BASE = (()=> {
+  const hostname = process.env.VIRTUAL_HOST
+  if (hostname) {
+    if (/enda\.local/.test(hostname)) {
+      return 'http://api.enda.local'
+    } else {
+      return 'http://api.endaaman.me'
+    }
+  } else {
+    return 'http://localhost:3000'
+  }
+})()
+
+console.log(`Set ${global.API_BASE} to API_BASE`)
 
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/isomorphic-tools'))
 .server(project_base_path, function(){

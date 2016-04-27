@@ -29,8 +29,6 @@ function buildHtml(head, script, content, initialState) {
 }
 
 export default function(req, res, onError) {
-  global.__HOSTNAME__ = req.headers.host
-
   match({routes, location: req.originalUrl}, (error, redirectLocation, renderProps) => {
     if (error) {
       res.status(500).send(error.message)

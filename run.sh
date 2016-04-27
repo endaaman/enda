@@ -4,7 +4,8 @@ running_container_id=`echo $(docker ps -qa --no-trunc -f 'ancestor=enda' -f 'sta
 
 docker build -t enda .
 docker run -d \
-  -e VIRTUAL_HOST=enda.local,endaaman.me \
+  -e VIRTUAL_HOST=enda.local \
+  --add-host=api.enda.local:172.17.0.1 \
   enda
 
 if [ -n "$running_container_id" ]; then

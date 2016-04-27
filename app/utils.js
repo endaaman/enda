@@ -101,13 +101,14 @@ export function formatByteSize(size, precision = 1) {
 }
 
 export function getApiPath() {
-  const hostname = isOnServer()
-    ? global.__HOSTNAME__
-    : window.location.hostname
-
-  return /localhost/.test(hostname)
-    ? 'http://localhost:3000'
-    : `http://api.${hostname}`
+  if (isOnServer()) {
+    return global.API_BASE
+  } else {
+    const hostname = window.location.hostname
+    return /localhost/.test(hostname)
+      ? 'http://localhost:3000'
+      : `http://api.${hostname}`
+  }
 }
 
 export function getStaticUrl(filename) {

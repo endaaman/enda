@@ -14,6 +14,10 @@ var server = new webpackDevServer(compiler, webpackConfig.devServer)
 
 var project_base_path = require('path').resolve(__dirname, '..')
 
+global.API_BASE = 'http://localhost:3000'
+console.log(`Set ${global.API_BASE} to API_BASE`)
+
+
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/isomorphic-tools'))
 .development(true)
 .server(project_base_path, function(){

@@ -16,7 +16,14 @@
   }
 }
 
+.digest {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
 .date {
+  margin-top: 7px;
   font-size: 14px;
   text-align: center;
 }

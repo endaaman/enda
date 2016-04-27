@@ -85,6 +85,10 @@ class MemoShow extends Component {
             <h1 className={styles.title}>
               <Link to={this.props.location.pathname}>{memo.title}</Link>
             </h1>
+            { memo.digest
+                ? <div className={styles.digest}>{memo.digest}</div>
+                : null
+            }
             <div className={styles.date}>
               <span>{dateFormat(memo.created_at, 'yyyy年m月d日')}</span>
               { this.props.session.user

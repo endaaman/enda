@@ -27,3 +27,20 @@
   font-size: 14px;
   text-align: center;
 }
+
+.content {
+  p {
+    line-height: 1.5;
+  }
+  code {
+    padding: 0 2px;
+    margin: 0 2px;
+    color: brown;
+    background-color: #d9d9d9;
+    white-space: nowrap;
+  }
+  img {
+    display: block;
+    max-width: 100%;
+  }
+}

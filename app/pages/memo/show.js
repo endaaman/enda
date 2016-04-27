@@ -104,7 +104,9 @@ class MemoShow extends Component {
           </Container>
         </header>
         <Container>
-          <MarkdownComponent source={memo.content} renderers={getMarkdownRenderers()}/>
+          <div className={styles.content}>
+            <MarkdownComponent source={memo.content} renderers={getMarkdownRenderers()}/>
+          </div>
         </Container>
         <Modal
           isOpen={this.state.modalIsOpen}

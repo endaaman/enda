@@ -24,12 +24,13 @@ ADD nginx/enda.conf /etc/nginx/sites-enabled
 ADD supervisor.conf /etc/supervisor/conf.d/
 
 RUN mkdir -p /var/www/enda
-WORKDIR /var/www/enda
 
-ADD package.json ./
-RUN NODE_ENV=development npm install
+ADD package.json /tmp/package.json
+RUN cd /tmp && NODE_ENV=development npm install
+RUN mkdir -p /var/www/enda && cp -a /tmp/node_modules /var/www/enda/
 
 ADD . /var/www/enda
+WORKDIR /var/www/enda
 RUN npm run build
 
 ADD . /var/www/enda

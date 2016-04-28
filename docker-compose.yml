@@ -1,0 +1,5 @@
+enda:
+  build: /var/apps/endaaman.me
+  environment:
+    VIRTUAL_HOST: endaaman.me,enda.local
+  restart: always

@@ -1,4 +1,5 @@
 var express = require('express')
+var cookieParser = require('cookie-parser')
 var WebpackIsomorphicTools = require('webpack-isomorphic-tools')
 
 var port = parseInt(process.argv[2]) || 8080
@@ -23,6 +24,7 @@ console.log(`Set ${global.API_BASE} to API_BASE`)
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/isomorphic-tools'))
 .server(project_base_path, function(){
 
+  server.use(cookieParser())
   // This handled is called cuz nginx serves forward
   server.use(express.static('build'))
 

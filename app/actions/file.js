@@ -71,7 +71,9 @@ export function uploadFiles(files) {
       // NOTE: force lower case
       data.append(file.name.toLowerCase(), file)
     }
-    return Http().post(`${api()}/files`, data)
+    return Http().post(`${api()}/files`, data, {
+      timeout: 10 * 60 * 1000  // 10min
+    })
     .then((res)=> {
       dispatch({
         type: ADD_FILES,

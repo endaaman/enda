@@ -1,6 +1,7 @@
 import cookies from 'browser-cookies'
 import Http from '../lib/http'
 import { setToken, unsetToken } from './token'
+import { dropMemos } from './memo'
 import { isOnServer, getApiRoot as api  } from '../utils'
 
 export const CREATE_SESSION = Symbol()
@@ -17,6 +18,7 @@ export function login(payload) {
     return Http().post(`${api()}/session`, payload)
     .then(res => {
       const { token } = res.data
+      dispatch(dropMemos())
       dispatch(setToken(encodeURIComponent(token)))
       dispatch({
         type: CREATE_SESSION,
@@ -42,8 +44,7 @@ export function check() {
 
     return Http().get(`${api()}/session`, {
     }).then(res => {
-      const { token, user } = res.data
-      dispatch(setToken(encodeURIComponent(token)))
+      const { user } = res.data
       dispatch({
         type: CREATE_SESSION,
         user
@@ -58,8 +59,9 @@ export function check() {
 
 export function logout() {
   return (dispatch, getState)=> {
+    dispatch(dropMemos())
     dispatch(unsetToken())
-    dipath({
+    dispatch({
       type: DELETE_SESSION,
     })
   }

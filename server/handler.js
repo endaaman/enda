@@ -71,7 +71,6 @@ export default function(req, res, onError) {
       }
 
       configureHttp(store.getState)
-      console.log(req.cookies)
       if (req.cookies.token) {
         store.dispatch(setToken(req.cookies.token))
       }

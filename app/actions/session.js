@@ -1,19 +1,28 @@
+import cookies from 'browser-cookies'
 import Http from '../lib/http'
-import { getApiRoot as api } from '../utils'
+import { setToken, unsetToken } from './token'
+import { dropMemos } from './memo'
+import { isOnServer, getApiRoot as api  } from '../utils'
 
 export const CREATE_SESSION = Symbol()
 export const DELETE_SESSION = Symbol()
 
-
 export function login(payload) {
+  // On server, nothing to do
+  if (isOnServer()) {
+    console.warn('You tried to login in server context')
+    return
+  }
+
   return (dispatch)=> {
     return Http().post(`${api()}/session`, payload)
     .then(res => {
-      localStorage.setItem('token', res.data.token)
+      const { token } = res.data
+      dispatch(dropMemos())
+      dispatch(setToken(encodeURIComponent(token)))
       dispatch({
         type: CREATE_SESSION,
         user: res.data.user,
-        token: res.data.token,
       })
     })
   }
@@ -22,21 +31,26 @@ export function login(payload) {
 
 export function check() {
   return (dispatch, getState)=> {
-    const token = localStorage.getItem('token')
-    if (!token) {
+    if (!getState().token) {
+      // obviously not logged in
       return
     }
+
+    // already logged in
     const state = getState().session
     if (state.user) {
       return
     }
+
     return Http().get(`${api()}/session`, {
     }).then(res => {
+      const { user } = res.data
       dispatch({
         type: CREATE_SESSION,
-        user: res.data.user,
-        token: token,
+        user
       })
+    }, ()=> {
+      dispatch(unsetToken())
     })
   }
 }
@@ -44,8 +58,11 @@ export function check() {
 
 
 export function logout() {
-  const token = localStorage.removeItem('token')
-  return {
-    type: DELETE_SESSION,
+  return (dispatch, getState)=> {
+    dispatch(dropMemos())
+    dispatch(unsetToken())
+    dispatch({
+      type: DELETE_SESSION,
+    })
   }
 }

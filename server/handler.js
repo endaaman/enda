@@ -8,6 +8,8 @@ import { Provider } from 'react-redux'
 
 import routes from '../app/routes'
 import configureStore from '../app/store/configure'
+import { setToken } from '../app/actions/token'
+import { configureHttp } from '../app/lib/http'
 
 const webpackIsomorphicTools = global.webpackIsomorphicTools
 
@@ -68,6 +70,11 @@ export default function(req, res, onError) {
         res.status(notFound ? 404 : 200).send(html)
       }
 
+      configureHttp(store.getState)
+      console.log(req.cookies)
+      if (req.cookies.token) {
+        store.dispatch(setToken(req.cookies.token))
+      }
       const params = {
         dispatch: store.dispatch,
         params: renderProps.params,

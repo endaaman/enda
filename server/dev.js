@@ -1,5 +1,6 @@
 var ansi2html = require('ansi2html')
 var express = require('express')
+var cookieParser = require('cookie-parser')
 var webpack = require('webpack')
 var webpackDevServer = require('webpack-dev-server')
 var WebpackIsomorphicTools = require('webpack-isomorphic-tools')
@@ -21,6 +22,8 @@ console.log(`Set ${global.API_BASE} to API_BASE`)
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/isomorphic-tools'))
 .development(true)
 .server(project_base_path, function(){
+  server.use(cookieParser())
+
   server.use('*', function(req, res) {
     function onError(error) {
       var result = '' + error

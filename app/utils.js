@@ -101,14 +101,13 @@ export function formatByteSize(size, precision = 1) {
 }
 
 export function getApiRoot() {
-  if (isOnServer()) {
-    return global.API_BASE
-  } else {
-    const hostname = window.location.hostname
-    return /localhost/.test(hostname)
-      ? 'http://localhost:3000'
-      : `http://api.${hostname}`
-  }
+  const hostname = isOnServer()
+    ? global.__HOSTNAME__
+    : window.location.hostname
+
+  return /localhost/.test(hostname)
+    ? 'http://localhost:3000'
+    : `http://api.${hostname}`
 }
 
 export function getStaticUrl(filename) {
@@ -116,8 +115,7 @@ export function getStaticUrl(filename) {
     ? global.__HOSTNAME__
     : window.location.hostname
 
-    return /localhost/.test(hostname)
-      ? `http://localhost:3001/${filename}`
-      : `http://static.${hostname}/${filename}`
-
+  return /localhost/.test(hostname)
+    ? `http://localhost:3001/${filename}`
+    : `http://static.${hostname}/${filename}`
 }

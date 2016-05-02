@@ -45,6 +45,7 @@ class Root extends Component {
         <Helmet
           titleTemplate="%s | えんだーまんの家"
           link={[
+            {'rel': 'shortcut icon', 'href': require('../assets/favicon.ico')},
             {'rel': 'stylesheet', 'href': getGoogleFontsHref(fonts)},
           ]}
           meta={metas}

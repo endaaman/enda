@@ -60,16 +60,10 @@ module.exports = (function(){
 
   config.postcss = function() {
     return [
-      // require('postcss-import')({
-      //   addDependencyTo: webpack
-      // }),
       require('precss')({
         addDependencyTo: webpack
       }),
       require('autoprefixer'),
-      // require('postcss-simple-vars'),
-      // require('postcss-current-selector'),
-      // require('postcss-mixins'),
     ]
   }
 

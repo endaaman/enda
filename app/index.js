@@ -22,12 +22,9 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 
 configureHttp(store.getState)
-let token = store.getState().token
-if (!token) {
-  token = cookies.get('token')
-  if (token) {
-    store.dispatch(setToken(token))
-  }
+const token = cookies.get('token')
+if (token) {
+  store.dispatch(setToken(token))
 }
 
 

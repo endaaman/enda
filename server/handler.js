@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 
 import routes from '../app/routes'
 import configureStore from '../app/store/configure'
-import { setToken } from '../app/actions/token'
+import { setToken, unsetToken } from '../app/actions/token'
 import { configureHttp } from '../app/lib/http'
 
 const webpackIsomorphicTools = global.webpackIsomorphicTools
@@ -43,6 +43,8 @@ export default function(req, res, onError) {
 
       const render = ()=> {
         const provider = $(Provider, {store: store}, $(RouterContext, renderProps))
+        // NOTE: Do not show token in prerendered html
+        store.dispatch(unsetToken())
         const initialState = store.getState()
 
         const content = renderToString(provider)

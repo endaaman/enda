@@ -70,11 +70,14 @@ class MemoShow extends Component {
     const ok = memo => {
       let metas = [
         { name: 'twitter:title', content: `${memo.title} | えんだーまんの家` },
-
-        { name: 'description', content: memo.digest },
-        { name: 'twitter:description', content: memo.digest },
-        { property: 'og:description', content: memo.digest },
       ]
+      if (memo.digest) {
+        metas = metas.concat([
+          { name: 'description', content: memo.digest },
+          { name: 'twitter:description', content: memo.digest },
+          { property: 'og:description', content: memo.digest },
+        ])
+      }
       if (memo.image_url) {
         metas = metas.concat([
           { name: 'twitter:image', content: memo.image_url },

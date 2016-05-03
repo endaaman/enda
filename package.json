@@ -38,6 +38,7 @@
     "redux": "^3.4.0",
     "redux-form": "^5.0.1",
     "redux-thunk": "^2.0.1",
+    "scroll-behavior": "^0.6.0",
     "webpack-isomorphic-tools": "^2.2.47"
   },
   "devDependencies": {

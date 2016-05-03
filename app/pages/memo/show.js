@@ -68,15 +68,19 @@ class MemoShow extends Component {
 
   render() {
     const ok = memo => {
-      const metas = [
-        // { name: 'twitter:image', content: icon },
-        // { property: 'og:image', content: icon },
+      let metas = [
         { name: 'twitter:title', content: `${memo.title} | えんだーまんの家` },
 
         { name: 'description', content: memo.digest },
         { name: 'twitter:description', content: memo.digest },
         { property: 'og:description', content: memo.digest },
       ]
+      if (memo.image_url) {
+        metas = metas.concat([
+          { name: 'twitter:image', content: memo.image_url },
+          { property: 'og:image', content: memo.image_url },
+        ])
+      }
 
       return (<div>
         <Helmet title={memo.title} meta={metas} />

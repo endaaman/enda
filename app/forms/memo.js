@@ -23,17 +23,19 @@ class MemoForm extends Component {
       title = '',
       draft = '',
       digest = '',
+      image_url = '',
       content = '',
     } = this.props.memo
-    this.props.initializeForm({ title, draft, digest, content })
+    this.props.initializeForm({ title, draft, digest, image_url, content })
   }
   render() {
-    const { fields: { title, digest, draft, content }, handleSubmit } = this.props
+    const { fields: { title, digest, draft, image_url, content }, handleSubmit } = this.props
     return (
       <form onSubmit={handleSubmit}>
         <Text field={title} placeholder="title" />
         <Text field={digest} placeholder="digest" />
         <Checkbox field={draft} label="draft" id="draft" />
+        <Text field={image_url} placeholder="image url" />
         <Editor field={content} placeholder="content" />
         <Button onClick={handleSubmit}>Save</Button>
       </form>
@@ -43,6 +45,6 @@ class MemoForm extends Component {
 
 export default reduxForm({
   form: 'memo',
-  fields: ['title', 'digest', 'draft', 'content'],
+  fields: ['title', 'digest', 'draft', 'image_url', 'content'],
   validate
 })(MemoForm)

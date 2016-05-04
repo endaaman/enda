@@ -31,8 +31,9 @@ if (token) {
 
 
 match({ routes, history }, (error, redirectLocation, renderProps) => {
-  render(
-    $(Provider, {store: store}, $(Router, renderProps)),
-    rootDom
-  )
+  render((
+    <Provider store={store}>
+      <Router {...renderProps} />
+    </Provider>
+  ), rootDom)
 })

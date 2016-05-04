@@ -23,6 +23,7 @@ $border-active-color: #373;
 
 .text {
   margin: 8px 0;
+  position: relative;
   input {
     appearance: none;
     -webkit-appearance: none;
@@ -33,7 +34,7 @@ $border-active-color: #373;
     display: block;
     width: 100%;
     color: inherit;
-    padding: 8px;
+    padding: 12px 6px;
     line-height: 16px;
     border: solid 1px $border-color;
     border-radius: 2px;
@@ -44,6 +45,27 @@ $border-active-color: #373;
 
     &:focus {
       border-color: $border-active-color;
+    }
+
+    transition: all .2s ease;
+  }
+  label {
+    transition: all .2s ease;
+  }
+  label {
+    position: absolute;
+    top: 14px;
+    left: 6px;
+    font-size: 14px;
+    color: $border-color;
+  }
+
+  input.filled {
+    padding: 20px 6px 4px;
+    & ~ label, & ~ label {
+      top: 4px;
+      font-size: 11px;
+      color: $border-active-color;
     }
   }
 }

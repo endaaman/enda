@@ -1,12 +1,23 @@
 import React, {Component} from 'react'
 import Textarea from 'react-textarea-autosize'
-
+import { uuid } from '../utils'
 import styles from '../styles/controls.css'
 
 export class Text extends Component {
+  constructor(...props) {
+    super(...props)
+    this.state = {
+      id: ''
+    }
+  }
+  componentDidMount() {
+    this.setState({
+      id: uuid()
+    })
+  }
   render() {
-    const { field, label, type } = this.props
-
+    const { field, label, type, helpText } = this.props
+    const { id } = this.state
     return (
       <div className={styles.text}>
         <input
@@ -14,8 +25,17 @@ export class Text extends Component {
             ? type
             : 'text'
           }
-          placeholder={this.props.placeholder}
+          id={id}
+          required="true"
+          className={field.value ? styles.filled : null}
+          placeholder={/*this.props.placeholder*/''}
           {...this.props.field} />
+        { id ? <label htmlFor={id}>{label}</label> : null}
+        <div className={styles.helpText}>{
+          typeof helpText === 'function'
+            ? helpText(field.value)
+            : helpText
+        }</div>
       </div>
     )
   }
@@ -33,15 +53,27 @@ export class Button extends Component {
 
 
 export class Checkbox extends Component {
+  constructor(...props) {
+    super(...props)
+    this.state = {
+      id: ''
+    }
+  }
+  componentDidMount() {
+    this.setState({
+      id: uuid()
+    })
+  }
   render() {
-    const { id, field, label } = this.props
+    const { field, label } = this.props
+    const { id } = this.state
     return (
       <div className={styles.checkbox}>
         <input
-          id={id}
+          id={this.state.id}
           type="checkbox"
           {...field} />
-        <label htmlFor={id}>{label}</label>
+        <label htmlFor={this.state.id}>{label}</label>
       </div>
     )
   }

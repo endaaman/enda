@@ -13,10 +13,11 @@ import NotFound from '../../components/not_found'
 import { Button } from '../../components/controls'
 
 import { showToast} from '../../actions/toast'
-import { getMemo, deleteMemo } from '../../actions/memo'
+import { getMemos, deleteMemo } from '../../actions/memo'
 import { findMemo, getMarkdownRenderers } from '../../utils'
 
 import styles from '../../styles/memo.css'
+
 
 
 class MemoShow extends Component {
@@ -24,17 +25,43 @@ class MemoShow extends Component {
     router: React.PropTypes.object.isRequired
   }
   static loadProps({ dispatch, params }) {
-    return dispatch(getMemo(params.path))
+    return dispatch(getMemos())
   }
-  componentWillMount() {
-    this.constructor.loadProps(this.props)
-  }
-
   constructor(props) {
     super(props)
     this.state = {
-      modalIsOpen: false
+      memo: null,
+      notFound: false,
+      modalIsOpen: false,
     }
+  }
+
+  componentWillMount() {
+    this.constructor.loadProps(this.props)
+    this.retrieveMemo(this.props)
+  }
+  componentWillReceiveProps(nextProps) {
+    this.retrieveMemo(nextProps)
+  }
+
+  retrieveMemo(props) {
+    const { memos, params:{ path } } = props
+    if (memos.length < 1) {
+      return
+    }
+    let memo = memos.find(m => m.slug === path)
+    if (memo) {
+      this.setState({ memo })
+      return
+    }
+    memo = memos.find(m => m.title === path || m._id === path)
+    if (memo) {
+      this.context.router.replace(`/memo/${memo.slug}`)
+      return
+    }
+    this.setState({
+      notFound: true
+    })
   }
 
   openModal(e) {
@@ -67,25 +94,32 @@ class MemoShow extends Component {
 
 
   render() {
-    const ok = memo => {
-      let metas = [
-        { name: 'twitter:title', content: `${memo.title} | えんだーまんの家` },
-      ]
-      if (memo.digest) {
-        metas = metas.concat([
-          { name: 'description', content: memo.digest },
-          { name: 'twitter:description', content: memo.digest },
-          { property: 'og:description', content: memo.digest },
-        ])
-      }
-      if (memo.image_url) {
-        metas = metas.concat([
-          { name: 'twitter:image', content: memo.image_url },
-          { property: 'og:image', content: memo.image_url },
-        ])
-      }
+    if (this.state.notFound) {
+      return <NotFound />
+    }
+    if (!this.state.memo) {
+      return null
+    }
+    const memo = this.state.memo
+    let metas = [
+      { name: 'twitter:title', content: `${memo.title} | えんだーまんの家` },
+    ]
+    if (memo.digest) {
+      metas = metas.concat([
+        { name: 'description', content: memo.digest },
+        { name: 'twitter:description', content: memo.digest },
+        { property: 'og:description', content: memo.digest },
+      ])
+    }
+    if (memo.image_url) {
+      metas = metas.concat([
+        { name: 'twitter:image', content: memo.image_url },
+        { property: 'og:image', content: memo.image_url },
+      ])
+    }
 
-      return (<div>
+    return (
+      <div>
         <Helmet title={memo.title} meta={metas} />
         <header className={styles.header}>
           <Container>
@@ -112,7 +146,7 @@ class MemoShow extends Component {
         </header>
         <Container>
           <div className={styles.content}>
-            <MarkdownComponent source={memo.content} renderers={getMarkdownRenderers()}/>
+            <MarkdownComponent source={memo.content || ''} renderers={getMarkdownRenderers()}/>
           </div>
         </Container>
         <Modal
@@ -122,25 +156,12 @@ class MemoShow extends Component {
           <p>Are you sure to delete <strong>{memo.title}</strong> ?</p>
           <Button onClick={this.deleteMemo.bind(this)}>delete</Button>
         </Modal>
-      </div>)
-    }
-    const memo = this.props.memo
-
-    return (
-      <div>
-        { this.props.notFound
-          ? (<NotFound />)
-          : memo
-            ? ok(memo)
-            : null
-        }
       </div>
     )
   }
 }
 
-export default connect((state, ownProps) => ({
-  memo: findMemo(state.memo.detail.items, ownProps.params.path),
-  notFound: state.memo.detail.noMatches.indexOf(ownProps.params.path) > -1,
+export default connect(state => ({
+  memos: state.memo.items,
   session: state.session,
 }))(MemoShow)

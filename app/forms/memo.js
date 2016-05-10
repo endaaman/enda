@@ -9,9 +9,6 @@ import { listInline } from '../styles/utils.css'
 
 function validate(values) {
   const errors = {}
-  if (!values.title) {
-
-  }
   return errors
 }
 
@@ -20,19 +17,21 @@ function validate(values) {
 class MemoForm extends Component {
   componentWillMount() {
     const {
+      slug = '',
       title = '',
       draft = '',
       digest = '',
       image_url = '',
       content = '',
     } = this.props.memo
-    this.props.initializeForm({ title, draft, digest, image_url, content })
+    this.props.initializeForm({ slug, title, draft, digest, image_url, content })
   }
   render() {
-    const { fields: { title, digest, draft, image_url, content }, handleSubmit } = this.props
+    const { fields: { slug, title, digest, draft, image_url, content }, handleSubmit } = this.props
     return (
       <form onSubmit={handleSubmit}>
-        <Text field={title} label="title" placeholder="title" />
+        <Text field={slug} label="slug" placeholder="slug" required={true} pattern="[a-z0-9_-]{1,}" />
+        <Text field={title} label="title" placeholder="title" required={true} />
         <Text field={digest} label="digest" placeholder="digest" />
         <Checkbox field={draft} label="draft" id="draft" />
         <Text field={image_url} label="image url" placeholder="image url" />
@@ -45,6 +44,6 @@ class MemoForm extends Component {
 
 export default reduxForm({
   form: 'memo',
-  fields: ['title', 'digest', 'draft', 'image_url', 'content'],
+  fields: ['slug', 'title', 'digest', 'draft', 'image_url', 'content'],
   validate
 })(MemoForm)

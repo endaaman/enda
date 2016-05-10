@@ -10,7 +10,7 @@ import MemoForm from '../../forms/memo'
 
 import NoMacth from '../no_match'
 
-import { getMemo, updateMemo } from '../../actions/memo'
+import { getMemos, updateMemo } from '../../actions/memo'
 import { showToast } from '../../actions/toast'
 import { findMemo } from '../../utils'
 
@@ -19,10 +19,36 @@ class MemoEdit extends Component {
     router: React.PropTypes.object.isRequired
   }
   static loadProps({dispatch, params}) {
-    return dispatch(getMemo(params.path))
+    return dispatch(getMemos())
+  }
+  constructor(props) {
+    super(props)
+    this.state = {
+      memo: null,
+      notFound: false,
+    }
   }
   componentWillMount() {
     this.constructor.loadProps(this.props)
+    this.retrieveMemo(this.props)
+  }
+  componentWillReceiveProps(nextProps) {
+    this.retrieveMemo(nextProps)
+  }
+
+  retrieveMemo(props) {
+    const { memos, params:{ path } } = props
+    if (memos.length < 1) {
+      return
+    }
+    let memo = memos.find(m => m._id === path)
+    if (memo) {
+      this.setState({ memo })
+      return
+    }
+    this.setState({
+      notFound: true
+    })
   }
 
   onSubmit(data) {
@@ -30,38 +56,33 @@ class MemoEdit extends Component {
     dispatch(updateMemo(memo._id, data))
     .then((newMemo)=> {
       dispatch(showToast('ok'))
-      this.context.router.push(`/memo/${newMemo.title}`)
+      this.context.router.push(`/memo/${newMemo.slug}`)
     }, err => {
       dispatch(showToast('failed'))
     })
   }
   render() {
-    const ok = (memo)=> (
+    if (this.state.notFound) {
+      return <NotFound />
+    }
+    if (!this.state.memo) {
+      return null
+    }
+    const memo = this.state.memo
+
+    return (
       <Container>
         <p>
-          <Link to={`/memo/${memo.title}`}>Back to memo</Link>
+          <Link to={`/memo/${memo.slug}`}>Back to memo</Link>
         </p>
         <MemoForm onSubmit={this.onSubmit.bind(this)} memo={memo}/>
       </Container>
-    )
-    const memo = this.props.memo
-
-    return (
-      <div>
-        { this.props.notFound
-          ? (<NotFound />)
-          : memo
-            ? ok(memo)
-            : null
-        }
-      </div>
     )
   }
 }
 
 
 export default connect((state, ownProps) => ({
-  memo: findMemo(state.memo.detail.items, ownProps.params.path),
-  notFound: state.memo.detail.noMatches.indexOf(ownProps.params.path) > -1,
+  memos: state.memo.items,
   session: state.session,
 }))(MemoEdit)

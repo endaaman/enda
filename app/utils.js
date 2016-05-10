@@ -38,20 +38,6 @@ export function getGoogleFontsHref(fonts) {
   return '//fonts.googleapis.com/css?family=' + family
 }
 
-export function findMemo(memos, path, failResult = null) {
-  const result = memos.find((memo)=> {
-    let found = false
-    if (path === memo._id) {
-      found = true
-    }
-    if (path === memo.title) {
-      found = true
-    }
-    return found
-  })
-  return result || failResult
-}
-
 
 function isInnerLink(uri) {
   const proxyedPaths = [

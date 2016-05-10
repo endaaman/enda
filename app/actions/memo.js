@@ -38,20 +38,12 @@ export function fetchMemos() {
 
 export function getMemos() {
   return (dispatch, getState)=> {
-    let state = getState().memo.list
+    let state = getState().memo
     if (state.items.length > 0) {
       return Promise.resolve(state)
     } else {
       return dispatch(fetchMemos())
     }
-  }
-}
-
-
-export function failToFetchMemo(path) {
-  return {
-    type: FAIL_TO_FETCH_MEMO,
-    noMatched: path,
   }
 }
 
@@ -73,21 +65,6 @@ export function fetchMemo(path) {
       dispatch(failToFetchMemo(path))
       dispatch(hideLoader())
     })
-  }
-}
-
-
-export function getMemo(path) {
-  return (dispatch, getState)=> {
-    const state = getState().memo.detail
-    const memo = findMemo(state.items, path)
-    const notMathed = state.noMatches.indexOf(path) > -1
-
-    if (memo || notMathed) {
-      return Promise.resolve(memo)
-    } else {
-      return dispatch(fetchMemo(path))
-    }
   }
 }
 
@@ -137,7 +114,6 @@ function uploadMemo(id, memo) {
       return memo
     }, error => {
       dispatch(hideLoader())
-      // dispatch(failToFetchMemo(path))
     })
   }
 }

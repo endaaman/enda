@@ -26,7 +26,7 @@ class MemoList extends Component {
         {
           memos.map(memo => (
             <li className={styles.memoItem} key={memo._id}>
-              <Link to={`/memo/${memo.title}`}>
+              <Link to={`/memo/${memo.slug}`}>
                 <h3>{memo.title}</h3>
                 <footer>
                   <div className={styles.digest}>{memo.digest}</div>
@@ -82,6 +82,6 @@ class Home extends Component {
 }
 
 export default connect(state => ({
-  memos: state.memo.list.items,
+  memos: state.memo.items,
   active: !!state.session.user,
 }))(Home)

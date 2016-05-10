@@ -8,7 +8,7 @@ import Container from '../../components/container'
 import NotFound from '../../components/not_found'
 import MemoForm from '../../forms/memo'
 
-import { getMemo, createMemo } from '../../actions/memo'
+import { getMemos, createMemo } from '../../actions/memo'
 
 
 class MemoEdit extends Component {
@@ -19,7 +19,7 @@ class MemoEdit extends Component {
   onSubmit(data) {
     this.props.dispatch(createMemo(data))
     .then((memo)=> {
-      this.context.router.push(`/memo/${memo.title}`)
+      this.context.router.push(`/memo/${memo.slug}`)
     })
   }
   render() {

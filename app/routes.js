@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { Router, Route, IndexRoute, Redirect } from 'react-router'
 
+import { requireAuth } from './lib/auth'
 import Root from './components/root'
 
 import Home from './pages/home'
@@ -13,7 +14,6 @@ import Logout from './pages/logout'
 import NoMatch from './pages/no_match'
 
 
-
 export default (
   <Route path='/' component={Root} >
     <IndexRoute component={Home} />
@@ -22,7 +22,7 @@ export default (
     <Redirect from='memo' to='/' />
     <Route path='memo/new' component={MemoNew} />
     <Route path='memo/:path' component={MemoShow} />
-    <Route path='memo/:path/edit' component={MemoEdit} />
+    <Route path='memo/:path/edit' component={requireAuth(MemoEdit)} />
     <Route path='file' component={_File} />
     <Route path='*' name='404' component={NoMatch} />
   </Route>

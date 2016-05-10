@@ -29,6 +29,6 @@ global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/i
   })
 
   server.listen(port, function() {
-    console.log(`STARTED(port:${port}, mode: production)`)
+    console.info(`STARTED(port:${port}, mode: production)`)
   })
 })

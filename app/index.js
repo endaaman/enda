@@ -1,10 +1,8 @@
 import './polyfill'
 import React, { createElement as $ } from 'react'
 import { render } from 'react-dom'
-import { Router, match } from 'react-router'
+import { Router, match, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
-import { syncHistoryWithStore } from 'react-router-redux'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
 import withScroll from 'scroll-behavior'
 import cookies from 'browser-cookies'
 
@@ -20,7 +18,7 @@ import './styles/global.css'
 const rootDom = document.getElementById('app')
 const initialState = window.__initial_state__ || {}
 const store = configureStore(initialState)
-const history = syncHistoryWithStore(withScroll(createBrowserHistory()), store)
+const history = withScroll(browserHistory)
 
 
 configureHttp(store.getState)

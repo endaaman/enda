@@ -52,7 +52,8 @@ class MemoEdit extends Component {
   }
 
   onSubmit(data) {
-    const { dispatch, memo } = this.props
+    const { dispatch } = this.props
+    const { memo } = this.state
     dispatch(updateMemo(memo._id, data))
     .then((newMemo)=> {
       dispatch(showToast('ok'))

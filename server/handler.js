@@ -5,6 +5,7 @@ import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 import { RouterContext, match } from 'react-router'
 import { rewind } from 'react-helmet'
 import { Provider } from 'react-redux'
+import { createMemoryHistory } from 'history'
 
 import routes from '../app/routes'
 import configureStore from '../app/store/configure'
@@ -31,7 +32,14 @@ function buildHtml(head, script, content, initialState) {
 }
 
 export default function(req, res, onError) {
-  match({routes, location: req.originalUrl}, (error, redirectLocation, renderProps) => {
+  const history = createMemoryHistory()
+
+  // const locationList = []
+  // const unlisten = history.listen(location => {
+  //   locationList.push(location)
+  // })
+
+  match({routes, history, location: req.originalUrl}, (error, redirectLocation, renderProps) => {
     if (error) {
       res.status(500).send(error.message)
     } else if (redirectLocation) {
@@ -46,8 +54,15 @@ export default function(req, res, onError) {
         // NOTE: Do not show token in prerendered html
         store.dispatch(unsetToken())
         const initialState = store.getState()
-
         const content = renderToString(provider)
+
+        // unlisten()
+        // const lastLocation = locationList[locationList.length - 1]
+        // if (lastLocation.action === 'replace') {
+        //   console.log(lastLocation)
+        //   res.redirect(302, lastLocation.pathname + lastLocation.search)
+        //   return
+        // }
         const head = rewind()
         const assets = webpackIsomorphicTools.assets()
 

@@ -18,16 +18,16 @@
   }
 }
 
-$border-color: #777;
-$border-active-color: #373;
+$border-color: #6B7D7D;
+$border-active-color: #114B5F;
+/*37be8d*/
+/*1A936F*/
 
 .text {
-  margin: 8px 0;
+  margin: 16px 0;
   position: relative;
   input {
     appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
 
     outline: none;
     border: 0;
@@ -42,68 +42,58 @@ $border-active-color: #373;
 
     @mixin placeholder-color $border-color;
 
-
-    &:focus {
-      border-color: $border-active-color;
-    }
-
-    transition: all .2s ease;
-  }
-  label {
-    transition: all .2s ease;
+    /*transition: padding .2s ease;*/
   }
   label {
     position: absolute;
     top: 14px;
     left: 6px;
     font-size: 14px;
+    line-height: 16px;
     color: $border-color;
+    pointer-events: none;
+    transition: top .2s ease;
+  }
+
+
+  input:focus {
+    border-color: $border-active-color;
   }
 
   input.filled {
     padding: 20px 6px 4px;
-    & ~ label, & ~ label {
+    & ~ label {
       top: 4px;
       font-size: 11px;
-      color: $border-active-color;
     }
   }
-}
 
-.editor {
-  margin: 8px 0;
-  & > textarea {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+  input.filled:focus ~ label{
+    color: $border-active-color;
+  }
 
-    outline: none;
-    border: 0;
-    display: block;
-    width: 100%;
-    color: inherit;
-    padding: 8px;
+  .required {
+    position: absolute;
+    top: 14px;
+    right: 6px;
+    font-size: 12px;
     line-height: 16px;
-    border: solid 1px $border-color;
+    padding: 0 4px;
     border-radius: 2px;
-    background-color: #fff;
-
-    min-height: 320px;
-
-    @mixin placeholder-color $border-color;
-    @mixin monospace;
-
+    background-color: #CE2D4F;
+    color: #fff;
   }
 }
 
-
-$toggler-outer-size: 16px;
-$toggler-inner-size: 10px;
 
 
 .checkbox {
+  $toggler-outer-size: 16px;
+  $toggler-inner-size: 10px;
+
   margin: 8px 0;
   input {
+    appearance: none;
     width: 0;
     height: 0;
     margin: 0;
@@ -152,7 +142,16 @@ $toggler-inner-size: 10px;
   }
 }
 
-
+.select {
+  margin: 16px 0;
+  select {
+    padding: 6px 6px;
+    line-height: 16px;
+    border: solid 1px $border-color;
+    border-radius: 2px;
+    background-color: #fff;
+  }
+}
 
 .button {
   button {
@@ -186,5 +185,33 @@ $toggler-inner-size: 10px;
       opacity: .5;
       box-shadow: none;
     }
+  }
+}
+
+
+
+.editor {
+  margin: 8px 0;
+  & > textarea {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    outline: none;
+    border: 0;
+    display: block;
+    width: 100%;
+    color: inherit;
+    padding: 8px;
+    line-height: 16px;
+    border: solid 1px $border-color;
+    border-radius: 2px;
+    background-color: #fff;
+
+    min-height: 320px;
+
+    @mixin placeholder-color $border-color;
+    @mixin monospace;
+
   }
 }

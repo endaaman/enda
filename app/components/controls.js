@@ -1,7 +1,8 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Textarea from 'react-textarea-autosize'
 import { uuid } from '../utils'
 import styles from '../styles/controls.css'
+
 
 export class Text extends Component {
   constructor(...props) {
@@ -16,21 +17,23 @@ export class Text extends Component {
     })
   }
   render() {
-    const { field, label, type, helpText } = this.props
+    const { field, label, type, helpText, required, pattern } = this.props
     const { id } = this.state
     return (
       <div className={styles.text}>
         <input
-          type={ ['text', 'password'].indexOf(type)
+          type={ ['text', 'password', 'number'].indexOf(type)
             ? type
             : 'text'
           }
           id={id}
-          required="true"
-          className={field.value ? styles.filled : null}
-          placeholder={/*this.props.placeholder*/''}
+          required={required ? 'true' : null}
+          pattern={pattern || null}
+          className={(label && field.value || field.value === 0) ? styles.filled : null}
+          placeholder={label ? '' : this.props.placeholder}
           {...this.props.field} />
         { id ? <label htmlFor={id}>{label}</label> : null}
+        { required ? <div className={styles.required}>必須</div> : null}
         <div className={styles.helpText}>{
           typeof helpText === 'function'
             ? helpText(field.value)
@@ -40,6 +43,7 @@ export class Text extends Component {
     )
   }
 }
+
 
 export class Button extends Component {
   render() {
@@ -78,6 +82,27 @@ export class Checkbox extends Component {
     )
   }
 }
+
+
+export class Select extends Component {
+  render() {
+    const { field, options } = this.props
+    return (
+      <div className={styles.select}>
+        <select {...field} value={field.value || ''}>
+          {
+            options.map(opt => {
+              return(
+                <option key={opt.value} value={opt.value}>{opt.text}</option>
+                )
+              })
+          }
+        </select>
+      </div>
+    )
+  }
+}
+
 
 export class Editor extends Component {
   render() {

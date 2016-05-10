@@ -5,5 +5,8 @@
   overflow: hidden;
   li {
     float: left;
+    &:not(:first-child) {
+      margin-left: 8px;
+    }
   }
 }

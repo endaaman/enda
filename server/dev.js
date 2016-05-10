@@ -46,6 +46,7 @@ global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/i
     webpackIsomorphicTools.refresh()
     try {
       var handler = require('./handler').default
+      console.info('LOADED HANDLER')
       handler(req, res, onError)
     } catch(error) {
       onError(error)
@@ -53,6 +54,6 @@ global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/i
   })
 
   server.listen(port, function() {
-    console.log(`STARTED(port:${port}, mode: development)`)
+    console.info(`STARTED(port:${port}, mode: development)`)
   })
 })

@@ -7,7 +7,7 @@ import NotFound from '../components/not_found'
 class NoMatch extends Component {
   render() {
     return (
-      <article>
+      <div>
         <Helmet
           title="404"
           meta={[
@@ -15,7 +15,7 @@ class NoMatch extends Component {
           ]}
         />
         <NotFound />
-      </article>
+      </div>
     )
   }
 }

@@ -74,7 +74,7 @@ class _File extends Component {
   render() {
     const { files } = this.props
     return (
-      <article>
+      <div>
         <Helmet
           title="File"
         />
@@ -128,7 +128,7 @@ class _File extends Component {
         </Modal>
 
 
-      </article>
+      </div>
     )
   }
 }

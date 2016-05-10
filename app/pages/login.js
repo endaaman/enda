@@ -21,7 +21,7 @@ class Login extends Component {
   }
   render() {
     return (
-      <article>
+      <div>
         <Container>
           <h1>Login</h1>
           <p>※俺用</p>
@@ -34,7 +34,7 @@ class Login extends Component {
           }
           <LoginForm disabled={this.props.active} onSubmit={this.onSubmit.bind(this)}/>
         </Container>
-      </article>
+      </div>
     )
   }
 }

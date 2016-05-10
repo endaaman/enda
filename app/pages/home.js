@@ -56,7 +56,7 @@ class Home extends Component {
   }
   render() {
     return (
-      <article>
+      <div>
         <Helmet
           title="Home"
         />
@@ -76,7 +76,7 @@ class Home extends Component {
         <Container>
           <MemoList memos={this.props.memos} />
         </Container>
-      </article>
+      </div>
     )
   }
 }

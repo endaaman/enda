@@ -22,7 +22,7 @@ class Logout extends Component {
   }
   render() {
     return (
-      <article>
+      <div>
         <Container>
           <h1>Logout</h1>
           { !this.props.active
@@ -34,7 +34,7 @@ class Logout extends Component {
           }
           <Button disabled={!this.props.active} onClick={this.logout.bind(this)}>Logout</Button>
         </Container>
-      </article>
+      </div>
     )
   }
 }

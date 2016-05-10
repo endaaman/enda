@@ -47,14 +47,14 @@ class MemoEdit extends Component {
     const memo = this.props.memo
 
     return (
-      <article>
+      <div>
         { this.props.notFound
           ? (<NotFound />)
           : memo
             ? ok(memo)
             : null
         }
-      </article>
+      </div>
     )
   }
 }

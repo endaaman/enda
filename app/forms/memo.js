@@ -30,7 +30,7 @@ class MemoForm extends Component {
     const { fields: { slug, title, digest, draft, image_url, content }, handleSubmit } = this.props
     return (
       <form onSubmit={handleSubmit}>
-        <Text field={slug} label="slug" placeholder="slug" required={true} pattern="[a-z0-9_-]{1,}" />
+        <Text field={slug} label="slug" placeholder="slug" pattern="[a-z0-9_-]{1,}" />
         <Text field={title} label="title" placeholder="title" required={true} />
         <Text field={digest} label="digest" placeholder="digest" />
         <Checkbox field={draft} label="draft" id="draft" />

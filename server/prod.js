@@ -14,10 +14,12 @@ global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/i
   // This handled is called cuz nginx serves forward
   server.use(express.static('build'))
 
+  server.enable('trust proxy')
+
   server.use('*', function(req, res) {
-    global.__HOSTNAME__ = req.hostname
     function onError(error) {
       res.status(500).send('Something is wrong')
+      console.error(error)
     }
     var handler = require('./handler').default
 

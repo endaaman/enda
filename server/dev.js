@@ -21,9 +21,9 @@ global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/i
 .server(project_base_path, function(){
   server.use(cookieParser())
 
-  server.use('*', function(req, res) {
-    global.__HOSTNAME__ = req.hostname
+  server.enable('trust proxy')
 
+  server.use('*', function(req, res) {
     function onError(error) {
       var result = '' + error
       if (error.stack) {

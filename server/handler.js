@@ -86,8 +86,13 @@ export default function(req, res, onError) {
         let notFound = head.meta.toString().indexOf('content="404"') > -1
         res.status(notFound ? 404 : 200).send(html)
       }
+      const apiRoot = /localhost/.test(req.hostname)
+        ? 'http://localhost:3000'
+        : `${req.protocol}://api.${req.hostname}`
+      console.log(apiRoot)
+      console.log(req.headers)
 
-      configureHttp(store.getState)
+      configureHttp(store.getState, apiRoot)
       if (req.cookies.token) {
         store.dispatch(setToken(req.cookies.token))
       }

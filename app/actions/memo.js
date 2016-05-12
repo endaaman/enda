@@ -22,7 +22,7 @@ export function dropMemos() {
 export function fetchMemos() {
   return (dispatch)=> {
     dispatch(showLoader())
-    return Http().get(`${api()}/memos`)
+    return Http().get(`/memos`)
     .then(res => {
       dispatch(hideLoader())
       dispatch({
@@ -52,7 +52,7 @@ export function fetchMemo(path) {
   return (dispatch)=> {
     dispatch(showLoader())
     const encodedPath = encodeURIComponent(path)
-    return Http().get(`${api()}/memos/${encodedPath}`)
+    return Http().get(`/memos/${encodedPath}`)
     .then(res => {
       const memo = res.data
       dispatch(hideLoader())
@@ -72,7 +72,7 @@ export function fetchMemo(path) {
 export function deleteMemo(id) {
   return (dispatch, getState)=> {
     dispatch(showLoader())
-    return Http().delete(`${api()}/memos/${id}`)
+    return Http().delete(`/memos/${id}`)
     .then(() => {
       dispatch(dropMemos())
       dispatch(hideLoader())
@@ -94,7 +94,7 @@ function uploadMemo(id, memo) {
     const updating = !!id
     return Http().request({
       method: updating ? 'PATCH' : 'POST',
-      url:  updating ? `${api()}/memos/${id}` : `${api()}/memos`,
+      url:  updating ? `/memos/${id}` : `/memos`,
       data: memo,
     }).then(res => {
       const memo = res.data

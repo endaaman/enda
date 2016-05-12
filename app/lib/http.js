@@ -1,11 +1,11 @@
 import axios from 'axios'
-import { isOnServer, getApiRoot } from '../utils'
 
 let instance = null
 
-export function configureHttp(getState) {
+export function configureHttp(getState, baseURL) {
   instance = axios.create({
     timeout: 10000,
+    baseURL
   })
   instance.interceptors.request.use(config => {
     const token = getState().token

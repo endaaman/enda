@@ -20,8 +20,11 @@ const initialState = window.__initial_state__ || {}
 const store = configureStore(initialState)
 const history = withScroll(browserHistory)
 
+const apiRoot = /localhost/.test(window.location.hostname)
+  ? '//localhost:3000'
+  : `//api.${window.location.hostname}`
+configureHttp(store.getState, apiRoot)
 
-configureHttp(store.getState)
 const token = cookies.get('token')
 if (token) {
   store.dispatch(setToken(token))

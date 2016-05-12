@@ -15,7 +15,7 @@ export function login(payload) {
   }
 
   return (dispatch)=> {
-    return Http().post(`${api()}/session`, payload)
+    return Http().post(`/session`, payload)
     .then(res => {
       const { token } = res.data
       dispatch(dropMemos())
@@ -42,7 +42,7 @@ export function check() {
       return
     }
 
-    return Http().get(`${api()}/session`, {
+    return Http().get(`/session`, {
     }).then(res => {
       const { user } = res.data
       dispatch({

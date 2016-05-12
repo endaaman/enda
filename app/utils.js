@@ -86,15 +86,6 @@ export function formatByteSize(size, precision = 1) {
   return (size / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number]
 }
 
-export function getApiRoot() {
-  const hostname = isOnServer()
-    ? global.__HOSTNAME__
-    : window.location.hostname
-
-  return /localhost/.test(hostname)
-    ? '//localhost:3000'
-    : `//api.${hostname}`
-}
 
 export function getStaticUrl(filename) {
   const hostname = isOnServer()

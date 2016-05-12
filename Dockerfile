@@ -37,4 +37,4 @@ ADD . /var/www/enda
 
 CMD ["/usr/bin/supervisord"]
 
-EXPOSE 80
+EXPOSE 80 443

@@ -92,8 +92,8 @@ export function getApiRoot() {
     : window.location.hostname
 
   return /localhost/.test(hostname)
-    ? 'http://localhost:3000'
-    : `http://api.${hostname}`
+    ? '//localhost:3000'
+    : `//api.${hostname}`
 }
 
 export function getStaticUrl(filename) {
@@ -102,6 +102,6 @@ export function getStaticUrl(filename) {
     : window.location.hostname
 
   return /localhost/.test(hostname)
-    ? `http://localhost:3001/${filename}`
-    : `http://static.${hostname}/${filename}`
+    ? `//localhost:3001/${filename}`
+    : `//static.${hostname}/${filename}`
 }

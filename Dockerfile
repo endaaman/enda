@@ -16,7 +16,6 @@ RUN nodebrew use v4.4.3
 ADD package.json /tmp/package.json
 RUN cd /tmp && NODE_ENV=development npm install
 
-RUN mkdir -p /tmp/nginx/cache/thumb
 RUN \
   chown -R www-data:www-data /var/lib/nginx && \
   echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
@@ -32,8 +31,6 @@ RUN cp -a /tmp/node_modules /var/www/enda/
 ADD . /var/www/enda
 WORKDIR /var/www/enda
 RUN npm run build
-
-ADD . /var/www/enda
 
 CMD ["/usr/bin/supervisord"]
 

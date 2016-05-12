@@ -13,6 +13,9 @@ ENV PATH /root/.nodebrew/current/bin:$PATH
 RUN nodebrew install-binary v4.4.3
 RUN nodebrew use v4.4.3
 
+ADD package.json /tmp/package.json
+RUN cd /tmp && NODE_ENV=development npm install
+
 RUN mkdir -p /tmp/nginx/cache/thumb
 RUN \
   chown -R www-data:www-data /var/lib/nginx && \
@@ -24,10 +27,7 @@ ADD nginx/enda.conf /etc/nginx/sites-enabled
 ADD supervisor.conf /etc/supervisor/conf.d/
 
 RUN mkdir -p /var/www/enda
-
-ADD package.json /tmp/package.json
-RUN cd /tmp && NODE_ENV=development npm install
-RUN mkdir -p /var/www/enda && cp -a /tmp/node_modules /var/www/enda/
+RUN cp -a /tmp/node_modules /var/www/enda/
 
 ADD . /var/www/enda
 WORKDIR /var/www/enda

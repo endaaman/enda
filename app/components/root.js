@@ -26,20 +26,6 @@ class Root extends Component {
 
   render() {
     const desc = '@endaaman\'s website'
-    const metas = [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width,initial-scale=1' },
-      { name: 'twitter:card', content: 'summary' },
-      { name: 'twitter:site', content: '@endaaman' },
-      { name: 'twitter:image', content: icon },
-      { property: 'og:image', content: icon },
-
-      { name: 'twitter:title', content: 'えんだーまんの家' },
-      { name: 'description', content: desc },
-      { name: 'twitter:description', content: desc },
-      { property: 'og:description', content: desc },
-    ]
-
     return (
       <div className={styles.root}>
         <Helmet
@@ -48,7 +34,19 @@ class Root extends Component {
             {'rel': 'shortcut icon', 'href': require('../assets/favicon.ico')},
             {'rel': 'stylesheet', 'href': getGoogleFontsHref(fonts)},
           ]}
-          meta={metas}
+          meta={[
+            { charset: 'utf-8' },
+            { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+            { name: 'theme-color', content: '#7FB685' },
+            { name: 'twitter:site', content: '@endaaman' },
+            { name: 'twitter:card', content: 'summary' },
+            { name: 'twitter:image', content: icon },
+            { property: 'og:image', content: icon },
+            { name: 'twitter:title', content: 'えんだーまんの家' },
+            { name: 'description', content: desc },
+            { name: 'twitter:description', content: desc },
+            { property: 'og:description', content: desc },
+          ]}
         />
         <Header />
         {this.props.children}

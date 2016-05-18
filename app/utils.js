@@ -92,7 +92,9 @@ export function getStaticUrl(filename) {
     ? global.__HOSTNAME__
     : window.location.hostname
 
-  return /localhost/.test(hostname)
-    ? `//localhost:3001/${filename}`
-    : `//static.${hostname}/${filename}`
+  const base =  /localhost/.test(hostname)
+    ? `//localhost:3001/`
+    : `//static.${hostname}/`
+
+  return base + filename
 }

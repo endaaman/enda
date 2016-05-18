@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
+import cx from 'classnames'
 import hljs from 'highlight.js'
 
 import styles from '../styles/code_block.css'
@@ -25,13 +26,16 @@ class CodeBlock extends Component{
   }
 
   highlightCode () {
-    hljs.highlightBlock(this.refs.code)
+    if (this.props.language) {
+      hljs.highlightBlock(this.refs.code)
+    }
   }
 
   render () {
+    // console.log(this.props.language)
     return (
       <pre className={styles.codeBlock}>
-          <code ref="code" className={this.props.language}>{this.props.literal}</code>
+          <code ref="code" className={cx(this.props.language, 'hljs')}>{this.props.literal}</code>
       </pre>
     )
   }

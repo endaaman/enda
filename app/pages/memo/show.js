@@ -82,10 +82,10 @@ class MemoShow extends Component {
 
   deleteMemo() {
     const { dispatch } = this.props
-    const title = this.props.memo.title
-    dispatch(deleteMemo(this.props.memo._id))
+    const { memo } = this.state
+    dispatch(deleteMemo(memo._id))
     .then(()=> {
-      dispatch(showToast(`deleted "${title}"`))
+      dispatch(showToast(`deleted "${memo.title}"`))
       this.context.router.push('/')
     }, err => {
       dispatch(showToast('Something wrong'))

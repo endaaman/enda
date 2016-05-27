@@ -20,12 +20,15 @@ import { showToast } from '../actions/toast'
 
 class MemoList extends Component {
   render() {
-    const memos = this.props.memos
+    const { memos, active } = this.props
     return (
       <ul className={styles.memoList}>
         {
-          memos.map(memo => (
-            <li className={styles.memoItem} key={memo._id}>
+          memos.map(memo => {
+            if (memo.draft && !active) {
+              return null
+            }
+            return <li className={styles.memoItem} key={memo._id}>
               <Link to={`/memo/${memo.slug}`}>
                 <h3>{memo.title}</h3>
                 <footer>
@@ -38,7 +41,7 @@ class MemoList extends Component {
                 </footer>
               </Link>
             </li>
-          ))
+          })
         }
       </ul>
     )
@@ -55,12 +58,13 @@ class Home extends Component {
     this.constructor.loadProps(this.props)
   }
   render() {
+    const { memos, active } = this.props
     return (
       <div>
         <Helmet
           title="Home"
         />
-        { this.props.active
+        { active
             ? (<Container>
               <h2>管理</h2>
               <ul>
@@ -74,7 +78,7 @@ class Home extends Component {
         <p>IT系医学生の雑記帳です。</p>
         </Container>
         <Container>
-          <MemoList memos={this.props.memos} />
+          <MemoList memos={ memos } active={ active } />
         </Container>
       </div>
     )

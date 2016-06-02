@@ -15,6 +15,16 @@ import { configureHttp } from '../app/lib/http'
 const webpackIsomorphicTools = global.webpackIsomorphicTools
 const isProd = process.env.NODE_ENV === 'production'
 
+function checkFromCrowler(ua) {
+  const botExps = [
+    /googlebot/i,
+    /yahoo/i,
+    /bingbot/i,
+    /hatena/i,
+  ]
+  return !!botExps.find((exp)=> exp.test(ua))
+}
+
 function buildHtml(head, script, content, initialState) {
   return `<!doctype html>
 <html>
@@ -34,10 +44,16 @@ function buildHtml(head, script, content, initialState) {
 export default function(req, res, onError) {
   const history = createMemoryHistory()
 
-  // const locationList = []
-  // const unlisten = history.listen(location => {
-  //   locationList.push(location)
-  // })
+  const fromCrowler = checkFromCrowler(req.headers['user-agent'])
+
+  let locationList
+  let unlisten
+  if (fromCrowler) {
+    locationList = []
+    unlisten = history.listen(location => {
+      locationList.push(location)
+    })
+  }
 
   match({routes, history, location: req.originalUrl}, (error, redirectLocation, renderProps) => {
     if (error) {
@@ -56,13 +72,14 @@ export default function(req, res, onError) {
         const initialState = store.getState()
         const content = renderToString(provider)
 
-        // unlisten()
-        // const lastLocation = locationList[locationList.length - 1]
-        // if (lastLocation.action === 'replace') {
-        //   console.log(lastLocation)
-        //   res.redirect(302, lastLocation.pathname + lastLocation.search)
-        //   return
-        // }
+        if (fromCrowler) {
+          unlisten()
+          const lastLocation = locationList[locationList.length - 1]
+          if (lastLocation.action === 'REPLACE') {
+            res.redirect(302, lastLocation.pathname + lastLocation.search)
+            return
+          }
+        }
         const head = rewind()
         const assets = webpackIsomorphicTools.assets()
 
@@ -89,8 +106,6 @@ export default function(req, res, onError) {
       const apiRoot = /localhost/.test(req.hostname)
         ? 'http://localhost:3000'
         : `${req.protocol}://api.${req.hostname}`
-      console.log(apiRoot)
-      console.log(req.headers)
 
       configureHttp(store.getState, apiRoot)
       if (req.cookies.token) {

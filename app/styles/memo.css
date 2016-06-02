@@ -29,17 +29,34 @@
 }
 
 .content {
+  h1, h2, h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  h4 h5 h6 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+
   p {
     font-size: 14px;
     line-height: 20px;
   }
+
+  a {
+    color: #7FB685;
+  }
+
   li {
     font-size: 14px;
     line-height: 20px;
   }
+
   :not(pre) > code {
     padding: 2px 4px;
-    background-color: #d9d9d9;
+    background-color: #BBC7A4;
   }
 
   img {
@@ -47,5 +64,44 @@
     max-width: 100%;
     margin: 0 auto;
     box-shadow: 0 0 4px rgba(0, 0, 0, .4);
+  }
+
+  blockquote {
+    border-left: 6px solid #7FB685;
+    margin: 1.5em 10px 1.5em 0;
+    padding: 0.5em 10px;
+  }
+
+  table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+
+    thead {
+      tr {
+        border-bottom: solid 1px #111;
+      }
+    }
+
+    td, th {
+      padding: 6px 8px;
+      white-space: nowrap;
+    }
+
+    th {
+        word-break: keep-all;
+        text-align: center;
+    }
+
+    tr {
+      word-break: normal;
+      border-bottom: solid 1px #333;
+    }
+  }
+
+  .well {
+    padding: 2px 4px;
+    background-color: #BBC7A4
   }
 }

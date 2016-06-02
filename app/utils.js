@@ -39,7 +39,7 @@ export function getGoogleFontsHref(fonts) {
 }
 
 
-function isInnerLink(uri) {
+export function isInnerLink(uri) {
   const proxyedPaths = [
     /^\/api\/.*/,
     /^\/static\/.*/,

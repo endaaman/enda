@@ -7,14 +7,12 @@ import styles from '../styles/code_block.css'
 
 
 class CodeBlock extends Component{
-  static propTypes: {
-    literal: React.PropTypes.string,
-    language: React.PropTypes.string
-  }
-
   constructor(props) {
     super(props)
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
+    this.state = {
+      codeBlock: null,
+    }
   }
 
   componentDidMount () {
@@ -26,16 +24,22 @@ class CodeBlock extends Component{
   }
 
   highlightCode () {
-    if (this.props.language) {
-      hljs.highlightBlock(this.refs.code)
+    if (this.props.language && this.state.codeBlock) {
+      hljs.highlightBlock(this.state.codeBlock)
     }
   }
 
   render () {
-    // console.log(this.props.language)
+    const codeElement = {...this.props.codeElement}
+    codeElement.props = {...codeElement.props, ...{
+      className: 'hljs'
+    }}
     return (
-      <pre className={styles.codeBlock}>
-          <code ref="code" className={cx(this.props.language, 'hljs')}>{this.props.literal}</code>
+      <pre
+        className={cx(styles.codeBlock, this.props.language)}
+        ref={(ref)=> this.setState({codeBlock: ref})}
+        >
+        {codeElement}
       </pre>
     )
   }

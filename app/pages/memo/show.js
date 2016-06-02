@@ -5,19 +5,74 @@ import Helmet from 'react-helmet'
 import dateFormat from 'dateformat'
 import MarkdownComponent from 'react-markdown'
 
+import MDReactComponent from 'markdown-react-js'
+import markdownItContainer from 'markdown-it-container'
+import markdownItIns from 'markdown-it-ins'
+import markdownItMark from 'markdown-it-mark'
+import markdownItDeflist from 'markdown-it-deflist'
+import markdownItSup from 'markdown-it-sup'
+import markdownItSub from 'markdown-it-sub'
+
 import NoMacth from '../no_match'
 
 import Container from '../../components/container'
 import Modal from '../../components/modal'
 import NotFound from '../../components/not_found'
+import CodeBlock from '../../components/code_block'
 import { Button } from '../../components/controls'
 
 import { showToast} from '../../actions/toast'
 import { getMemos, deleteMemo } from '../../actions/memo'
-import { findMemo, getMarkdownRenderers } from '../../utils'
+import { findMemo, getMarkdownRenderers, isInnerLink } from '../../utils'
 
 import styles from '../../styles/memo.css'
 
+const customContainers = {
+  well: (props, children, arg)=> {
+    return <div className={styles.well} {...props}>{children}</div>
+  },
+}
+
+
+const mdOptions = {
+  onIterate: (tag, props, children)=> {
+    if (tag === 'a') {
+      if (isInnerLink(props.href)) {
+        props = {...props, ...{to: props.href}}
+        return (<Link {...props}>{children}</Link>)
+      } else {
+        props = {...props, ...{target: '_blank'}}
+        return React.createElement(tag, props, children)
+      }
+    }
+    if (tag === 'pre') {
+      const lang = children[0].props['data-language'] || null
+      return <CodeBlock language={lang} codeElement={children[0]} key={props.key} />
+    }
+    const dataInfo = props['data-info']
+    if (dataInfo) {
+      const [marker, arg] = dataInfo.split(/:(.+)?/)
+      return customContainers[marker](props, children, arg)
+    }
+    return null
+  },
+  plugins: [
+    {
+      plugin: markdownItContainer,
+      args: [null, {
+        validate: (param)=> {
+          const [marker] = param.split(':')
+          return Object.keys(customContainers).find(key => marker.trim() === key)
+        },
+      }]
+    },
+    markdownItIns,
+    markdownItMark,
+    markdownItDeflist,
+    markdownItSub,
+    markdownItSup
+  ],
+}
 
 
 class MemoShow extends Component {
@@ -146,7 +201,9 @@ class MemoShow extends Component {
         </header>
         <Container>
           <div className={styles.content}>
-            <MarkdownComponent source={memo.content || ''} renderers={getMarkdownRenderers()}/>
+            {/*<MarkdownComponent source={memo.content || ''} renderers={getMarkdownRenderers()}/>*/}
+            {/*<div dangerouslySetInnerHTML={{__html: md.render(memo.content || '')}}></div>*/}
+            <MDReactComponent text={memo.content || ''}  {...mdOptions}/>
           </div>
         </Container>
         <Modal

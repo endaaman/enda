@@ -1,29 +1,31 @@
-var ansi2html = require('ansi2html')
-var express = require('express')
-var cookieParser = require('cookie-parser')
-var webpack = require('webpack')
-var webpackDevServer = require('webpack-dev-server')
-var WebpackIsomorphicTools = require('webpack-isomorphic-tools')
-var u = require('./util')
+import path from 'path'
+import ansi2html from 'ansi2html'
+import express from 'express'
+import cookieParser from 'cookie-parser'
+import webpack from 'webpack'
+import webpackDevServer from 'webpack-dev-server'
+import WebpackIsomorphicTools from 'webpack-isomorphic-tools'
 
-var port = 8080
-var webpackConfig = require('../webpack/config')
+import u from './util'
+import isomorphicConfig from '../webpack/isomorphic-tools'
+
+
+const port = 8080
+const webpackConfig = require('../webpack/config')
 webpackConfig.entry.app.unshift(`webpack-dev-server/client?http://localhost:8080`)
 
-var compiler = webpack(webpackConfig)
-var server = new webpackDevServer(compiler, webpackConfig.devServer)
+const compiler = webpack(webpackConfig)
+const server = new webpackDevServer(compiler, webpackConfig.devServer)
 
-var project_base_path = require('path').resolve(__dirname, '..')
+const project_base_path = path.resolve(__dirname, '..')
 
 
-global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/isomorphic-tools'))
+global.webpackIsomorphicTools = new WebpackIsomorphicTools(isomorphicConfig)
 .development(true)
-.server(project_base_path, function(){
+.server(project_base_path, ()=> {
   server.use(cookieParser())
 
-  server.enable('trust proxy')
-
-  server.use('*', function(req, res) {
+  server.use('*', (req, res)=> {
     function onError(error) {
       var result = '' + error
       if (error.stack) {
@@ -37,7 +39,7 @@ global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/i
       `)
     }
 
-    u.removeDependingModuleCaches(require.resolve('./handler'), function(name) {
+    u.removeDependingModuleCaches(require.resolve('./handler'), (name)=> {
       if (/\/node_modules\//.test(name)) {
         return false
       }
@@ -53,7 +55,7 @@ global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/i
     }
   })
 
-  server.listen(port, function() {
+  server.listen(port, ()=> {
     console.info(`STARTED(port:${port}, mode: development)`)
   })
 })

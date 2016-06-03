@@ -37,7 +37,7 @@ class MemoList extends Component {
                     { memo.draft ? <span style={{color: 'brown'}}>draft</span> : null}
                     <span> </span>
                     <span>{dateFormat(memo.created_at, 'yyyy年m月d日')}</span>
-                    </div>
+                  </div>
                 </footer>
               </Link>
             </li>

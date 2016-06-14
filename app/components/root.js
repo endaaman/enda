@@ -20,7 +20,7 @@ const fonts = {
 }
 
 class Root extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.dispatch(check())
   }
 

@@ -1,4 +1,4 @@
-import express from 'express'
+import querystring from 'querystring'
 import { createSitemap } from 'sitemap'
 
 import React, {createElement as $} from 'react'
@@ -44,11 +44,18 @@ function buildHtml(head, script, content, initialState) {
 }
 
 function buildSitemap(hostname, memos) {
+  function escapeQuery(url) {
+    const [path, query] = url.split('?')
+    if (!query) {
+      return url
+    }
+    return 'path' + '?' + encodeURIComponent(query)
+  }
+
   const urls = [
     {
-      url: '/page-1/',
-      lastmodISO: (new Date()).toISOString(),
-      changefreq: 'weekly',
+      url: '/',
+      changefreq: 'daily',
     }
   ]
 
@@ -61,7 +68,9 @@ function buildSitemap(hostname, memos) {
       lastmodISO: (new Date(memo.updated_at)).toISOString(),
       changefreq: 'weekly',
     }
-    url.img = memo.image_url
+    if (memo.image_url) {
+      url.img = escapeQuery(memo.image_url)
+    }
     urls.push(url)
   }
 

@@ -11,6 +11,7 @@ import Container from '../components/container'
 import Header from '../components/header'
 import Footer from '../components/footer'
 
+import { check } from '../actions/session'
 import { getMemos } from '../actions/memo'
 import styles from '../styles/home.css'
 
@@ -52,7 +53,10 @@ class MemoList extends Component {
 
 class Home extends Component {
   static loadProps({dispatch}) {
-    return dispatch(getMemos())
+    return Promise.all([
+      dispatch(getMemos()),
+      dispatch(check()),
+    ])
   }
   componentWillMount() {
     this.constructor.loadProps(this.props)

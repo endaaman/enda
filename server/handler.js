@@ -43,7 +43,7 @@ function buildHtml(head, script, content, initialState) {
 </html>`
 }
 
-function buildSitemap(hostname, memos) {
+function buildSitemap(baseUrl, memos) {
   function escapeQuery(url) {
     const [path, query] = url.split('?')
     if (!query) {
@@ -54,7 +54,7 @@ function buildSitemap(hostname, memos) {
 
   const urls = [
     {
-      url: '/',
+      url: baseUrl + '/',
       changefreq: 'daily',
     }
   ]
@@ -64,7 +64,7 @@ function buildSitemap(hostname, memos) {
       continue
     }
     const url = {
-      url: `/memos/${memo.slug}`,
+      url: `${baseUrl}/memos/${memo.slug}`,
       lastmodISO: (new Date(memo.updated_at)).toISOString(),
       changefreq: 'weekly',
     }
@@ -75,7 +75,6 @@ function buildSitemap(hostname, memos) {
   }
 
   const sitemap = createSitemap({
-    hostname: hostname,
     cacheTime: 3 * (60 * 60 * 1000), // x hours
     urls: urls
   })
@@ -95,8 +94,7 @@ export default function(req, res, onError) {
   if (req.originalUrl === '/sitemap.xml') {
     res.header('Content-Type', 'application/xml');
     store.dispatch(getMemos())
-    .then(()=> {
-      const memos = store.getState().memo.items
+    .then((memos)=> {
       res.status(200).send(buildSitemap(`${req.protocol}://${req.hostname}`, memos))
     }, ()=> {
       res.status(500).send('something went wrong')

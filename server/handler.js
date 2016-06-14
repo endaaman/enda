@@ -98,7 +98,6 @@ export default function(req, res, onError) {
     .then(()=> {
       const memos = store.getState().memo.items
       res.status(200).send(buildSitemap(`${req.protocol}://${req.hostname}`, memos))
-      // res.status(200).send('sm')
     }, ()=> {
       res.status(500).send('something went wrong')
     })

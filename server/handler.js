@@ -1,4 +1,5 @@
 import express from 'express'
+import { createSitemap } from 'sitemap'
 
 import React, {createElement as $} from 'react'
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
@@ -10,6 +11,7 @@ import { createMemoryHistory } from 'history'
 import routes from '../app/routes'
 import configureStore from '../app/store/configure'
 import { setToken, unsetToken } from '../app/actions/token'
+import { getMemos } from '../app/actions/memo'
 import { configureHttp } from '../app/lib/http'
 
 const webpackIsomorphicTools = global.webpackIsomorphicTools
@@ -41,7 +43,59 @@ function buildHtml(head, script, content, initialState) {
 </html>`
 }
 
+function buildSitemap(hostname, memos) {
+  const urls = [
+    {
+      url: '/page-1/',
+      lastmodISO: (new Date()).toISOString(),
+      changefreq: 'weekly',
+    }
+  ]
+
+  for (const memo of memos) {
+    if (memo.draft) {
+      continue
+    }
+    const url = {
+      url: `/memos/${memo.slug}`,
+      lastmodISO: (new Date(memo.updated_at)).toISOString(),
+      changefreq: 'weekly',
+    }
+    url.img = memo.image_url
+    urls.push(url)
+  }
+
+  const sitemap = createSitemap({
+    hostname: hostname,
+    cacheTime: 3 * (60 * 60 * 1000), // x hours
+    urls: urls
+  })
+
+  return sitemap.toString()
+}
+
+
 export default function(req, res, onError) {
+  const apiRoot = /localhost/.test(req.hostname)
+    ? 'http://localhost:3000'
+    : `${req.protocol}://api.${req.hostname}`
+
+  const store = configureStore({})
+  configureHttp(store.getState, apiRoot)
+
+  if (req.originalUrl === '/sitemap.xml') {
+    res.header('Content-Type', 'application/xml');
+    store.dispatch(getMemos())
+    .then(()=> {
+      const memos = store.getState().memo.items
+      res.status(200).send(buildSitemap(`${req.protocol}://${req.hostname}`, memos))
+      // res.status(200).send('sm')
+    }, ()=> {
+      res.status(500).send('something went wrong')
+    })
+    return
+  }
+
   const history = createMemoryHistory()
 
   const fromCrowler = checkFromCrowler(req.headers['user-agent'])
@@ -63,8 +117,6 @@ export default function(req, res, onError) {
     } else if (!renderProps) {
       res.status(404).send('Not found')
     } else {
-      const store = configureStore({})
-
       const render = ()=> {
         const provider = $(Provider, {store: store}, $(RouterContext, renderProps))
         // NOTE: Do not show token in prerendered html
@@ -103,11 +155,6 @@ export default function(req, res, onError) {
         let notFound = head.meta.toString().indexOf('content="404"') > -1
         res.status(notFound ? 404 : 200).send(html)
       }
-      const apiRoot = /localhost/.test(req.hostname)
-        ? 'http://localhost:3000'
-        : `${req.protocol}://api.${req.hostname}`
-
-      configureHttp(store.getState, apiRoot)
       if (req.cookies.token) {
         store.dispatch(setToken(req.cookies.token))
       }

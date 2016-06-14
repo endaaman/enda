@@ -49,6 +49,7 @@
     "redux-form": "^5.2.5",
     "redux-thunk": "^2.1.0",
     "scroll-behavior": "^0.7.0",
+    "sitemap": "^1.6.0",
     "webpack-isomorphic-tools": "^2.3.0"
   },
   "devDependencies": {

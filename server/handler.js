@@ -49,7 +49,7 @@ function buildSitemap(hostname, memos) {
     if (!query) {
       return url
     }
-    return 'path' + '?' + encodeURIComponent(query)
+    return path + '?' + encodeURIComponent(query)
   }
 
   const urls = [

@@ -14,7 +14,7 @@ global.webpackIsomorphicTools = new WebpackIsomorphicTools(isomorphicConfig)
 
   server.use(cookieParser())
   // This handled is called cuz nginx serves forward
-  // server.use(express.static('build'))
+  server.use(express.static('dist'))
 
   server.enable('trust proxy')
 

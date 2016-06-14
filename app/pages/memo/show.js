@@ -31,6 +31,9 @@ const customContainers = {
   well: (props, children, arg)=> {
     return <div className={styles.well} {...props}>{children}</div>
   },
+  color: (props, children, arg)=> {
+    return <div style={{color: arg}} {...props}>{children}</div>
+  },
 }
 
 

@@ -3,7 +3,6 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import dateFormat from 'dateformat'
-import MarkdownComponent from 'react-markdown'
 
 import MDReactComponent from 'markdown-react-js'
 import markdownItContainer from 'markdown-it-container'
@@ -33,6 +32,10 @@ const customContainers = {
   },
   color: (props, children, arg)=> {
     return <div style={{color: arg}} {...props}>{children}</div>
+  },
+  video: (props, children, arg)=> {
+    console.log(arg)
+    return <video width="100%" src={arg} controls {...props} ></video>
   },
 }
 
@@ -74,7 +77,7 @@ const mdOptions = {
     markdownItDeflist,
     markdownItSub,
     markdownItSup
-  ],
+  ]
 }
 
 

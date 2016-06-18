@@ -1,11 +1,7 @@
 
-
 .codeBlock {
   :global {
     /* NOTE: wait the `path` option implemented on 'postcss-partial-import' */
     @import '../../node_modules/highlight.js/styles/solarized-dark.css';
-  }
-  & > code {
-    padding: 1em .5em;
   }
 }

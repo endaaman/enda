@@ -4,4 +4,3 @@ enda:
     VIRTUAL_HOST: endaaman.me,enda.local
   extra_hosts:
     - 'api.enda.local:172.17.0.1'
-  restart: always

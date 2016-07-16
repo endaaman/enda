@@ -58,6 +58,10 @@ module.exports = (function(){
     ]
   }
 
+  config.resolve = {
+    extensions: ['', '.js', '.json', '.jsx']
+  }
+
   config.postcss = function() {
     return [
       require('precss')({

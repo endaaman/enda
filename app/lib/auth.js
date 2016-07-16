@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createElement as $ } from 'react'
 import { connect } from 'react-redux'
 
 import { check } from '../actions/session'
@@ -18,10 +18,10 @@ export function requireAuth(Target, Replacer) {
     render () {
       const { user, token } = this.props
       return user
-        ? <Target {...this.props }/>
+        ? $(Target, { ...this.props })
         : token
           ? null
-          : <Replacer {...this.props }/>
+          : $(Replacer, {...this.props })
     }
   }
 

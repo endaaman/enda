@@ -34,7 +34,6 @@ const customContainers = {
     return <div style={{color: arg}} {...props}>{children}</div>
   },
   video: (props, children, arg)=> {
-    console.log(arg)
     return <video width="100%" src={arg} controls {...props} ></video>
   },
 }

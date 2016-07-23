@@ -13,14 +13,13 @@ ENV PATH /root/.nodebrew/current/bin:$PATH
 RUN nodebrew install-binary v6.3.0
 RUN nodebrew use v6.3.0
 
-ADD package.json /tmp/package.json
-RUN cd /tmp && NODE_ENV=development npm install
-
 RUN \
   chown -R www-data:www-data /var/lib/nginx && \
   echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
   rm /etc/nginx/sites-enabled/default
 
+ADD package.json /tmp/package.json
+RUN cd /tmp && NODE_ENV=development npm install
 
 ADD nginx/enda.conf /etc/nginx/sites-enabled
 ADD supervisor.conf /etc/supervisor/conf.d/

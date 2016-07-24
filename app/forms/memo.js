@@ -17,8 +17,8 @@ class MemoForm extends Component {
     const {
       slug = '',
       title = '',
-      draft = '',
-      digest = false,
+      digest = '',
+      draft = false,
       hidden = false,
       image_url = '',
       content = '',

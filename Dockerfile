@@ -10,8 +10,8 @@ ENV NODE_ENV production
 
 RUN curl -kL git.io/nodebrew | perl - setup
 ENV PATH /root/.nodebrew/current/bin:$PATH
-RUN nodebrew install-binary v6.3.0
-RUN nodebrew use v6.3.0
+RUN nodebrew install-binary v6.6.0
+RUN nodebrew use v6.6.0
 
 RUN \
   chown -R www-data:www-data /var/lib/nginx && \

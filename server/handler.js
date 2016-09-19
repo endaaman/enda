@@ -64,7 +64,7 @@ function buildSitemap(baseUrl, memos) {
       continue
     }
     const url = {
-      url: `${baseUrl}/memos/${memo.slug}`,
+      url: `${baseUrl}/memo/${memo.slug}`,
       lastmodISO: (new Date(memo.updated_at)).toISOString(),
       changefreq: 'weekly',
     }

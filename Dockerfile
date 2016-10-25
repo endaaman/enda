@@ -10,8 +10,8 @@ ENV NODE_ENV production
 
 RUN curl -kL git.io/nodebrew | perl - setup
 ENV PATH /root/.nodebrew/current/bin:$PATH
-RUN nodebrew install-binary v6.6.0
-RUN nodebrew use v6.6.0
+RUN nodebrew install-binary v6.9.1
+RUN nodebrew use v6.9.1
 
 RUN \
   chown -R www-data:www-data /var/lib/nginx && \
@@ -24,11 +24,11 @@ RUN cd /tmp && NODE_ENV=development npm install
 ADD nginx/enda.conf /etc/nginx/sites-enabled
 ADD supervisor.conf /etc/supervisor/conf.d/
 
-RUN mkdir -p /var/www/enda
-RUN cp -a /tmp/node_modules /var/www/enda/
+RUN mkdir -p /var/www/enaaman.me
+RUN cp -a /tmp/node_modules /var/www/enaaman.me
 
-ADD . /var/www/enda
-WORKDIR /var/www/enda
+ADD . /var/www/endaaman.me
+WORKDIR /var/www/endaaman.me
 RUN npm run build
 
 CMD ["/usr/bin/supervisord"]

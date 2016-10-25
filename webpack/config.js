@@ -5,7 +5,6 @@ const fs = require('fs')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 
-
 const Webpack_isomorphic_tools_plugin =
   require('webpack-isomorphic-tools/plugin')
 const webpack_isomorphic_tools_configuration =
@@ -73,7 +72,7 @@ module.exports = (function(){
 
 
   config.entry = {
-    app: ['./app/index.js']
+    app: ['./app/index.jsx']
   }
 
 

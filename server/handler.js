@@ -8,7 +8,7 @@ import { rewind } from 'react-helmet'
 import { Provider } from 'react-redux'
 import { createMemoryHistory } from 'history'
 
-import routes from '../app/routes'
+import routes from '../app/routes.jsx'
 import configureStore from '../app/store/configure'
 import { setToken, unsetToken } from '../app/actions/token'
 import { getMemos } from '../app/actions/memo'
@@ -23,6 +23,7 @@ function checkFromCrowler(ua) {
     /yahoo/i,
     /bingbot/i,
     /hatena/i,
+    /twitter/i,
   ]
   return !!botExps.find((exp)=> exp.test(ua))
 }

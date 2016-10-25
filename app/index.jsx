@@ -1,9 +1,9 @@
 import './polyfill'
 import React, { createElement as $ } from 'react'
 import { render } from 'react-dom'
-import { Router, match, browserHistory } from 'react-router'
+import { Router, match, browserHistory, applyRouterMiddleware } from 'react-router'
+import { useScroll } from 'react-router-scroll';
 import { Provider } from 'react-redux'
-import withScroll from 'scroll-behavior'
 import cookies from 'browser-cookies'
 
 import routes from './routes'
@@ -18,7 +18,6 @@ import './styles/global.css'
 const rootDom = document.getElementById('app')
 const initialState = window.__initial_state__ || {}
 const store = configureStore(initialState)
-const history = withScroll(browserHistory)
 
 const apiRoot = /localhost/.test(window.location.hostname)
   ? '//localhost:3000'
@@ -31,7 +30,8 @@ if (token) {
 }
 
 
-match({ routes, history }, (error, redirectLocation, renderProps) => {
+// match({ routes, history, render:applyRouterMiddleware(useScroll()) }, (error, redirectLocation, renderProps) => {
+match({ routes, history, render:applyRouterMiddleware(useScroll()) }, (error, redirectLocation, renderProps) => {
   render((
     <Provider store={store}>
       <Router {...renderProps} />

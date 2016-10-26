@@ -13,28 +13,28 @@ export default (state = {
 }, action) => {
   switch (action.type) {
     case RECIEVE_MEMOLIST:
-      return {...{}, state, ...{
+      return {...state, ...{
         items: action.items,
       }}
-    case DROP_MEMOLIST:
-      return {...{}, state, ...{
+    caconsole.log('drop')
+      return {...state, ...{
         items: [],
       }}
     case ADD_MEMO:
-      return {...{}, state, ...{
+      return {...state, ...{
         items: [...state.items, action.item]
       }}
     case SET_MEMO:
-      return {...{}, state, ...{
+      return {...state, ...{
         items: state.items.map((memo)=> {
           if (memo._id === action.item._id) {
             return action.item
           }
-          return memo
+          return {...memo}
         })
       }}
     case DELETE_MEMO:
-      return {...{}, state, ...{
+      return {...state, ...{
         items: state.items.filter((memo)=> memo._id !== action.id )
       }}
     default:

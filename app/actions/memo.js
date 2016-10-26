@@ -97,7 +97,7 @@ function uploadMemo(id, memo) {
       data: memo,
     }).then(res => {
       const memo = res.data
-      dispatch(dropMemos())
+      // dispatch(dropMemos())
       dispatch(hideLoader())
       if (updating) {
         dispatch({

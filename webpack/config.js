@@ -111,10 +111,6 @@ module.exports = (function(){
     inline: true,
     historyApiFallback: true,
     stats: { colors: true },
-    proxy: {
-      '/api/*': 'http://localhost:3000',
-      '/static/*': 'http://localhost:3000',
-    },
   }
 
   return config

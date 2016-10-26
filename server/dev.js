@@ -21,7 +21,6 @@ const project_base_path = path.resolve(__dirname, '..')
 
 
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(isomorphicConfig)
-.development(true)
 .server(project_base_path, ()=> {
   server.use(cookieParser())
 

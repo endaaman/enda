@@ -22,10 +22,11 @@ import { showToast } from '../actions/toast'
 class MemoList extends Component {
   render() {
     const { memos, active } = this.props
+    const reversed = memos.concat([]).reverse()
     return (
       <ul className={styles.memoList}>
         {
-          memos.map(memo => {
+          reversed.map(memo => {
             if (memo.draft && !active) {
               return null
             }

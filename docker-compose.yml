@@ -1,6 +1,6 @@
 enda:
-  build: .
+  image: endaaman/endaaman.me
   environment:
-    VIRTUAL_HOST: endaaman.me,enda.local
+    VIRTUAL_HOST: endaaman.me,enda.dev
   extra_hosts:
-    - 'api.enda.local:172.17.0.1'
+    - 'api.enda.dev:172.17.0.1'

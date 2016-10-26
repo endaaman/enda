@@ -1,6 +1,5 @@
 import Http from '../lib/http'
 import { showLoader, hideLoader } from './loader'
-import { findMemo, getApiRoot as api } from '../utils'
 
 export const RECIEVE_MEMOLIST = Symbol()
 export const DROP_MEMOLIST = Symbol()

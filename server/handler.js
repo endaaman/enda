@@ -13,6 +13,7 @@ import configureStore from '../app/store/configure'
 import { setToken, unsetToken } from '../app/actions/token'
 import { getMemos } from '../app/actions/memo'
 import { configureHttp } from '../app/lib/http'
+import { configureUri } from '../app/lib/uri'
 
 const webpackIsomorphicTools = global.webpackIsomorphicTools
 const isProd = process.env.NODE_ENV === 'production'
@@ -91,6 +92,7 @@ export default function(req, res, onError) {
 
   const store = configureStore({})
   configureHttp(store.getState, apiRoot)
+  configureUri(req.protocol + '://' + req.headers.host + req.url)
 
   if (req.originalUrl === '/sitemap.xml') {
     res.header('Content-Type', 'application/xml');

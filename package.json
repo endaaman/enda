@@ -50,6 +50,7 @@
     "redux-thunk": "^2.1.0",
     "scroll-behavior": "^0.8.2",
     "sitemap": "^1.8.2",
+    "urijs": "^1.18.2",
     "webpack-isomorphic-tools": "^2.6.3"
   },
   "devDependencies": {

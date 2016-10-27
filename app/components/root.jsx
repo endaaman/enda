@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
+import urijs from 'urijs'
 
 import Header from './header'
 import Footer from './footer'
@@ -8,6 +9,7 @@ import Loader from './loader'
 import Toast from './toast'
 
 import { getGoogleFontsHref } from '../utils'
+import uri from '../lib/uri'
 import { check } from '../actions/session'
 
 import styles from '../styles/root.css'
@@ -23,8 +25,9 @@ class Root extends Component {
   componentWillMount() {
     this.props.dispatch(check())
   }
-
   render() {
+    const u = uri()
+    const iconUrl = urijs(icon).protocol(u.protocol()).hostname(u.hostname()).toString()
     const desc = '@endaaman\'s website'
     return (
       <div className={styles.root}>
@@ -40,8 +43,8 @@ class Root extends Component {
             { name: 'theme-color', content: '#7FB685' },
             { name: 'twitter:site', content: '@endaaman' },
             { name: 'twitter:card', content: 'summary' },
-            { name: 'twitter:image', content: icon },
-            { property: 'og:image', content: icon },
+            { name: 'twitter:image', content: iconUrl },
+            { property: 'og:image', content: iconUrl },
             { name: 'twitter:title', content: 'えんだーまんの家' },
             { name: 'description', content: desc },
             { name: 'twitter:description', content: desc },

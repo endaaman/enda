@@ -12,6 +12,7 @@ import reducer from './reducers/combined'
 
 import { setToken } from './actions/token'
 import { configureHttp } from './lib/http'
+import { configureUri } from './lib/uri'
 
 import './styles/global.css'
 
@@ -19,11 +20,13 @@ const rootDom = document.getElementById('app')
 const initialState = window.__initial_state__ || {}
 const store = configureStore(initialState)
 // const history = withScroll(browserHistory)
- const history = browserHistory
+const history = browserHistory
 
 const apiRoot = /localhost/.test(window.location.hostname)
   ? '//localhost:3000'
   : `//api.${window.location.hostname}`
+
+configureUri(window.location.href)
 configureHttp(store.getState, apiRoot)
 
 const token = cookies.get('token')

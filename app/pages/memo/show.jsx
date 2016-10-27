@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import dateFormat from 'dateformat'
+import urijs from 'urijs'
 
 import MDReactComponent from 'markdown-react-js'
 import markdownItContainer from 'markdown-it-container'
@@ -171,6 +172,7 @@ class MemoShow extends Component {
         { property: 'og:description', content: memo.digest },
       ])
     }
+    // const image_url = memo.image_url ||
     if (memo.image_url) {
       metas = metas.concat([
         { name: 'twitter:image', content: memo.image_url },

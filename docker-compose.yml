@@ -1,5 +1,6 @@
 enda:
   image: endaaman/endaaman.me
+  container_name: enda
   environment:
     VIRTUAL_HOST: endaaman.me,enda.dev
   extra_hosts:

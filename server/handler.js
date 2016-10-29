@@ -21,10 +21,12 @@ const isProd = process.env.NODE_ENV === 'production'
 function checkFromCrowler(ua) {
   const botExps = [
     /googlebot/i,
+    /adsence-google/i,
     /yahoo/i,
+    /msnbot/i,
     /bingbot/i,
-    /hatena/i,
     /twitter/i,
+    /hatena/i,
   ]
   return !!botExps.find((exp)=> exp.test(ua))
 }

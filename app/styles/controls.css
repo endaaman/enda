@@ -18,10 +18,13 @@
   }
 }
 
-$border-color: #6B7D7D;
-$border-active-color: #114B5F;
-/*37be8d*/
-/*1A936F*/
+$border-color: #114B5F;
+$border-active-color: #1A936F;
+/* #37be8d */
+/* #1A936F */
+
+/* #114B5F */
+/* #6B7D7D */
 
 .text {
   margin: 16px 0;
@@ -140,6 +143,10 @@ $border-active-color: #114B5F;
   input:checked + label:after {
     opacity: 1;
   }
+
+  input:focus + label:before {
+    border-color: $border-active-color;
+  }
 }
 
 .select {
@@ -212,6 +219,9 @@ $border-active-color: #114B5F;
 
     @mixin placeholder-color $border-color;
     @mixin monospace;
-
+    &:focus {
+      border-color: $border-active-color;
+    }
   }
+
 }

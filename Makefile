@@ -1,5 +1,8 @@
 .PHONY: build
 
+all:
+	npm run serve
+
 build:
 	docker build . -t endaaman/endaaman.me
 

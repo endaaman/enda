@@ -20,7 +20,8 @@
     @mixin sans-serif;
 
     color: #111;
-    background-color: #f0f0f0;
+    /* background-color: #f0f0f0; */
+    background-color: #fff;
     font-size: 14px;
   }
 

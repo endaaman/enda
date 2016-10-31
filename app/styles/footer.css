@@ -1,7 +1,8 @@
 $footerHeight: 32px;
 
 .footer {
-  background-color: #2C363F;
+  background-color: #1B2B34;
+  color: #C0C5CE;
   position: absolute;
   bottom: 0;
   padding-right: 8px;
@@ -15,7 +16,6 @@ $footerHeight: 32px;
 }
 
 .rightItem, .leftItem {
-  color: #aaa;
   line-height: $footerHeight;
   font-size: 14px;
 }

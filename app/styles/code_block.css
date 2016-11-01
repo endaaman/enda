@@ -1,11 +1,9 @@
 
 .codeBlock {
   :global {
-    /* NOTE: wait the `path` option implemented on 'postcss-partial-import' */
-    /* @import '../../node_modules/highlight.js/styles/github.css'; */
     @import './lib/hljs-oceanic.css';
     .hljs {
-      padding: 1em;
+      padding: 0.75em 1em;
     }
   }
 }

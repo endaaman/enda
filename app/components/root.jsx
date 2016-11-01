@@ -40,7 +40,7 @@ class Root extends Component {
           meta={[
             { charset: 'utf-8' },
             { name: 'viewport', content: 'width=device-width,initial-scale=1' },
-            { name: 'theme-color', content: '#7FB685' },
+            { name: 'theme-color', content: '#8EB1C7' },
             { name: 'twitter:site', content: '@endaaman' },
             { name: 'twitter:card', content: 'summary' },
             { name: 'twitter:image', content: iconUrl },

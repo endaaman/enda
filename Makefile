@@ -1,6 +1,8 @@
 .PHONY: build
 
-all:
+all: serve
+
+serve:
 	npm run serve
 
 build:
